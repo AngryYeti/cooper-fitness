@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { INQUIRY_EMAIL } from "@/lib/constants";
 
+// Force deployment update
+
 type InquiryBody = {
   name?: string;
   email?: string;
