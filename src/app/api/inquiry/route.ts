@@ -28,80 +28,39 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Please enter a valid email." }, { status: 400 });
   }
 
-  const resendKey = process.env.RESEND_API_KEY;
-
-  if (resendKey) {
-    try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${resendKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: process.env.RESEND_FROM_EMAIL ?? "Cooper Fitness <onboarding@resend.dev>",
-          to: [INQUIRY_EMAIL],
-          reply_to: email,
-          subject: `New inquiry from ${name}`,
-          text: [
-            `Name: ${name}`,
-            `Email: ${email}`,
-            "",
-            "Goals:",
-            goals,
-          ].join("\n"),
-        }),
-      });
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error("Resend API error:", errorText);
-        return NextResponse.json(
-          { error: "Unable to send your message. Please try again." },
-          { status: 500 },
-        );
-      }
-
-      return NextResponse.json({ success: true });
-    } catch (error) {
-      console.error("Resend fetch error:", error);
-      return NextResponse.json(
-        { error: "Unable to send your message. Please try again." },
-        { status: 500 },
-      );
-    }
-  }
-
   try {
-    const formsubmitRes = await fetch(`https://formsubmit.co/ajax/${INQUIRY_EMAIL}`, {
+    const emailjsRes = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
       },
       body: JSON.stringify({
-        name,
-        email,
-        message: goals,
-        _subject: `Cooper Fitness inquiry from ${name}`,
-        _template: "table",
+        service_id: process.env.EMAILJS_SERVICE_ID,
+        template_id: process.env.EMAILJS_TEMPLATE_ID,
+        user_id: process.env.EMAILJS_PUBLIC_KEY,
+        template_params: {
+          to_email: INQUIRY_EMAIL,
+          from_name: name,
+          from_email: email,
+          message: goals,
+        },
       }),
     });
 
-    if (!formsubmitRes.ok) {
-      const errorText = await formsubmitRes.text();
-      console.error("FormSubmit error:", errorText);
+    if (!emailjsRes.ok) {
+      const errorText = await emailjsRes.text();
+      console.error("EmailJS error:", errorText);
       return NextResponse.json(
-        { error: "Unable to send your message. Please email us directly." },
+        { error: "Unable to send your message. Please try again." },
         { status: 500 },
       );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("FormSubmit fetch error:", error);
+    console.error("EmailJS fetch error:", error);
     return NextResponse.json(
-      { error: "Unable to send your message. Please email us directly." },
+      { error: "Unable to send your message. Please try again." },
       { status: 500 },
     );
   }
