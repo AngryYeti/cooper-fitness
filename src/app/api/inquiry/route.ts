@@ -62,15 +62,20 @@ export async function POST(request: Request) {
     // Forward to CRM
     try {
       const crmUrl = process.env.CRM_WEBHOOK_URL;
+      console.log("[inquiry] CRM_WEBHOOK_URL:", crmUrl);
       if (crmUrl) {
-        await fetch(`${crmUrl}/api/webhooks/new-lead`, {
+        const webhookUrl = `${crmUrl}/api/webhooks/new-lead`;
+        console.log("[inquiry] forwarding to:", webhookUrl);
+        const crmRes = await fetch(webhookUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, goals }),
         });
+        const crmJson = await crmRes.json().catch(() => null);
+        console.log("[inquiry] CRM response:", crmRes.status, crmJson);
       }
     } catch (crmErr) {
-      console.error("CRM webhook error:", crmErr);
+      console.error("[inquiry] CRM webhook error:", crmErr);
     }
 
     return NextResponse.json({ success: true });
