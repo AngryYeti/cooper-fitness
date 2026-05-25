@@ -59,6 +59,20 @@ export async function POST(request: Request) {
       );
     }
 
+    // Forward to CRM
+    try {
+      const crmUrl = process.env.CRM_WEBHOOK_URL;
+      if (crmUrl) {
+        await fetch(`${crmUrl}/api/webhooks/new-lead`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, goals }),
+        });
+      }
+    } catch (crmErr) {
+      console.error("CRM webhook error:", crmErr);
+    }
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("EmailJS fetch error:", error);
