@@ -7,6 +7,7 @@ type InquiryBody = {
   name?: string;
   email?: string;
   goals?: string;
+  recaptchaToken?: string;
 };
 
 export async function POST(request: Request) {
@@ -21,6 +22,7 @@ export async function POST(request: Request) {
   const name = body.name?.trim();
   const email = body.email?.trim();
   const goals = body.goals?.trim();
+  const recaptchaToken = body.recaptchaToken?.trim();
 
   if (!name || !email || !goals) {
     return NextResponse.json({ error: "All fields are required." }, { status: 400 });
@@ -28,6 +30,38 @@ export async function POST(request: Request) {
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "Please enter a valid email." }, { status: 400 });
+  }
+
+  if (!recaptchaToken) {
+    return NextResponse.json({ error: "Please complete the reCAPTCHA verification." }, { status: 400 });
+  }
+
+  // Verify reCAPTCHA token
+  try {
+    const recaptchaRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        secret: process.env.RECAPTCHA_SECRET_KEY || "",
+        response: recaptchaToken,
+      }),
+    });
+
+    const recaptchaJson = await recaptchaRes.json();
+
+    if (!recaptchaJson.success) {
+      console.error("reCAPTCHA verification failed:", recaptchaJson);
+      return NextResponse.json(
+        { error: "reCAPTCHA verification failed. Please try again." },
+        { status: 400 },
+      );
+    }
+  } catch (error) {
+    console.error("reCAPTCHA verification error:", error);
+    return NextResponse.json(
+      { error: "Unable to verify reCAPTCHA. Please try again." },
+      { status: 500 },
+    );
   }
 
   try {
