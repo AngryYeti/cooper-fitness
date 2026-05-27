@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,11 +10,19 @@ export function InquiryForm() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    if (!recaptchaToken) {
+      setError("Please complete the reCAPTCHA verification.");
+      setLoading(false);
+      return;
+    }
 
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -26,6 +35,7 @@ export function InquiryForm() {
           name: data.get("name"),
           email: data.get("email"),
           goals: data.get("goals"),
+          recaptchaToken,
         }),
       });
 
@@ -33,13 +43,19 @@ export function InquiryForm() {
 
       if (!res.ok) {
         setError(json.error ?? "Something went wrong. Please try again.");
+        recaptchaRef.current?.reset();
+        setRecaptchaToken(null);
         return;
       }
 
       setSubmitted(true);
       form.reset();
+      recaptchaRef.current?.reset();
+      setRecaptchaToken(null);
     } catch {
       setError("Something went wrong. Please try again.");
+      recaptchaRef.current?.reset();
+      setRecaptchaToken(null);
     } finally {
       setLoading(false);
     }
@@ -76,7 +92,14 @@ export function InquiryForm() {
           {error}
         </p>
       )}
-      <Button type="submit" className="w-full" disabled={loading}>
+      <div className="flex justify-center">
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+          onChange={(token) => setRecaptchaToken(token)}
+        />
+      </div>
+      <Button type="submit" className="w-full" disabled={loading || !recaptchaToken}>
         {loading ? "Sending…" : "Send inquiry"}
       </Button>
     </form>
