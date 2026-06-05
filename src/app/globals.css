@@ -76,13 +76,55 @@
 
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .scroll-reveal.revealed {
   opacity: 1;
   transform: translateY(0);
+}
+
+.scroll-reveal--slide-left {
+  transform: translateX(-30px);
+}
+
+.scroll-reveal--slide-left.revealed {
+  transform: translateX(0);
+}
+
+.scroll-reveal--slide-right {
+  transform: translateX(30px);
+}
+
+.scroll-reveal--slide-right.revealed {
+  transform: translateX(0);
+}
+
+.scroll-reveal--scale {
+  transform: scale(0.92);
+  opacity: 0;
+}
+
+.scroll-reveal--scale.revealed {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.color-reveal-image {
+  position: relative;
+}
+
+.color-reveal-image__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.1);
+  transition: filter 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.color-reveal-image.color-revealed .color-reveal-image__img {
+  filter: grayscale(0%) contrast(1);
 }
 
 .magnetic-card {
@@ -91,4 +133,19 @@
 
 .magnetic-card:hover {
   box-shadow: 0 0 30px rgba(46, 91, 255, 0.15), 0 0 60px rgba(46, 91, 255, 0.06);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
