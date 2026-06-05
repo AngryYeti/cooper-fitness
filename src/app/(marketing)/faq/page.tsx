@@ -21,17 +21,11 @@ export default function FAQPage() {
       <FAQSchema items={[...FAQ_ITEMS]} />
       <BreadcrumbSchema items={breadcrumbs} />
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbs} />
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
-          Frequently Asked Questions
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-          Everything you need to know about online fitness coaching with Cooper Fitness.
-        </p>
-      </section>
+      </div>
 
-      <FAQSection items={[...FAQ_ITEMS]} />
+      <FAQSection items={[...FAQ_ITEMS]} headingLevel="h1" />
 
       <CTASection
         title="Still Have Questions?"

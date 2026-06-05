@@ -14,13 +14,15 @@ export function FAQSection({
   items,
   title = "FREQUENTLY ASKED QUESTIONS",
   description,
+  headingLevel,
 }: {
   items: FAQItem[];
   title?: string;
   description?: string;
+  headingLevel?: "h1" | "h2";
 }) {
   return (
-    <Section label="FAQ" title={title} description={description}>
+    <Section label="FAQ" title={title} description={description} headingLevel={headingLevel}>
       <FAQSchema items={items} />
       <div className="mx-auto max-w-3xl divide-y divide-border">
         {items.map((item) => (

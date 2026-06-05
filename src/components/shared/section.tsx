@@ -8,6 +8,7 @@ type SectionProps = {
   children: React.ReactNode;
   className?: string;
   muted?: boolean;
+  headingLevel?: "h1" | "h2";
 };
 
 export function Section({
@@ -18,6 +19,7 @@ export function Section({
   children,
   className,
   muted = false,
+  headingLevel: Heading = "h2",
 }: SectionProps) {
   return (
     <section
@@ -34,9 +36,9 @@ export function Section({
             <div className="max-w-2xl space-y-4">
               {label && <p className="section-label">{label}</p>}
               {title && (
-                <h2 className="text-balance text-3xl font-bold uppercase tracking-tight text-foreground md:text-4xl lg:text-5xl">
+                <Heading className="text-balance text-3xl font-bold uppercase tracking-tight text-foreground md:text-4xl lg:text-5xl">
                   {title}
-                </h2>
+                </Heading>
               )}
             </div>
             {description && (
