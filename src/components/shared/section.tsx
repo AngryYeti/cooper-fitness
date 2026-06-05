@@ -23,14 +23,14 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "py-20 md:py-28",
+        "py-16 md:py-24",
         muted && "bg-muted/30",
         className,
       )}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {(label || title || description) && (
-          <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
+          <div className="mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl space-y-4">
               {label && <p className="section-label">{label}</p>}
               {title && (

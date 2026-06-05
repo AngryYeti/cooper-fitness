@@ -8,7 +8,7 @@ import { InquiryModal } from "@/components/shared/inquiry-modal";
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[90vh] items-center overflow-hidden">
+    <section className="relative flex min-h-[85vh] items-center overflow-hidden">
       <Particles />
       <div className="absolute inset-0">
         <Image

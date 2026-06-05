@@ -72,7 +72,7 @@ export function Particles() {
 
         ctxCapture.beginPath();
         ctxCapture.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctxCapture.fillStyle = `rgba(46, 91, 255, ${p.alpha})`;
+        ctxCapture.fillStyle = `rgba(74, 111, 255, ${p.alpha})`;
         ctxCapture.fill();
       });
 

@@ -33,11 +33,11 @@
   --muted: #1c1b1c;
   --muted-foreground: #a1a1a8;
   --border: #2a2a2e;
-  --primary: #2e5bff;
+  --primary: #4a6fff;
   --primary-foreground: #ffffff;
-  --accent: #1a1f3a;
-  --accent-foreground: #5b83ff;
-  --ring: #2e5bff;
+  --accent: #1a2040;
+  --accent-foreground: #7a95ff;
+  --ring: #4a6fff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 }
@@ -68,8 +68,8 @@
   .gradient-subtle {
     background: linear-gradient(
       135deg,
-      rgba(46, 91, 255, 0.08) 0%,
-      rgba(46, 91, 255, 0) 50%
+      rgba(74, 111, 255, 0.08) 0%,
+      rgba(74, 111, 255, 0) 50%
     );
   }
 }
@@ -132,7 +132,7 @@
 }
 
 .magnetic-card:hover {
-  box-shadow: 0 0 30px rgba(46, 91, 255, 0.15), 0 0 60px rgba(46, 91, 255, 0.06);
+  box-shadow: 0 0 30px rgba(74, 111, 255, 0.15), 0 0 60px rgba(74, 111, 255, 0.06);
 }
 
 @keyframes fade-in-up {

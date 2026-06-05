@@ -49,7 +49,7 @@ export function MagneticCard({
   return (
     <div
       ref={ref}
-      className={cn("magnetic-card", glow && "hover:shadow-[0_0_20px_rgba(46,91,255,0.15)]", className)}
+      className={cn("magnetic-card", glow && "hover:shadow-[0_0_20px_rgba(74,111,255,0.15)]", className)}
       style={style}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}

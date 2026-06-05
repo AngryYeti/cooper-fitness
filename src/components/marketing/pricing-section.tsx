@@ -25,7 +25,7 @@ export function PricingSection() {
               <Card
                 className={cn(
                   "relative flex h-full flex-col p-8 text-left",
-                  tier.highlighted && "border-primary shadow-[0_0_20px_rgba(46,91,255,0.15)]",
+                  tier.highlighted && "border-primary shadow-[0_0_20px_rgba(74,111,255,0.15)]",
                 )}
               >
                 {tier.badge && (

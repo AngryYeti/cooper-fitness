@@ -11,7 +11,7 @@ interface ServiceCardProps {
 export function ServiceCard({ title, description, href }: ServiceCardProps) {
   return (
     <Link href={href} className="group block h-full">
-      <Card className="h-full border-border transition-all hover:border-primary hover:shadow-[0_0_20px_rgba(46,91,255,0.1)]">
+      <Card className="h-full border-border transition-all hover:border-primary hover:shadow-[0_0_20px_rgba(74,111,255,0.1)]">
         <CardContent className="pt-6">
           <h3 className="flex items-center justify-between text-lg font-bold uppercase">
             {title}
