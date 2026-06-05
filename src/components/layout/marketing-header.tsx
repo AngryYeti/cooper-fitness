@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { InquiryModal } from "@/components/shared/inquiry-modal";
@@ -29,8 +29,18 @@ const MAIN_NAV: NavItem[] = [
 ];
 
 export function MarketingHeader() {
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setDropdownOpen(true);
+  };
+
+  const closeDropdown = () => {
+    closeTimer.current = setTimeout(() => setDropdownOpen(false), 150);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
@@ -42,8 +52,8 @@ export function MarketingHeader() {
               <div
                 key={item.label}
                 className="relative"
-                onMouseEnter={() => setDropdownOpen(true)}
-                onMouseLeave={() => setDropdownOpen(false)}
+                onMouseEnter={openDropdown}
+                onMouseLeave={closeDropdown}
               >
                 <button
                   type="button"
@@ -53,7 +63,11 @@ export function MarketingHeader() {
                   <ChevronDown className="h-3 w-3" />
                 </button>
                 {dropdownOpen && (
-                  <div className="absolute left-0 top-full z-50 mt-1 min-w-[200px] rounded-sm border border-border bg-card p-1 shadow-lg">
+                  <div
+                    className="absolute left-0 top-full z-50 min-w-[200px] rounded-sm border border-border bg-card p-1 shadow-lg"
+                    onMouseEnter={openDropdown}
+                    onMouseLeave={closeDropdown}
+                  >
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
@@ -87,17 +101,17 @@ export function MarketingHeader() {
             variant="ghost"
             size="icon"
             className="md:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen(!open)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
       <div
         className={cn(
           "border-t border-border md:hidden",
-          open ? "block" : "hidden"
+           mobileOpen ? "block" : "hidden"
         )}
       >
         <nav className="flex flex-col gap-1 p-4" aria-label="Mobile">
@@ -112,7 +126,7 @@ export function MarketingHeader() {
                     key={child.href}
                     href={child.href}
                     className="rounded-sm px-4 py-3 pl-6 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-                    onClick={() => setOpen(false)}
+                    onClick={() => setMobileOpen(false)}
                   >
                     {child.label}
                   </Link>
@@ -123,14 +137,14 @@ export function MarketingHeader() {
                 key={item.href}
                 href={item.href}
                 className="rounded-sm px-4 py-3 text-sm font-medium uppercase tracking-wider text-muted-foreground hover:bg-muted hover:text-foreground"
-                onClick={() => setOpen(false)}
+                onClick={() => setMobileOpen(false)}
               >
                 {item.label}
               </Link>
             )
           )}
           <InquiryModal>
-            <Button variant="secondary" className="mt-2" onClick={() => setOpen(false)}>
+            <Button variant="secondary" className="mt-2" onClick={() => setMobileOpen(false)}>
               START TRAINING
             </Button>
           </InquiryModal>
