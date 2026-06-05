@@ -15,7 +15,7 @@ export function HeroSection() {
           src="/evanactionweb.png"
           alt="Coach training in a modern gym"
           fill
-          className="object-cover object-left"
+          className="object-cover object-[15%]"
           priority
           sizes="100vw"
         />
