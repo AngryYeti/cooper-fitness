@@ -67,7 +67,9 @@ export async function POST(request: Request) {
             plan: tierName,
             price: tierPrice,
             tag: "Active Client",
+            status: "paid",
             source: "stripe_checkout",
+            notes: `PAID — ${tierName} at $${tierPrice}/mo — via Stripe`,
           }),
         });
         const crmJson = await crmRes.json().catch(() => null);
