@@ -1,15 +1,24 @@
+"use client";
+
+import { useState } from "react";
 import { Check } from "lucide-react";
 import { ScrollReveal } from "@/components/effects/scroll-reveal";
 import { MagneticCard } from "@/components/effects/magnetic-card";
 import { Section } from "@/components/shared/section";
-import { InquiryModal } from "@/components/shared/inquiry-modal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { CheckoutModal } from "@/components/stripe/checkout-modal";
 import { PRICING_TIERS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export function PricingSection() {
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+
+  const tier = selectedTier
+    ? PRICING_TIERS.find((t) => t.id === selectedTier)
+    : null;
+
   return (
     <Section
       id="pricing"
@@ -25,7 +34,8 @@ export function PricingSection() {
               <Card
                 className={cn(
                   "relative flex h-full flex-col p-8 text-left",
-                  tier.highlighted && "border-primary shadow-[0_0_20px_rgba(74,111,255,0.15)]",
+                  tier.highlighted &&
+                    "border-primary shadow-[0_0_20px_rgba(74,111,255,0.15)]"
                 )}
               >
                 {tier.badge && (
@@ -38,7 +48,9 @@ export function PricingSection() {
                 </p>
                 <p className="mt-4 text-4xl font-bold">
                   {`$${tier.price}`}
-                  <span className="text-lg font-normal opacity-70">/{tier.period}</span>
+                  <span className="text-lg font-normal opacity-70">
+                    /{tier.period}
+                  </span>
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground">
                   {tier.description}
@@ -51,16 +63,28 @@ export function PricingSection() {
                     </li>
                   ))}
                 </ul>
-                <InquiryModal>
-                  <Button className="mt-8 w-full" variant={tier.highlighted ? "default" : "secondary"}>
-                    GET STARTED
-                  </Button>
-                </InquiryModal>
+                <Button
+                  className="mt-8 w-full"
+                  variant={tier.highlighted ? "default" : "secondary"}
+                  onClick={() => setSelectedTier(tier.id)}
+                >
+                  GET STARTED
+                </Button>
               </Card>
             </MagneticCard>
           </ScrollReveal>
         ))}
       </div>
+
+      {tier && (
+        <CheckoutModal
+          open={!!selectedTier}
+          onClose={() => setSelectedTier(null)}
+          tierId={tier.id}
+          tierName={tier.name}
+          tierPrice={tier.price}
+        />
+      )}
     </Section>
   );
 }
