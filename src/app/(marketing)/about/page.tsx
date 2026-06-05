@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { generatePageMetadata } from "@/lib/seo/metadata";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { PersonSchema, BreadcrumbSchema } from "@/components/seo/schema";
 import { AboutSection } from "@/components/marketing/about-section";
 import { ProofSection } from "@/components/marketing/proof-section";
+import { CTASection } from "@/components/marketing/cta-section";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "Meet Coach Evan and learn the Cooper Fitness philosophy.",
-};
+export const metadata: Metadata = generatePageMetadata({
+  title: "About Coach Evan",
+  description:
+    "Meet Evan Cooper — premium online fitness coach specializing in strength training, weight loss, and accountability coaching for busy professionals.",
+  path: "/about",
+});
 
 export default function AboutPage() {
+  const breadcrumbs = [{ name: "About", href: "/about" }];
+
   return (
     <div className="pt-8">
+      <PersonSchema />
+      <BreadcrumbSchema items={breadcrumbs} />
+
       <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+        <Breadcrumbs items={breadcrumbs} />
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">About Cooper Fitness</h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
           Elite coaching built for real lives — not fitness influencers.
@@ -26,6 +38,7 @@ export default function AboutPage() {
               alt="Training environment"
               fill
               className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>
           <div className="space-y-4">
@@ -39,6 +52,7 @@ export default function AboutPage() {
         </div>
       </section>
       <ProofSection />
+      <CTASection />
     </div>
   );
 }

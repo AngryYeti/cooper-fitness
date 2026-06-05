@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { FadeIn } from "@/components/shared/fade-in";
+import { ScrollReveal } from "@/components/effects/scroll-reveal";
+import { MagneticCard } from "@/components/effects/magnetic-card";
 import { Section } from "@/components/shared/section";
 import { Card } from "@/components/ui/card";
 import { PROGRAMS } from "@/lib/constants";
@@ -11,7 +12,7 @@ export function ProgramsSection() {
     <Section
       id="programs"
       muted
-      label="02 — Programs"
+      label="02 — PROGRAMS"
       title="Precision protocols."
       description="Targeted programs that integrate into a high-stakes lifestyle — not the other way around."
     >
@@ -19,25 +20,29 @@ export function ProgramsSection() {
         {PROGRAMS.map((program, i) => {
           const Icon = getIcon(program.icon);
           return (
-            <FadeIn key={program.id} delay={i * 0.08}>
-              <Card className="group flex h-full flex-col p-6 transition-shadow hover:shadow-md">
-                <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-full bg-accent">
-                  <Icon className="h-5 w-5 text-primary" />
-                </div>
-                <span className="mb-2 text-xs text-muted-foreground">{program.index}</span>
-                <h3 className="mb-3 text-lg font-semibold">{program.title}</h3>
-                <p className="mb-6 flex-1 text-sm leading-relaxed text-muted-foreground">
-                  {program.description}
-                </p>
-                <Link
-                  href={`/programs#${program.id}`}
-                  className="inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-primary transition-gap hover:gap-2"
-                >
-                  Explore protocol
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </Card>
-            </FadeIn>
+            <ScrollReveal key={program.id} delay={i * 100}>
+              <MagneticCard>
+                <Card className="group flex h-full flex-col p-6">
+                  <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-sm bg-accent">
+                    <Icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <span className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                    {program.index}
+                  </span>
+                  <h3 className="mb-3 text-lg font-bold uppercase">{program.title}</h3>
+                  <p className="mb-6 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {program.description}
+                  </p>
+                  <Link
+                    href={`/programs#${program.id}`}
+                    className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-primary transition-gap hover:gap-2"
+                  >
+                    EXPLORE PROTOCOL
+                    <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </Card>
+              </MagneticCard>
+            </ScrollReveal>
           );
         })}
       </div>

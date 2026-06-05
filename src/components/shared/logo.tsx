@@ -10,11 +10,13 @@ export function Logo({ className }: LogoProps) {
     <Link
       href="/"
       className={cn(
-        "text-sm font-semibold tracking-tight text-foreground transition-opacity hover:opacity-80",
+        "text-sm font-bold tracking-[0.3em] text-foreground transition-opacity hover:opacity-80",
         className,
       )}
     >
-      COOPER / FITNESS
+      COOPER
+      <span className="mx-1 text-primary">/</span>
+      FITNESS
     </Link>
   );
 }

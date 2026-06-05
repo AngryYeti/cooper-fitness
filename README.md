@@ -30,13 +30,21 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Inquiry form
 
-Footer inquiries are sent to **evan@cooperfitness.net** via `/api/inquiry`.
+Footer inquiries are sent to **evan@cooper.fitness** via `/api/inquiry`.
 
-By default, emails are delivered through [FormSubmit](https://formsubmit.co) (no API key required). For production, add a [Resend](https://resend.com) API key to `.env.local`:
+Emails are delivered via [EmailJS](https://www.emailjs.com/). Add these to your `.env.local`:
 
 ```env
-RESEND_API_KEY=re_xxxxxxxx
-RESEND_FROM_EMAIL=Cooper Fitness <hello@cooperfitness.net>
+EMAILJS_SERVICE_ID=service_xxxxxxxx
+EMAILJS_TEMPLATE_ID=template_xxxxxxxx
+EMAILJS_PUBLIC_KEY=xxxxxxxx
+EMAILJS_PRIVATE_KEY=xxxxxxxx
+```
+
+Optionally, forward leads to a CRM by setting `CRM_WEBHOOK_URL`. The inquiry is POSTed to `${CRM_WEBHOOK_URL}/api/webhooks/new-lead`.
+
+```env
+CRM_WEBHOOK_URL=https://example.com
 ```
 
 ## Scripts

@@ -1,35 +1,52 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "@/components/shared/theme-provider";
+import { Archivo_Narrow } from "next/font/google";
+import { Analytics } from "@/components/seo/analytics";
+import { OrganizationSchema, WebSiteSchema } from "@/components/seo/schema";
+import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const archivoNarrow = Archivo_Narrow({
+  variable: "--font-archivo-narrow",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Cooper Fitness | Premium Online Coaching",
-    template: "%s | Cooper Fitness",
+    default: `${SITE_NAME} | Premium Online Coaching`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Precision online fitness coaching for high-performing professionals. Personalized strength, nutrition, and accountability.",
-  keywords: ["fitness coaching", "online personal trainer", "strength training", "Cooper Fitness"],
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
+  keywords: [
+    "online fitness coaching",
+    "online personal trainer",
+    "weight loss coaching",
+    "nutrition coaching",
+    "strength training",
+    "accountability coaching",
+    "habit coaching",
+    "Cooper Fitness",
+  ],
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Cooper Fitness",
+    siteName: SITE_NAME,
+    images: [
+      {
+        url: "/evanactionweb.png",
+        width: 1200,
+        height: 630,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  icons: {
+    icon: "/favicon.svg",
   },
 };
 
@@ -38,8 +55,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className={`${archivoNarrow.variable} antialiased`}>
+        <OrganizationSchema />
+        <WebSiteSchema />
+        <Analytics />
+        {children}
       </body>
     </html>
   );

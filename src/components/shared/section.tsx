@@ -24,7 +24,7 @@ export function Section({
       id={id}
       className={cn(
         "py-20 md:py-28",
-        muted && "bg-muted/50",
+        muted && "bg-muted/30",
         className,
       )}
     >
@@ -34,7 +34,7 @@ export function Section({
             <div className="max-w-2xl space-y-4">
               {label && <p className="section-label">{label}</p>}
               {title && (
-                <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+                <h2 className="text-balance text-3xl font-bold uppercase tracking-tight text-foreground md:text-4xl lg:text-5xl">
                   {title}
                 </h2>
               )}

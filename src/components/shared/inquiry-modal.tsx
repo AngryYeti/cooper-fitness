@@ -75,7 +75,7 @@ export function InquiryModal({ children }: { children: React.ReactNode }) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Start Your Journey</DialogTitle>
+          <DialogTitle className="text-xl font-bold uppercase">START YOUR JOURNEY</DialogTitle>
           <DialogDescription>
             Fill out the form below and Evan will be in touch within 24 hours.
           </DialogDescription>
@@ -98,8 +98,8 @@ export function InquiryModal({ children }: { children: React.ReactNode }) {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 pt-4">
             <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium">
-                Your name
+              <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider">
+                YOUR NAME
               </label>
               <Input
                 id="name"
@@ -111,8 +111,8 @@ export function InquiryModal({ children }: { children: React.ReactNode }) {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
-                Email
+              <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider">
+                EMAIL
               </label>
               <Input
                 id="email"
@@ -125,8 +125,8 @@ export function InquiryModal({ children }: { children: React.ReactNode }) {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="goals" className="text-sm font-medium">
-                Your goals
+              <label htmlFor="goals" className="text-xs font-bold uppercase tracking-wider">
+                YOUR GOALS
               </label>
               <Textarea
                 id="goals"
@@ -151,7 +151,7 @@ export function InquiryModal({ children }: { children: React.ReactNode }) {
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading || !recaptchaToken}>
-              {loading ? "Sending…" : "Send inquiry"}
+              {loading ? "SENDING…" : "SEND INQUIRY"}
             </Button>
           </form>
         )}

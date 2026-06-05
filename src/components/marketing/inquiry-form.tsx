@@ -100,7 +100,7 @@ export function InquiryForm() {
         />
       </div>
       <Button type="submit" className="w-full" disabled={loading || !recaptchaToken}>
-        {loading ? "Sending…" : "Send inquiry"}
+        {loading ? "SENDING…" : "SEND INQUIRY"}
       </Button>
     </form>
   );

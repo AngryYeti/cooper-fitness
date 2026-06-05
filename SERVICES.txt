@@ -1,0 +1,65 @@
+SERVICES & ACCOUNTS — Cooper Fitness (cooper.fitness)
+=========================================================
+
+1. DOMAIN: cooper.fitness
+   Provider:   (check your domain registrar — e.g. Namecheap, GoDaddy, Google Domains)
+   Purpose:    Primary domain for the marketing site
+   DNS:        Points to Vercel for hosting
+   Email:      evan@cooper.fitness (inquiry recipient)
+
+2. VERCEL — Hosting & Deployment
+   Dashboard:  https://vercel.com/dashboard
+   Purpose:    Hosts the Next.js site, handles deploys, serverless API routes
+   Domain:     cooper.fitness configured as custom domain
+   Env vars required:
+     NEXT_PUBLIC_SITE_URL          = https://cooper.fitness
+     NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+     RECAPTCHA_SECRET_KEY
+     EMAILJS_SERVICE_ID
+     EMAILJS_TEMPLATE_ID
+     EMAILJS_PUBLIC_KEY
+     EMAILJS_PRIVATE_KEY
+     CRM_WEBHOOK_URL               (optional — lead forwarding)
+     NEXT_PUBLIC_SUPABASE_URL
+     NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+3. SUPABASE — Backend / Database
+   Dashboard:  https://supabase.com/dashboard
+   Project:    bqdtrqkokdimjinlalow.supabase.co
+   URL:        https://bqdtrqkokdimjinlalow.supabase.co
+   Purpose:    Database and backend services for the application
+
+4. EMAILJS — Inquiry Form Email Delivery
+   Dashboard:  https://dashboard.emailjs.com
+   Purpose:    Sends inquiry form submissions to evan@cooper.fitness
+   NOTE:       "Allow API access from non-browser environments" must be ON
+               (Settings: https://dashboard.emailjs.com/admin/account/security)
+   Keys used:  Service ID, Template ID, Public Key, Private Key
+   Template variables:  to_email, from_name, from_email, message
+
+5. GOOGLE reCAPTCHA v2 — Bot / Spam Protection
+   Dashboard:  https://www.google.com/recaptcha/admin
+   Purpose:    Protects inquiry forms (modal + footer) from spam bots
+   Type:       reCAPTCHA v2 "I'm not a robot" checkbox
+   Domains allowed:  cooper.fitness, localhost
+
+6. SOCIAL MEDIA ACCOUNTS
+   Instagram:  https://instagram.com/_cooperfitness
+   YouTube:    https://youtube.com/@cooperfitness
+   Twitter/X:  https://twitter.com/cooperfitnessx
+
+7. UNSPLASH — Image CDN
+   Purpose:    Stock imagery served through Next.js Image component
+   No account required (public API)
+
+8. CRM WEBHOOK (Optional)
+   Purpose:    Forward inquiry leads to an external CRM
+   Endpoint:   ${CRM_WEBHOOK_URL}/api/webhooks/new-lead
+   Controlled by the CRM_WEBHOOK_URL env var
+
+======================================================================
+Account emails you likely used to register the above:
+  • evan@cooper.fitness
+
+Make sure 2FA is enabled on all accounts that support it.
+======================================================================

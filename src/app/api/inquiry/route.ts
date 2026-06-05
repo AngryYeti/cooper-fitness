@@ -65,28 +65,44 @@ export async function POST(request: Request) {
   }
 
   try {
+    const emailjsServiceId = process.env.EMAILJS_SERVICE_ID;
+    const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID;
+    const emailjsPublicKey = process.env.EMAILJS_PUBLIC_KEY;
+    const emailjsPrivateKey = process.env.EMAILJS_PRIVATE_KEY;
+
+    console.log("[inquiry] EmailJS config present:", {
+      service_id: !!emailjsServiceId,
+      template_id: !!emailjsTemplateId,
+      public_key: !!emailjsPublicKey,
+      private_key: !!emailjsPrivateKey,
+    });
+
+    const emailjsBody = {
+      service_id: emailjsServiceId,
+      template_id: emailjsTemplateId,
+      user_id: emailjsPublicKey,
+      accessToken: emailjsPrivateKey,
+      template_params: {
+        to_email: INQUIRY_EMAIL,
+        from_name: name,
+        from_email: email,
+        message: goals,
+      },
+    };
+
+    console.log("[inquiry] EmailJS body:", JSON.stringify(emailjsBody, null, 2));
+
     const emailjsRes = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        service_id: process.env.EMAILJS_SERVICE_ID,
-        template_id: process.env.EMAILJS_TEMPLATE_ID,
-        user_id: process.env.EMAILJS_PUBLIC_KEY,
-        accessToken: process.env.EMAILJS_PRIVATE_KEY,
-        template_params: {
-          to_email: INQUIRY_EMAIL,
-          from_name: name,
-          from_email: email,
-          message: goals,
-        },
-      }),
+      body: JSON.stringify(emailjsBody),
     });
 
     if (!emailjsRes.ok) {
       const errorText = await emailjsRes.text();
-      console.error("EmailJS error:", errorText);
+      console.error("[inquiry] EmailJS error:", emailjsRes.status, errorText);
       return NextResponse.json(
         { error: "Unable to send your message. Please try again." },
         { status: 500 },
