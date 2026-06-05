@@ -16,40 +16,51 @@ export function ColorRevealImage({
   sizes?: string;
   priority?: boolean;
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const ratioRef = useRef(0);
+  const frameRef = useRef(0);
 
   useEffect(() => {
-    const container = containerRef.current;
     const img = imageRef.current;
-    if (!container || !img) return;
+    if (!img) return;
+
+    const thresholds = Array.from({ length: 21 }, (_, i) => i / 20);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          container.classList.add("color-revealed");
-          observer.unobserve(container);
+        ratioRef.current = entry.intersectionRatio;
+
+        if (!frameRef.current) {
+          frameRef.current = requestAnimationFrame(() => {
+            frameRef.current = 0;
+            const ratio = ratioRef.current;
+            const grayscale = Math.round((1 - ratio) * 100);
+            img.style.filter = `grayscale(${grayscale}%) contrast(${1 + ratio * 0.1})`;
+          });
         }
       },
-      { threshold: 0.3 }
+      { threshold: thresholds }
     );
 
-    observer.observe(container);
-    return () => observer.disconnect();
+    observer.observe(img);
+    return () => {
+      observer.disconnect();
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
   }, []);
 
   return (
     <div
-      ref={containerRef}
-      className={cn("color-reveal-image overflow-hidden rounded-sm bg-muted", className)}
+      className={cn("overflow-hidden rounded-sm bg-muted", className)}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imageRef}
         src={src}
         alt={alt}
-        className="color-reveal-image__img"
+        className="h-full w-full object-cover"
         sizes={sizes}
+        style={{ filter: "grayscale(100%) contrast(1.1)" }}
         {...(priority ? { fetchPriority: "high" } : {})}
       />
     </div>
