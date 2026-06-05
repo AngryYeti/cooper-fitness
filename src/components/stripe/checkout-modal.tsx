@@ -10,6 +10,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const STRIPE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "";
 const stripePromise = STRIPE_KEY ? loadStripe(STRIPE_KEY) : null;
@@ -37,6 +38,9 @@ function CheckoutForm({
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -66,7 +70,7 @@ function CheckoutForm({
       fetch("/api/notify-purchase", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tierId }),
+        body: JSON.stringify({ tierId, name, email, phone }),
       }).catch(() => {});
       onSuccess();
     }
@@ -79,6 +83,31 @@ function CheckoutForm({
       <div className="rounded-sm border border-border bg-card p-4">
         <p className="text-sm font-bold uppercase">{tierName}</p>
         <p className="text-xl font-bold">${tierPrice}<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
+      </div>
+
+      <div className="space-y-3">
+        <Input
+          placeholder="Full name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          disabled={loading}
+        />
+        <Input
+          type="email"
+          placeholder="Email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={loading}
+        />
+        <Input
+          type="tel"
+          placeholder="Phone number (optional)"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          disabled={loading}
+        />
       </div>
 
       <PaymentElement />

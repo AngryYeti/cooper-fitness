@@ -4,18 +4,26 @@ import { PRICING_TIERS } from "@/lib/constants";
 
 export async function POST(request: Request) {
   try {
-    const { tierId } = await request.json();
+    const { tierId, name, email, phone } = await request.json();
 
     const tier = PRICING_TIERS.find((t) => t.id === tierId);
     const tierName = tier?.name || "Unknown plan";
     const tierPrice = tier?.price || 0;
+
+    const message = [
+      `Plan: ${tierName} — $${tierPrice}/mo`,
+      `Name: ${name || "Not provided"}`,
+      `Email: ${email || "Not provided"}`,
+      `Phone: ${phone || "Not provided"}`,
+      `Date: ${new Date().toISOString()}`,
+    ].join("\n");
 
     const emailjsServiceId = process.env.EMAILJS_SERVICE_ID;
     const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID;
     const emailjsPublicKey = process.env.EMAILJS_PUBLIC_KEY;
     const emailjsPrivateKey = process.env.EMAILJS_PRIVATE_KEY;
 
-    console.log("[purchase] sending notification for:", tierName);
+    console.log("[purchase] sending notification for:", tierName, name, email);
 
     const emailjsRes = await fetch(
       "https://api.emailjs.com/api/v1.0/email/send",
@@ -29,9 +37,9 @@ export async function POST(request: Request) {
           accessToken: emailjsPrivateKey,
           template_params: {
             to_email: INQUIRY_EMAIL,
-            from_name: "Cooper Fitness Checkout",
-            from_email: "checkout@cooper.fitness",
-            message: `New purchase: ${tierName} — $${tierPrice}/mo at ${new Date().toISOString()}`,
+            from_name: name || "Stripe Checkout",
+            from_email: email || "checkout@cooper.fitness",
+            message,
           },
         }),
       }
