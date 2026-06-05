@@ -25,10 +25,12 @@ interface CheckoutModalProps {
 function CheckoutForm({
   tierName,
   tierPrice,
+  tierId,
   onSuccess,
 }: {
   tierName: string;
   tierPrice: number;
+  tierId: string;
   onSuccess: () => void;
 }) {
   const stripe = useStripe();
@@ -61,6 +63,11 @@ function CheckoutForm({
     if (paymentErr) {
       setError(paymentErr.message || "Payment failed.");
     } else {
+      fetch("/api/notify-purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tierId }),
+      }).catch(() => {});
       onSuccess();
     }
 
@@ -184,6 +191,7 @@ export function CheckoutModal({
             <CheckoutForm
               tierName={tierName}
               tierPrice={tierPrice}
+              tierId={tierId}
               onSuccess={() => setComplete(true)}
             />
           </Elements>
