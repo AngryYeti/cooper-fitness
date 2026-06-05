@@ -15,15 +15,22 @@ export function HeroSection() {
           src="/evanactionweb.png"
           alt="Coach training in a modern gym"
           fill
-          className="object-cover object-right"
+          className="object-cover object-left md:object-right"
           priority
           sizes="100vw"
         />
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 hidden md:block"
           style={{
             background:
               "linear-gradient(to right, #131314 0%, #131314 25%, rgba(19,19,20,0.85) 40%, rgba(19,19,20,0.4) 60%, rgba(19,19,20,0) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(19,19,20,0.1) 0%, rgba(19,19,20,0.4) 30%, rgba(19,19,20,0.85) 55%, #131314 70%, #131314 100%)",
           }}
         />
       </div>
