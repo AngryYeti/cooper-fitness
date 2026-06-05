@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   PaymentElement,
   useStripe,
@@ -101,29 +101,31 @@ export function CheckoutModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function loadCheckout() {
-    if (!open) return;
-    setLoading(true);
-    setError(null);
-    setComplete(false);
+  useEffect(() => {
+    if (open) {
+      setLoading(true);
+      setError(null);
+      setComplete(false);
+      setClientSecret(null);
 
-    try {
-      const res = await fetch("/api/create-payment-intent", {
+      fetch("/api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ tierId }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setClientSecret(data.clientSecret);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to load checkout."
-      );
-    } finally {
-      setLoading(false);
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) throw new Error(data.error);
+          setClientSecret(data.clientSecret);
+        })
+        .catch((err) => {
+          setError(
+            err instanceof Error ? err.message : "Failed to load checkout."
+          );
+        })
+        .finally(() => setLoading(false));
     }
-  }
+  }, [open, tierId]);
 
   function handleClose() {
     setClientSecret(null);
@@ -133,13 +135,7 @@ export function CheckoutModal({
   }
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(isOpen) => {
-        if (!isOpen) handleClose();
-        else loadCheckout();
-      }}
-    >
+    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) handleClose(); }}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold uppercase">
