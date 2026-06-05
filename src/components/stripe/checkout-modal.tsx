@@ -172,7 +172,7 @@ export function CheckoutModal({
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) handleClose(); }}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold uppercase">
             {complete ? "WELCOME ABOARD" : "CHECKOUT"}
