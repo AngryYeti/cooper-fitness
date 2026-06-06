@@ -4,7 +4,6 @@ import { ArrowRight } from "lucide-react";
 import { Particles } from "@/components/effects/particles";
 import { ScrollReveal } from "@/components/effects/scroll-reveal";
 import { Button } from "@/components/ui/button";
-import { InquiryModal } from "@/components/shared/inquiry-modal";
 
 export function HeroSection() {
   return (
@@ -43,12 +42,12 @@ export function HeroSection() {
               sustainable energy, and zero guesswork.
             </p>
             <div className="flex flex-wrap gap-4">
-              <InquiryModal>
-                <Button size="lg">
+              <Button size="lg" asChild>
+                <Link href="/#pricing">
                   START TRAINING
                   <ArrowRight className="h-4 w-4" />
-                </Button>
-              </InquiryModal>
+                </Link>
+              </Button>
               <Button size="lg" variant="outline" asChild>
                 <Link href="/programs">VIEW PROGRAMS</Link>
               </Button>

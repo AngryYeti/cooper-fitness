@@ -28,9 +28,9 @@ export default function FAQPage() {
       <FAQSection items={[...FAQ_ITEMS]} headingLevel="h1" />
 
       <CTASection
-        title="Still Have Questions?"
-        description="Book a free consultation and we'll answer everything — no pressure, no commitment."
-        buttonText="Book Free Consultation"
+        title="Ready to Get Started?"
+        description="Choose a plan and begin your transformation."
+        buttonText="VIEW PRICING"
       />
     </div>
   );

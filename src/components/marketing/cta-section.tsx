@@ -1,12 +1,12 @@
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ScrollReveal } from "@/components/effects/scroll-reveal";
 import { Button } from "@/components/ui/button";
-import { InquiryModal } from "@/components/shared/inquiry-modal";
 
 export function CTASection({
   title = "READY TO START YOUR TRANSFORMATION?",
-  description = "Book a free consultation and discover how personalized coaching can help you reach your goals.",
-  buttonText = "BOOK FREE CONSULTATION",
+  description = "Choose a plan that fits your goals and start your transformation today.",
+  buttonText = "VIEW PRICING",
 }: {
   title?: string;
   description?: string;
@@ -23,12 +23,12 @@ export function CTASection({
             {description}
           </p>
           <div className="mt-8">
-            <InquiryModal>
-              <Button size="lg" variant="secondary">
+            <Button size="lg" variant="secondary" asChild>
+              <Link href="/#pricing">
                 {buttonText}
                 <ArrowRight className="h-4 w-4" />
-              </Button>
-            </InquiryModal>
+              </Link>
+            </Button>
           </div>
         </ScrollReveal>
       </div>

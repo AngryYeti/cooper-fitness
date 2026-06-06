@@ -20,8 +20,8 @@ export function ContactCtaSection() {
               next steps.
             </p>
             <Button size="lg" variant="secondary" className="mt-8" asChild>
-              <Link href="/#inquire">
-                SEND AN INQUIRY
+              <Link href="/#pricing">
+                VIEW PRICING
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

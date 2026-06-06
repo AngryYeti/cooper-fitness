@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useRef } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
-import { InquiryModal } from "@/components/shared/inquiry-modal";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -92,11 +91,9 @@ export function MarketingHeader() {
           )}
         </nav>
         <div className="flex items-center gap-2">
-          <InquiryModal>
-            <Button variant="secondary" className="hidden sm:inline-flex">
-              START TRAINING
-            </Button>
-          </InquiryModal>
+          <Button variant="secondary" className="hidden sm:inline-flex" asChild>
+            <Link href="/#pricing">START TRAINING</Link>
+          </Button>
           <Button
             variant="ghost"
             size="icon"
@@ -143,11 +140,9 @@ export function MarketingHeader() {
               </Link>
             )
           )}
-          <InquiryModal>
-            <Button variant="secondary" className="mt-2" onClick={() => setMobileOpen(false)}>
-              START TRAINING
-            </Button>
-          </InquiryModal>
+          <Button variant="secondary" className="mt-2" asChild>
+            <Link href="/#pricing" onClick={() => setMobileOpen(false)}>START TRAINING</Link>
+          </Button>
         </nav>
       </div>
     </header>
