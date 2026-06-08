@@ -7,6 +7,12 @@ import { Card } from "@/components/ui/card";
 import { PROGRAMS } from "@/lib/constants";
 import { getIcon } from "@/lib/icons";
 
+const PROGRAM_LINKS: Record<string, string> = {
+  strength: "/services/online-personal-training",
+  "weight-loss": "/services/online-weight-loss-coaching",
+  accountability: "/programs#accountability",
+};
+
 export function ProgramsSection() {
   return (
     <Section
@@ -34,7 +40,7 @@ export function ProgramsSection() {
                     {program.description}
                   </p>
                   <Link
-                    href={`/programs#${program.id}`}
+                    href={PROGRAM_LINKS[program.id] || `/programs#${program.id}`}
                     className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-primary transition-gap hover:gap-2"
                   >
                     EXPLORE PROTOCOL

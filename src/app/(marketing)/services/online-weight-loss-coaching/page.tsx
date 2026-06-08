@@ -126,6 +126,24 @@ export default function WeightLossCoachingPage() {
         </div>
       </section>
 
+      <section className="border-t border-border py-20 bg-muted/30">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold uppercase">What To Expect</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            <div className="rounded-sm border border-border bg-card p-6">
+              <span className="text-2xl font-bold text-primary">4-6</span>
+              <span className="text-sm text-muted-foreground"> weeks</span>
+              <p className="mt-2 text-muted-foreground">Noticeable changes in energy, measurements, and strength. The first milestone.</p>
+            </div>
+            <div className="rounded-sm border border-border bg-card p-6">
+              <span className="text-2xl font-bold text-primary">3-6</span>
+              <span className="text-sm text-muted-foreground"> months</span>
+              <p className="mt-2 text-muted-foreground">Significant body composition shift. Habits are locked in. Results compound.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <FAQSection items={[...FAQ_SUBSET]} />
 
       <section className="border-t border-border py-20">

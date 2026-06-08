@@ -4,9 +4,16 @@ import { generatePageMetadata } from "@/lib/seo/metadata";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { BreadcrumbSchema } from "@/components/seo/schema";
 import { CTASection } from "@/components/marketing/cta-section";
-import { blogPosts } from "@/lib/blog/posts";
+import { publishedPosts } from "@/lib/blog/posts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+
+const CATEGORY_GRADIENTS: Record<string, string> = {
+  "Weight Loss": "from-primary/20 to-accent",
+  "Personal Training": "from-primary/20 to-accent/50",
+  Habits: "from-accent to-primary/10",
+  default: "from-muted to-card",
+};
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Blog",
@@ -33,9 +40,10 @@ export default function BlogPage() {
       <section className="border-t border-border py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 md:grid-cols-3">
-            {blogPosts.map((post) => (
+            {publishedPosts.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
-                <Card className="h-full transition-colors hover:border-primary">
+                <Card className="h-full overflow-hidden transition-colors hover:border-primary">
+                  <div className={`h-32 bg-gradient-to-br ${CATEGORY_GRADIENTS[post.category] || CATEGORY_GRADIENTS.default}`} />
                   <CardHeader>
                     <Badge variant="secondary" className="w-fit">
                       {post.category}

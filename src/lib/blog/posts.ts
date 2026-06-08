@@ -5,6 +5,7 @@ export type BlogPost = {
   date: string;
   category: string;
   content: string;
+  published: boolean;
 };
 
 export const blogPosts: BlogPost[] = [
@@ -15,6 +16,7 @@ export const blogPosts: BlogPost[] = [
       "Struggling to lose weight on your own? Here are 5 clear signs that hiring an online weight loss coach could be the breakthrough you need.",
     date: "2026-05-15",
     category: "Weight Loss",
+    published: true,
     content: `
       <p>Losing weight is one of the most common fitness goals — and one of the hardest to achieve alone. If you've been spinning your wheels, an online weight loss coach might be the missing piece.</p>
 
@@ -44,6 +46,7 @@ export const blogPosts: BlogPost[] = [
       "Curious about online personal training? Learn exactly how it works, what to expect, and why it's becoming the preferred choice for busy professionals.",
     date: "2026-05-10",
     category: "Personal Training",
+    published: true,
     content: `
       <p>Online personal training has exploded in popularity — and for good reason. It delivers expert coaching at a fraction of the cost of in-person training, with far more flexibility.</p>
 
@@ -83,6 +86,7 @@ export const blogPosts: BlogPost[] = [
       "Why habits matter more than motivation. Learn the science behind building fitness habits that stick — and why most people fail.",
     date: "2026-05-05",
     category: "Habits",
+    published: true,
     content: `
       <p>Motivation gets you started. Habits keep you going. The difference between people who transform their bodies and those who don't isn't talent or genetics — it's systems.</p>
 
@@ -121,7 +125,87 @@ export const blogPosts: BlogPost[] = [
       <p>You don't need more motivation. You need better systems. Build the habits, and the results will follow.</p>
     `,
   },
+  {
+    slug: "what-to-look-for-in-an-online-fitness-coach",
+    title: "What to Look For in an Online Fitness Coach",
+    description:
+      "Not all online coaches are created equal. Here's how to spot the real experts from the marketers.",
+    date: "2026-06-08",
+    category: "Personal Training",
+    published: false,
+    content: `
+      <p>Choosing an online fitness coach is a big decision. You're trusting someone with your health, your time, and your money. Here's what separates great coaches from the rest.</p>
+
+      <h2>They ask questions before they give answers</h2>
+      <p>A great coach spends the first conversation understanding your goals, history, injuries, schedule, and relationship with exercise. If they jump straight to selling you a package, walk away.</p>
+
+      <h2>They have a clear methodology</h2>
+      <p>Ask: "What's your coaching philosophy?" A good coach can explain their approach in 30 seconds. They don't just give you workouts — they explain why each piece exists in your program.</p>
+
+      <h2>They set realistic expectations</h2>
+      <p>Anyone promising "6-pack in 30 days" isn't being honest. Real transformations take months, not weeks. A trustworthy coach tells you the timeline upfront.</p>
+
+      <h2>They communicate like a professional</h2>
+      <p>Timely responses, clear instructions, organized check-ins. If communication feels chaotic during the trial period, it won't improve after you pay.</p>
+
+      <h2>The bottom line</h2>
+      <p>The right coach changes your life. The wrong one wastes your time. Take the time to find someone who treats coaching like a profession, not a side hustle.</p>
+    `,
+  },
+  {
+    slug: "why-accountability-is-the-missing-piece",
+    title: "Why Accountability Is the Missing Piece in Your Fitness Journey",
+    description:
+      "You know what to do. You just aren't doing it consistently. Here's why accountability coaching works.",
+    date: "2026-06-05",
+    category: "Habits",
+    published: false,
+    content: `
+      <p>Knowledge isn't the problem. Most people who struggle with fitness already know what they should be doing. The gap is between knowing and doing — and that's where accountability coaching changes everything.</p>
+
+      <h2>The knowing-doing gap</h2>
+      <p>You know you should train 4 days a week. You know protein matters. You know sleep affects recovery. But knowing hasn't changed your behavior. Why? Because knowledge alone doesn't create habits.</p>
+
+      <h2>External accountability creates internal discipline</h2>
+      <p>When someone is watching — really watching — your compliance skyrockets. It's not about shame. It's about having a mirror that shows you when you're drifting before you've drifted too far.</p>
+
+      <h2>Weekly check-ins are the secret weapon</h2>
+      <p>Seven days is the perfect accountability window. Long enough to execute, short enough that you can't hide. A weekly video call with your coach keeps the train on the tracks.</p>
+
+      <h2>Data doesn't lie</h2>
+      <p>When you track everything — workouts, nutrition, sleep, stress — patterns emerge. Your coach sees the connection between Tuesday's poor sleep and Thursday's missed session before you do.</p>
+
+      <h2>The bottom line</h2>
+      <p>You don't need more information. You need someone who won't let you quit on yourself. That's what accountability coaching provides — and it's often the difference between starting over again and finally breaking through.</p>
+    `,
+  },
+  {
+    slug: "nutrition-myths-holding-you-back",
+    title: "3 Nutrition Myths That Are Holding You Back",
+    description:
+      "Carbs are not the enemy. Fasted cardio isn't magic. Let's bust the biggest nutrition myths.",
+    date: "2026-06-01",
+    category: "Weight Loss",
+    published: false,
+    content: `
+      <p>The nutrition world is full of noise. Every day there's a new diet, a new superfood, a new rule. Here are three persistent myths that are probably sabotaging your progress.</p>
+
+      <h2>Myth 1: Carbs make you fat</h2>
+      <p>Carbohydrates don't cause fat gain — a calorie surplus does. In fact, carbs fuel your workouts, support recovery, and help preserve muscle during a deficit. The key is choosing the right carbs at the right times, not eliminating them entirely.</p>
+
+      <h2>Myth 2: You need to eat 6 small meals a day</h2>
+      <p>Meal frequency has almost zero impact on metabolism. Whether you eat 3 meals or 6, total daily intake is what matters for body composition. Find a meal pattern that fits your schedule and stick with it.</p>
+
+      <h2>Myth 3: Supplements are necessary for results</h2>
+      <p>The supplement industry is a multi-billion dollar machine built on quick fixes. The truth? Protein powder can help hit your targets. Creatine has solid evidence. Everything else is marginal at best. Save your money and focus on food quality first.</p>
+
+      <h2>The bottom line</h2>
+      <p>Nutrition is simpler than the internet makes it seem. Eat enough protein. Stay in an appropriate calorie range. Prioritize whole foods. Everything else is optimization — not requirement.</p>
+    `,
+  },
 ];
+
+export const publishedPosts = blogPosts.filter((p) => p.published);
 
 export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((post) => post.slug === slug);

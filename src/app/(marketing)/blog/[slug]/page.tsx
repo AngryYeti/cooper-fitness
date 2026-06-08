@@ -4,12 +4,19 @@ import { generatePageMetadata } from "@/lib/seo/metadata";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { BreadcrumbSchema } from "@/components/seo/schema";
 import { CTASection } from "@/components/marketing/cta-section";
-import { blogPosts, getBlogPost } from "@/lib/blog/posts";
+import { publishedPosts, getBlogPost } from "@/lib/blog/posts";
 import { Badge } from "@/components/ui/badge";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 
+const CATEGORY_GRADIENTS: Record<string, string> = {
+  "Weight Loss": "from-primary/20 to-accent",
+  "Personal Training": "from-primary/20 to-accent/50",
+  Habits: "from-accent to-primary/10",
+  default: "from-muted to-card",
+};
+
 export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+  return publishedPosts.map((post) => ({ slug: post.slug }));
 }
 
 export function generateMetadata({
@@ -68,6 +75,8 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+
+      <div className={`h-48 bg-gradient-to-br ${CATEGORY_GRADIENTS[post.category] || CATEGORY_GRADIENTS.default}`} />
 
       <article className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbs} />

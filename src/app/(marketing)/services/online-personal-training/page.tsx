@@ -127,6 +127,24 @@ export default function OnlinePersonalTrainingPage() {
         </div>
       </section>
 
+      <section className="border-t border-border py-20 bg-muted/30">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold uppercase">Who This Is For</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-3">
+            {[
+              { title: "Experienced lifters", desc: "You've been training but hit a plateau. You need expert programming to break through." },
+              { title: "Busy professionals", desc: "You need efficient sessions built around your schedule, not a cookie-cutter plan." },
+              { title: "Injury-conscious", desc: "You want to get stronger safely. Every exercise is selected for your movement patterns." },
+            ].map((item) => (
+              <div key={item.title} className="rounded-sm border border-border bg-card p-6">
+                <h3 className="text-sm font-bold uppercase">{item.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <FAQSection items={[...FAQ_SUBSET]} />
 
       <section className="border-t border-border py-20">

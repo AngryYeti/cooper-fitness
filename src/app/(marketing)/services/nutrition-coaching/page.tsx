@@ -127,6 +127,25 @@ export default function NutritionCoachingPage() {
         </div>
       </section>
 
+      <section className="border-t border-border py-20 bg-muted/30">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold uppercase">The Approach</h2>
+          <p className="mt-2 text-muted-foreground max-w-2xl">No meal plans. No forbidden foods. Just a framework that works with your life.</p>
+          <div className="mt-8 grid gap-6 sm:grid-cols-3">
+            {[
+              { title: "Flexible macro targets", desc: "Hit your numbers with foods you actually enjoy. No restrictive eating." },
+              { title: "Weekly adjustments", desc: "Targets evolve as your body changes. We never let you plateau." },
+              { title: "Education first", desc: "Learn why you're eating what you're eating. Build skills that last a lifetime." },
+            ].map((item) => (
+              <div key={item.title} className="rounded-sm border border-border bg-card p-6">
+                <h3 className="text-sm font-bold uppercase">{item.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <FAQSection items={[...FAQ_SUBSET]} />
 
       <section className="border-t border-border py-20">

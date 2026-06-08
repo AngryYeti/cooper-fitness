@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Lock, RotateCcw, CreditCard } from "lucide-react";
 import { ScrollReveal } from "@/components/effects/scroll-reveal";
 import { MagneticCard } from "@/components/effects/magnetic-card";
 import { Section } from "@/components/shared/section";
@@ -27,6 +27,9 @@ export function PricingSection() {
       description="The longer you commit, the deeper the work — and the better the price."
       className="text-center [&_h2]:mx-auto"
     >
+      <p className="mb-6 text-sm font-bold uppercase tracking-widest text-primary">
+        Only 5 spots available this quarter
+      </p>
       <div className="grid gap-6 lg:grid-cols-3">
         {PRICING_TIERS.map((tier, i) => (
           <ScrollReveal key={tier.id} delay={i * 100}>
@@ -74,6 +77,12 @@ export function PricingSection() {
             </MagneticCard>
           </ScrollReveal>
         ))}
+      </div>
+
+      <div className="mt-10 flex flex-wrap justify-center gap-8 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1.5"><Lock className="h-3 w-3 text-primary" /> SECURE STRIPE CHECKOUT</span>
+        <span className="flex items-center gap-1.5"><CreditCard className="h-3 w-3 text-primary" /> ALL MAJOR CARDS ACCEPTED</span>
+        <span className="flex items-center gap-1.5"><RotateCcw className="h-3 w-3 text-primary" /> CANCEL ANYTIME</span>
       </div>
 
       {tier && (

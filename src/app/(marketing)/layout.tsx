@@ -1,5 +1,6 @@
 import { MarketingFooter } from "@/components/layout/marketing-footer";
 import { MarketingHeader } from "@/components/layout/marketing-header";
+import { StickyCTA } from "@/components/marketing/sticky-cta";
 
 export default function MarketingLayout({
   children,
@@ -9,6 +10,7 @@ export default function MarketingLayout({
       <MarketingHeader />
       <main className="flex-1">{children}</main>
       <MarketingFooter />
+      <StickyCTA />
     </div>
   );
 }

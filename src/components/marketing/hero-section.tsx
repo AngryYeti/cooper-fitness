@@ -31,7 +31,7 @@ export function HeroSection() {
           <ScrollReveal className="space-y-8">
             <div className="inline-flex items-center gap-2 rounded-sm border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
               <span className="h-2 w-2 rounded-full bg-primary" aria-hidden />
-              NOW ACCEPTING Q3 CLIENTS
+              NOW ACCEPTING Q3 CLIENTS — LIMITED SPOTS
             </div>
             <h1 className="text-balance text-5xl font-bold uppercase tracking-tight sm:text-6xl lg:text-7xl">
               Built for the{" "}
