@@ -118,7 +118,10 @@ export async function POST(request: Request) {
         console.log("[inquiry] forwarding to:", webhookUrl);
         const crmRes = await fetch(webhookUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "x-webhook-secret": process.env.CRM_WEBHOOK_SECRET || "",
+          },
           body: JSON.stringify({ name, email, goals }),
         });
         const crmJson = await crmRes.json().catch(() => null);
