@@ -1,17 +1,41 @@
 import { NextResponse } from "next/server";
 import { INQUIRY_EMAIL } from "@/lib/constants";
-import { PRICING_TIERS } from "@/lib/constants";
+import {
+  getPricingTier,
+  getTierBilledAmountCents,
+  getTierBilledAmountDollars,
+} from "@/lib/pricing";
+import { getStripe } from "@/lib/stripe";
 
 export async function POST(request: Request) {
   try {
-    const { tierId, name, email, phone } = await request.json();
+    const { tierId, paymentIntentId, name, email, phone } = await request.json();
 
-    const tier = PRICING_TIERS.find((t) => t.id === tierId);
-    const tierName = tier?.name || "Unknown plan";
-    const tierPrice = tier?.price || 0;
+    const tier = getPricingTier(tierId);
+    if (!tier || !paymentIntentId) {
+      return NextResponse.json({ success: false }, { status: 400 });
+    }
+
+    const paymentIntent = await getStripe().paymentIntents.retrieve(paymentIntentId);
+    const expectedAmount = getTierBilledAmountCents(tier);
+
+    if (
+      paymentIntent.status !== "succeeded" ||
+      paymentIntent.amount !== expectedAmount ||
+      paymentIntent.currency !== "usd" ||
+      paymentIntent.metadata.tier !== tierId
+    ) {
+      return NextResponse.json({ success: false }, { status: 402 });
+    }
+
+    const tierName = tier.name;
+    const tierPrice = tier.price;
+    const billedAmount = getTierBilledAmountDollars(tier);
 
     const message = [
-      `Plan: ${tierName} — $${tierPrice}/mo`,
+      `Plan: ${tierName} - $${tierPrice}/mo`,
+      `Paid: $${billedAmount}`,
+      `PaymentIntent: ${paymentIntent.id}`,
       `Name: ${name || "Not provided"}`,
       `Email: ${email || "Not provided"}`,
       `Phone: ${phone || "Not provided"}`,
@@ -23,7 +47,7 @@ export async function POST(request: Request) {
     const emailjsPublicKey = process.env.EMAILJS_PUBLIC_KEY;
     const emailjsPrivateKey = process.env.EMAILJS_PRIVATE_KEY;
 
-    console.log("[purchase] sending notification for:", tierName, name, email);
+    console.log("[purchase] sending notification for:", tierName, paymentIntent.id);
 
     const emailjsRes = await fetch(
       "https://api.emailjs.com/api/v1.0/email/send",
@@ -50,10 +74,8 @@ export async function POST(request: Request) {
       console.error("[purchase] EmailJS error:", emailjsRes.status, errorText);
     }
 
-    // Forward to CRM as Active Client
     try {
       const crmUrl = process.env.CRM_WEBHOOK_URL;
-      console.log("[purchase] CRM_WEBHOOK_URL:", crmUrl);
       if (crmUrl) {
         const webhookUrl = `${crmUrl}/api/webhooks/new-lead`;
         console.log("[purchase] forwarding to:", webhookUrl);
@@ -67,9 +89,10 @@ export async function POST(request: Request) {
             name,
             email,
             phone,
-            goals: `PAID — ${tierName} at $${tierPrice}/mo — via Stripe`,
+            goals: `PAID - ${tierName} at $${tierPrice}/mo - $${billedAmount} collected via Stripe`,
             plan: tierName,
-            price: tierPrice,
+            price: billedAmount,
+            paymentIntentId: paymentIntent.id,
             tag: "Active Client",
             status: "paid",
             source: "stripe_checkout",

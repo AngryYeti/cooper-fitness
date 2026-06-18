@@ -1,25 +1,24 @@
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
-import { PRICING_TIERS } from "@/lib/constants";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
+import { getPricingTier, getTierBilledAmountCents } from "@/lib/pricing";
+import { getStripe } from "@/lib/stripe";
 
 export async function POST(request: Request) {
   try {
     const { tierId } = await request.json();
 
-    const tier = PRICING_TIERS.find((t) => t.id === tierId);
+    const tier = getPricingTier(tierId);
     if (!tier) {
       return NextResponse.json({ error: "Invalid tier." }, { status: 400 });
     }
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: tier.price * 100,
+    const paymentIntent = await getStripe().paymentIntents.create({
+      amount: getTierBilledAmountCents(tier),
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
         tier: tierId,
         tier_name: tier.name,
+        billing_months: String(tier.billingMonths),
         site: "cooper.fitness",
       },
     });

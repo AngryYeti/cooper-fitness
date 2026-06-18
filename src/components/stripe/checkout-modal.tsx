@@ -21,16 +21,19 @@ interface CheckoutModalProps {
   tierId: string;
   tierName: string;
   tierPrice: number;
+  tierBillingAmount: number;
 }
 
 function CheckoutForm({
   tierName,
   tierPrice,
+  tierBillingAmount,
   tierId,
   onSuccess,
 }: {
   tierName: string;
   tierPrice: number;
+  tierBillingAmount: number;
   tierId: string;
   onSuccess: () => void;
 }) {
@@ -56,10 +59,17 @@ function CheckoutForm({
       return;
     }
 
-    const { error: paymentErr } = await stripe.confirmPayment({
+    const { error: paymentErr, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/pricing?success=true`,
+        payment_method_data: {
+          billing_details: {
+            name,
+            email,
+            phone,
+          },
+        },
       },
       redirect: "if_required",
     });
@@ -70,7 +80,13 @@ function CheckoutForm({
       fetch("/api/notify-purchase", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tierId, name, email, phone }),
+        body: JSON.stringify({
+          tierId,
+          paymentIntentId: paymentIntent?.id,
+          name,
+          email,
+          phone,
+        }),
       }).catch(() => {});
       onSuccess();
     }
@@ -83,6 +99,9 @@ function CheckoutForm({
       <div className="rounded-sm border border-border bg-card p-4">
         <p className="text-sm font-bold uppercase">{tierName}</p>
         <p className="text-xl font-bold">${tierPrice}<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
+        <p className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
+          ${tierBillingAmount} billed today
+        </p>
       </div>
 
       <div className="space-y-3">
@@ -119,7 +138,7 @@ function CheckoutForm({
       )}
 
       <Button type="submit" className="w-full" disabled={!stripe || loading}>
-        {loading ? "PROCESSING…" : `PAY $${tierPrice}`}
+        {loading ? "PROCESSING..." : `PAY $${tierBillingAmount}`}
       </Button>
     </form>
   );
@@ -131,6 +150,7 @@ export function CheckoutModal({
   tierId,
   tierName,
   tierPrice,
+  tierBillingAmount,
 }: CheckoutModalProps) {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [complete, setComplete] = useState(false);
@@ -220,6 +240,7 @@ export function CheckoutModal({
             <CheckoutForm
               tierName={tierName}
               tierPrice={tierPrice}
+              tierBillingAmount={tierBillingAmount}
               tierId={tierId}
               onSuccess={() => setComplete(true)}
             />

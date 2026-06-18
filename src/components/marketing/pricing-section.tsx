@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckoutModal } from "@/components/stripe/checkout-modal";
 import { PRICING_TIERS } from "@/lib/constants";
+import { getTierBilledAmountDollars } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 
 export function PricingSection() {
@@ -92,6 +93,7 @@ export function PricingSection() {
           tierId={tier.id}
           tierName={tier.name}
           tierPrice={tier.price}
+          tierBillingAmount={getTierBilledAmountDollars(tier)}
         />
       )}
     </Section>
