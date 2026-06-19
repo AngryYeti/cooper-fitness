@@ -29,12 +29,14 @@ function CheckoutForm({
   tierPrice,
   tierBillingAmount,
   tierId,
+  clientSecret,
   onSuccess,
 }: {
   tierName: string;
   tierPrice: number;
   tierBillingAmount: number;
   tierId: string;
+  clientSecret: string;
   onSuccess: () => void;
 }) {
   const stripe = useStripe();
@@ -52,6 +54,26 @@ function CheckoutForm({
     setLoading(true);
     setError(null);
 
+    const paymentIntentId = clientSecret.split("_secret_")[0];
+    const metadataRes = await fetch("/api/update-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        tierId,
+        paymentIntentId,
+        name,
+        email,
+        phone,
+      }),
+    });
+
+    if (!metadataRes.ok) {
+      const json = await metadataRes.json().catch(() => null);
+      setError(json?.error || "Unable to prepare checkout.");
+      setLoading(false);
+      return;
+    }
+
     const { error: submitErr } = await elements.submit();
     if (submitErr) {
       setError(submitErr.message || "Payment failed.");
@@ -59,7 +81,7 @@ function CheckoutForm({
       return;
     }
 
-    const { error: paymentErr, paymentIntent } = await stripe.confirmPayment({
+    const { error: paymentErr } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/pricing?success=true`,
@@ -77,17 +99,6 @@ function CheckoutForm({
     if (paymentErr) {
       setError(paymentErr.message || "Payment failed.");
     } else {
-      fetch("/api/notify-purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tierId,
-          paymentIntentId: paymentIntent?.id,
-          name,
-          email,
-          phone,
-        }),
-      }).catch(() => {});
       onSuccess();
     }
 
@@ -105,14 +116,22 @@ function CheckoutForm({
       </div>
 
       <div className="space-y-3">
+        <label htmlFor="checkout-name" className="sr-only">
+          Full name
+        </label>
         <Input
+          id="checkout-name"
           placeholder="Full name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
           disabled={loading}
         />
+        <label htmlFor="checkout-email" className="sr-only">
+          Email address
+        </label>
         <Input
+          id="checkout-email"
           type="email"
           placeholder="Email address"
           value={email}
@@ -120,7 +139,11 @@ function CheckoutForm({
           required
           disabled={loading}
         />
+        <label htmlFor="checkout-phone" className="sr-only">
+          Phone number
+        </label>
         <Input
+          id="checkout-phone"
           type="tel"
           placeholder="Phone number (optional)"
           value={phone}
@@ -242,6 +265,7 @@ export function CheckoutModal({
               tierPrice={tierPrice}
               tierBillingAmount={tierBillingAmount}
               tierId={tierId}
+              clientSecret={clientSecret}
               onSuccess={() => setComplete(true)}
             />
           </Elements>

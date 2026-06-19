@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { INQUIRY_EMAIL } from "@/lib/constants";
 
-// Force deployment update
-
 type InquiryBody = {
   name?: string;
   email?: string;
@@ -70,13 +68,6 @@ export async function POST(request: Request) {
     const emailjsPublicKey = process.env.EMAILJS_PUBLIC_KEY;
     const emailjsPrivateKey = process.env.EMAILJS_PRIVATE_KEY;
 
-    console.log("[inquiry] EmailJS config present:", {
-      service_id: !!emailjsServiceId,
-      template_id: !!emailjsTemplateId,
-      public_key: !!emailjsPublicKey,
-      private_key: !!emailjsPrivateKey,
-    });
-
     const emailjsBody = {
       service_id: emailjsServiceId,
       template_id: emailjsTemplateId,
@@ -89,8 +80,6 @@ export async function POST(request: Request) {
         message: goals,
       },
     };
-
-    console.log("[inquiry] EmailJS body:", JSON.stringify(emailjsBody, null, 2));
 
     const emailjsRes = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
@@ -112,10 +101,8 @@ export async function POST(request: Request) {
     // Forward to CRM
     try {
       const crmUrl = process.env.CRM_WEBHOOK_URL;
-      console.log("[inquiry] CRM_WEBHOOK_URL:", crmUrl);
       if (crmUrl) {
         const webhookUrl = `${crmUrl}/api/webhooks/new-lead`;
-        console.log("[inquiry] forwarding to:", webhookUrl);
         const crmRes = await fetch(webhookUrl, {
           method: "POST",
           headers: {
@@ -124,8 +111,9 @@ export async function POST(request: Request) {
           },
           body: JSON.stringify({ name, email, goals }),
         });
-        const crmJson = await crmRes.json().catch(() => null);
-        console.log("[inquiry] CRM response:", crmRes.status, crmJson);
+        if (!crmRes.ok) {
+          console.error("[inquiry] CRM webhook error:", crmRes.status);
+        }
       }
     } catch (crmErr) {
       console.error("[inquiry] CRM webhook error:", crmErr);

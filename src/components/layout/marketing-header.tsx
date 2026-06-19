@@ -56,6 +56,9 @@ export function MarketingHeader() {
               >
                 <button
                   type="button"
+                  aria-expanded={dropdownOpen}
+                  aria-haspopup="menu"
+                  aria-controls="services-menu"
                   className="flex items-center gap-1 text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {item.label}
@@ -63,6 +66,8 @@ export function MarketingHeader() {
                 </button>
                 {dropdownOpen && (
                   <div
+                    id="services-menu"
+                    role="menu"
                     className="absolute left-0 top-full z-50 min-w-[200px] rounded-sm border border-border bg-card p-1 shadow-lg"
                     onMouseEnter={openDropdown}
                     onMouseLeave={closeDropdown}
@@ -71,6 +76,7 @@ export function MarketingHeader() {
                       <Link
                         key={child.href}
                         href={child.href}
+                        role="menuitem"
                         className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                       >
                         {child.label}
