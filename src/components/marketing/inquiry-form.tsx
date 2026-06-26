@@ -2,9 +2,6 @@
 
 import { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
 export function InquiryForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -63,29 +60,83 @@ export function InquiryForm() {
 
   if (submitted) {
     return (
-      <p className="text-sm text-muted-foreground" role="status">
-        Thanks — Evan will be in touch within 24 hours.
-      </p>
+      <div className="flex flex-col items-center gap-4 py-8" role="status">
+        <div
+          className="flex h-14 w-14 items-center justify-center rounded-full"
+          style={{ background: "var(--primary)" }}
+        >
+          <span style={{ color: "var(--primary-foreground)", fontSize: "1.5rem" }}>✓</span>
+        </div>
+        <p style={{ color: "var(--muted-foreground)", fontSize: "0.95rem" }}>
+          Thanks — Evan will be in touch within 24 hours.
+        </p>
+      </div>
     );
   }
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "14px 18px",
+    borderRadius: 12,
+    border: "1px solid rgba(255,255,255,0.16)",
+    background: "rgba(255,255,255,0.04)",
+    color: "var(--foreground)",
+    fontSize: "0.9rem",
+    outline: "none",
+    transition: "border-color 0.2s, background 0.2s",
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      <Input name="name" placeholder="Your name" required aria-label="Your name" disabled={loading} />
-      <Input
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        name="name"
+        placeholder="Your name"
+        required
+        aria-label="Your name"
+        disabled={loading}
+        style={inputStyle}
+        onFocus={(e) => {
+          e.currentTarget.style.borderColor = "var(--primary)";
+          e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.16)";
+          e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+        }}
+      />
+      <input
         name="email"
         type="email"
         placeholder="Email"
         required
         aria-label="Email"
         disabled={loading}
+        style={inputStyle}
+        onFocus={(e) => {
+          e.currentTarget.style.borderColor = "var(--primary)";
+          e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.16)";
+          e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+        }}
       />
-      <Textarea
+      <textarea
         name="goals"
-        placeholder="Your goals"
+        placeholder="Goals & schedule"
         required
-        aria-label="Your goals"
+        aria-label="Your goals and schedule"
         disabled={loading}
+        rows={4}
+        style={{ ...inputStyle, minHeight: 100, resize: "vertical" }}
+        onFocus={(e) => {
+          e.currentTarget.style.borderColor = "var(--primary)";
+          e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.16)";
+          e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+        }}
       />
       {error && (
         <p className="text-sm text-destructive" role="alert">
@@ -93,16 +144,32 @@ export function InquiryForm() {
         </p>
       )}
       <div className="flex justify-center">
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                onChange={(token) => setRecaptchaToken(token)}
-                theme="dark"
-              />
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+          onChange={(token) => setRecaptchaToken(token)}
+          theme="dark"
+        />
       </div>
-      <Button type="submit" className="w-full" disabled={loading || !recaptchaToken}>
+      <button
+        type="submit"
+        className="w-full font-mono uppercase transition-all hover:-translate-y-[2px] hover:brightness-[1.06]"
+        disabled={loading || !recaptchaToken}
+        style={{
+          fontSize: "0.72rem",
+          letterSpacing: "0.16em",
+          fontWeight: 500,
+          padding: "15px 28px",
+          borderRadius: 999,
+          background: "var(--primary)",
+          color: "var(--primary-foreground)",
+          boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
+          opacity: loading || !recaptchaToken ? 0.5 : 1,
+          cursor: loading || !recaptchaToken ? "not-allowed" : "pointer",
+        }}
+      >
         {loading ? "SENDING…" : "SEND INQUIRY"}
-      </Button>
+      </button>
     </form>
   );
 }

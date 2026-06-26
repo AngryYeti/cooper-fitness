@@ -1,11 +1,8 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { ScrollReveal } from "@/components/effects/scroll-reveal";
-import { MagneticCard } from "@/components/effects/magnetic-card";
+import { GlassCard } from "@/components/effects/glass-sheen";
 import { Section } from "@/components/shared/section";
-import { Card } from "@/components/ui/card";
 import { PROGRAMS } from "@/lib/constants";
-import { getIcon } from "@/lib/icons";
 
 const PROGRAM_LINKS: Record<string, string> = {
   strength: "/services/online-personal-training",
@@ -17,40 +14,62 @@ export function ProgramsSection() {
   return (
     <Section
       id="programs"
-      muted
       label="02 — PROGRAMS"
-      title="Precision protocols."
-      description="Targeted programs that integrate into a high-stakes lifestyle — not the other way around."
     >
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-        {PROGRAMS.map((program, i) => {
-          const Icon = getIcon(program.icon);
-          return (
-            <ScrollReveal key={program.id} delay={i * 100}>
-              <MagneticCard>
-                <Card className="group flex h-full flex-col p-6">
-                  <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-sm bg-accent">
-                    <Icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <span className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                    {program.index}
-                  </span>
-                  <h3 className="mb-3 text-lg font-bold uppercase">{program.title}</h3>
-                  <p className="mb-6 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {program.description}
-                  </p>
-                  <Link
-                    href={PROGRAM_LINKS[program.id] || `/programs#${program.id}`}
-                    className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-primary transition-gap hover:gap-2"
-                  >
-                    EXPLORE PROTOCOL
-                    <ArrowRight className="h-3 w-3" />
-                  </Link>
-                </Card>
-              </MagneticCard>
-            </ScrollReveal>
-          );
-        })}
+      <div className="mb-10 space-y-4 max-w-2xl">
+        <h2
+          style={{
+            fontFamily: "var(--font-space-grotesk), sans-serif",
+            fontWeight: 500,
+            fontSize: "clamp(2rem, 3.6vw, 3.1rem)",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.05,
+            color: "var(--foreground)",
+          }}
+        >
+          Precision{" "}
+          <span className="font-serif-italic" style={{ color: "var(--primary)" }}>protocols.</span>
+        </h2>
+        <p style={{ color: "var(--muted-foreground)", fontSize: "1.05rem", lineHeight: 1.7 }}>
+          Targeted programs that integrate into a high-stakes lifestyle — not the other way around.
+        </p>
+      </div>
+      <div className="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
+        {PROGRAMS.map((program, i) => (
+          <ScrollReveal key={program.id} delay={i * 100}>
+            <GlassCard className="group h-full transition-all duration-300 hover:-translate-y-[6px] hover:border-white/25 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]">
+              <div className="flex h-full flex-col p-7">
+                <span
+                  className="font-serif-italic mb-3"
+                  style={{ fontSize: "2.4rem", color: "var(--primary)", lineHeight: 1 }}
+                >
+                  {program.index}
+                </span>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-space-grotesk), sans-serif",
+                    fontWeight: 500,
+                    fontSize: "1.4rem",
+                    color: "var(--foreground)",
+                    marginBottom: 10,
+                  }}
+                >
+                  {program.title}
+                </h3>
+                <p style={{ color: "var(--muted-foreground)", fontSize: "0.9rem", lineHeight: 1.65, flex: 1 }}>
+                  {program.description}
+                </p>
+                <Link
+                  href={PROGRAM_LINKS[program.id] || `/programs#${program.id}`}
+                  className="inline-flex items-center gap-1 font-mono uppercase transition-all hover:gap-2 mt-6"
+                  style={{ fontSize: "0.66rem", letterSpacing: "0.16em", color: "var(--primary)" }}
+                >
+                  EXPLORE PROTOCOL →
+                </Link>
+              </div>
+            </GlassCard>
+          </ScrollReveal>
+        ))}
       </div>
     </Section>
   );

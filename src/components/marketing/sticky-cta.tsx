@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export function StickyCTA() {
   const [visible, setVisible] = useState(false);
@@ -21,14 +19,30 @@ export function StickyCTA() {
     <div
       className={`fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300 ${
         visible ? "translate-y-0" : "translate-y-full"
-      } border-t border-border/60 bg-background/90 backdrop-blur-xl p-4 md:hidden`}
+      } p-4 md:hidden`}
+      style={{
+        borderTop: "1px solid rgba(255,255,255,0.10)",
+        background: "rgba(20,18,16,0.90)",
+        backdropFilter: "blur(18px)",
+        WebkitBackdropFilter: "blur(18px)",
+      }}
     >
-      <Button size="lg" className="w-full" asChild>
-        <Link href="/#pricing">
-          VIEW PRICING
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </Button>
+      <Link
+        href="/#pricing"
+        className="flex w-full items-center justify-center font-mono uppercase transition-all"
+        style={{
+          fontSize: "0.72rem",
+          letterSpacing: "0.16em",
+          fontWeight: 500,
+          padding: "15px 28px",
+          borderRadius: 999,
+          background: "var(--primary)",
+          color: "var(--primary-foreground)",
+          boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
+        }}
+      >
+        VIEW PRICING
+      </Link>
     </div>
   );
 }

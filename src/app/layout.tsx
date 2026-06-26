@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
-import { Archivo_Narrow } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@/components/seo/analytics";
 import { OrganizationSchema, WebSiteSchema } from "@/components/seo/schema";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import "./globals.css";
 
-const archivoNarrow = Archivo_Narrow({
-  variable: "--font-archivo-narrow",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -55,7 +61,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${archivoNarrow.variable} antialiased`}>
+      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}>
         <OrganizationSchema />
         <WebSiteSchema />
         <Analytics />

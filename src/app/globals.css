@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap');
 @import "tailwindcss";
 
 @theme inline {
@@ -15,7 +16,8 @@
   --color-ring: var(--ring);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --font-sans: var(--font-archivo-narrow);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
   --radius-sm: var(--radius);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 4px);
@@ -25,19 +27,19 @@
 }
 
 :root {
-  --radius: 0.25rem;
-  --background: #131314;
-  --foreground: #ffffff;
-  --card: #1c1b1c;
-  --card-foreground: #ffffff;
-  --muted: #1c1b1c;
-  --muted-foreground: #a1a1a8;
-  --border: #2a2a2e;
-  --primary: #4a6fff;
-  --primary-foreground: #ffffff;
-  --accent: #1a2040;
-  --accent-foreground: #7a95ff;
-  --ring: #4a6fff;
+  --radius: 0.75rem;
+  --background: #141210;
+  --foreground: #f3efe7;
+  --card: rgba(255,255,255,0.04);
+  --card-foreground: #f3efe7;
+  --muted: rgba(255,255,255,0.03);
+  --muted-foreground: oklch(0.72 0.014 78);
+  --border: rgba(255,255,255,0.12);
+  --primary: oklch(0.70 0.14 245);
+  --primary-foreground: oklch(0.99 0.01 245);
+  --accent: oklch(0.70 0.14 245);
+  --accent-foreground: oklch(0.99 0.01 245);
+  --ring: oklch(0.70 0.14 245);
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 }
@@ -53,6 +55,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    position: relative;
   }
 }
 
@@ -62,21 +65,44 @@
   }
 
   .section-label {
-    @apply text-xs font-bold uppercase tracking-[0.2em] text-primary;
+    font-family: var(--font-jetbrains-mono), monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--primary);
   }
 
-  .gradient-subtle {
-    background: linear-gradient(
-      135deg,
-      rgba(74, 111, 255, 0.08) 0%,
-      rgba(74, 111, 255, 0) 50%
-    );
+  .font-serif-italic {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .font-mono {
+    font-family: var(--font-jetbrains-mono), monospace;
+  }
+
+  .glass {
+    background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 14px 50px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.16);
+  }
+
+  .glass-strong {
+    background: linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.04));
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 28px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.22);
   }
 }
 
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(28px);
   transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -111,12 +137,14 @@
   opacity: 1;
 }
 
-.magnetic-card {
-  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
 }
 
-.magnetic-card:hover {
-  box-shadow: 0 0 30px rgba(74, 111, 255, 0.15), 0 0 60px rgba(74, 111, 255, 0.06);
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 @keyframes fade-in-up {
@@ -132,4 +160,34 @@
 
 .animate-fade-in-up {
   animation: fade-in-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .scroll-reveal.revealed {
+    transform: none;
+  }
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+}
+
+.ambient-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1100px 760px at 80% -8%, oklch(0.27 0.045 72 / 0.55), transparent 58%),
+    radial-gradient(1000px 720px at -5% 24%, oklch(0.24 0.04 250 / 0.42), transparent 55%);
 }

@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type NavItem =
@@ -30,7 +29,17 @@ const MAIN_NAV: NavItem[] = [
 export function MarketingHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    function onScroll() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(max > 0 ? window.scrollY / max : 0);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const openDropdown = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -42,8 +51,22 @@ export function MarketingHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-[60]" style={{
+      backdropFilter: "blur(18px) saturate(150%)",
+      WebkitBackdropFilter: "blur(18px) saturate(150%)",
+      background: "linear-gradient(180deg, rgba(20,18,16,0.62), rgba(20,18,16,0.20))",
+      borderBottom: "1px solid rgba(255,255,255,0.12)",
+    }}>
+      <div
+        className="absolute top-0 left-0 h-[2px] z-[70] origin-left"
+        style={{
+          transform: `scaleX(${scrollProgress})`,
+          background: "linear-gradient(90deg, var(--primary), oklch(0.84 0.06 240))",
+          boxShadow: "0 0 12px var(--primary)",
+          width: "100%",
+        }}
+      />
+      <div className="flex items-center justify-between" style={{ padding: "15px clamp(18px, 4vw, 56px)" }}>
         <Logo />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
           {MAIN_NAV.map((item) =>
@@ -59,7 +82,8 @@ export function MarketingHeader() {
                   aria-expanded={dropdownOpen}
                   aria-haspopup="menu"
                   aria-controls="services-menu"
-                  className="flex items-center gap-1 text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
+                  className="flex items-center gap-1 font-mono uppercase transition-colors"
+                  style={{ fontSize: "0.7rem", letterSpacing: "0.18em", color: "var(--muted-foreground)" }}
                 >
                   {item.label}
                   <ChevronDown className="h-3 w-3" />
@@ -68,7 +92,7 @@ export function MarketingHeader() {
                   <div
                     id="services-menu"
                     role="menu"
-                    className="absolute left-0 top-full z-50 min-w-[200px] rounded-sm border border-border bg-card p-1 shadow-lg"
+                    className="absolute left-0 top-full z-50 min-w-[200px] rounded-[16px] glass p-1 mt-2"
                     onMouseEnter={openDropdown}
                     onMouseLeave={closeDropdown}
                   >
@@ -77,7 +101,8 @@ export function MarketingHeader() {
                         key={child.href}
                         href={child.href}
                         role="menuitem"
-                        className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                        className="block rounded-[12px] px-3 py-2 text-sm transition-colors hover:bg-white/8"
+                        style={{ color: "var(--muted-foreground)" }}
                       >
                         {child.label}
                       </Link>
@@ -89,7 +114,8 @@ export function MarketingHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
+                className="font-mono uppercase transition-colors hover:text-foreground"
+                style={{ fontSize: "0.7rem", letterSpacing: "0.18em", color: "var(--muted-foreground)" }}
               >
                 {item.label}
               </Link>
@@ -97,38 +123,52 @@ export function MarketingHeader() {
           )}
         </nav>
         <div className="flex items-center gap-2">
-          <Button variant="secondary" className="hidden sm:inline-flex" asChild>
-            <Link href="/#pricing">START TRAINING</Link>
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
+          <Link
+            href="/#pricing"
+            className="hidden sm:inline-flex items-center font-mono uppercase transition-all hover:-translate-y-[2px]"
+            style={{
+              fontSize: "0.72rem",
+              letterSpacing: "0.16em",
+              fontWeight: 500,
+              padding: "15px 28px",
+              borderRadius: 999,
+              background: "var(--primary)",
+              color: "var(--primary-foreground)",
+              boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
+            }}
+          >
+            START TRAINING
+          </Link>
+          <button
+            type="button"
+            className="md:hidden p-2 text-foreground"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          </button>
         </div>
       </div>
       <div
         className={cn(
-          "border-t border-border md:hidden",
-           mobileOpen ? "block" : "hidden"
+          "border-t border-white/12 md:hidden",
+          mobileOpen ? "block" : "hidden"
         )}
+        style={{ background: "rgba(20,18,16,0.90)", backdropFilter: "blur(18px)" }}
       >
         <nav className="flex flex-col gap-1 p-4" aria-label="Mobile">
           {MAIN_NAV.map((item) =>
             item.type === "dropdown" ? (
               <div key={item.label} className="space-y-1">
-                <p className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                <p className="px-4 py-2 font-mono text-xs uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
                   {item.label}
                 </p>
                 {item.children.map((child) => (
                   <Link
                     key={child.href}
                     href={child.href}
-                    className="rounded-sm px-4 py-3 pl-6 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                    className="block rounded-[12px] px-4 py-3 pl-6 text-sm hover:bg-white/6"
+                    style={{ color: "var(--muted-foreground)" }}
                     onClick={() => setMobileOpen(false)}
                   >
                     {child.label}
@@ -139,16 +179,29 @@ export function MarketingHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-sm px-4 py-3 text-sm font-medium uppercase tracking-wider text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="block rounded-[12px] px-4 py-3 font-mono text-sm uppercase tracking-wider hover:bg-white/6"
+                style={{ color: "var(--muted-foreground)" }}
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}
               </Link>
             )
           )}
-          <Button variant="secondary" className="mt-2" asChild>
-            <Link href="/#pricing" onClick={() => setMobileOpen(false)}>START TRAINING</Link>
-          </Button>
+          <Link
+            href="/#pricing"
+            className="mt-2 block text-center font-mono uppercase rounded-full"
+            style={{
+              fontSize: "0.72rem",
+              letterSpacing: "0.16em",
+              fontWeight: 500,
+              padding: "15px 28px",
+              background: "var(--primary)",
+              color: "var(--primary-foreground)",
+            }}
+            onClick={() => setMobileOpen(false)}
+          >
+            START TRAINING
+          </Link>
         </nav>
       </div>
     </header>

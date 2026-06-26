@@ -10,12 +10,19 @@ export function Logo({ className }: LogoProps) {
     <Link
       href="/"
       className={cn(
-        "text-sm font-bold tracking-[0.3em] text-foreground transition-opacity hover:opacity-80",
+        "transition-opacity hover:opacity-80",
         className,
       )}
+      style={{
+        fontFamily: "var(--font-space-grotesk), sans-serif",
+        fontWeight: 600,
+        fontSize: "0.96rem",
+        letterSpacing: "0.14em",
+        color: "var(--foreground)",
+      }}
     >
       COOPER
-      <span className="mx-1 text-primary">/</span>
+      <span style={{ color: "var(--primary)" }}>/</span>
       FITNESS
     </Link>
   );

@@ -10,7 +10,7 @@ import { ServiceCard } from "@/components/marketing/service-card";
 import { Section } from "@/components/shared/section";
 import { SERVICES } from "@/lib/constants";
 import { ScrollReveal } from "@/components/effects/scroll-reveal";
-import { ShieldCheck, TrendingUp, Clock, MessageCircle } from "lucide-react";
+import { GlassCard } from "@/components/effects/glass-sheen";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Cooper Fitness | Online Coaching for Busy Parents",
@@ -19,45 +19,75 @@ export const metadata: Metadata = generatePageMetadata({
   path: "",
 });
 
+const WHY_ITEMS = [
+  { index: "01", title: "Actually Simple", desc: "No complicated routines. Clear steps each week so you always know exactly what to do." },
+  { index: "02", title: "Built for Busy Parents", desc: "30-minute workouts that fit around school runs, nap times, and work. No 2-hour sessions." },
+  { index: "03", title: "A Coach in Your Corner", desc: "Message your coach anytime. Weekly video check-ins. Someone who gets it." },
+  { index: "04", title: "Beginner-Friendly", desc: "Start with zero experience. Every exercise explained, every question welcome. No judgment." },
+];
+
 export default function HomePage() {
   return (
     <>
       <HeroSection />
       <AboutSection />
       <ProgramsSection />
-      <Section label="WHY COOPER" title="The System Behind the Results.">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { icon: TrendingUp, title: "ACTUALLY SIMPLE", desc: "No complicated routines. Clear steps each week so you always know exactly what to do." },
-            { icon: Clock, title: "BUILT FOR BUSY PARENTS", desc: "30-minute workouts that fit around school runs, nap times, and work. No 2-hour sessions." },
-            { icon: MessageCircle, title: "A COACH IN YOUR CORNER", desc: "Message your coach anytime. Weekly video check-ins. Someone who gets it." },
-            { icon: ShieldCheck, title: "BEGINNER-FRIENDLY", desc: "Start with zero experience. Every exercise explained, every question welcome. No judgment." },
-          ].map((item) => (
-            <ScrollReveal key={item.title}>
-              <div className="flex flex-col gap-3 rounded-sm border border-border p-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-accent">
-                  <item.icon className="h-5 w-5 text-primary" />
+      <Section label="WHY COOPER">
+        <h2
+          className="mb-10"
+          style={{
+            fontFamily: "var(--font-space-grotesk), sans-serif",
+            fontWeight: 500,
+            fontSize: "clamp(2rem, 3.6vw, 3.1rem)",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.05,
+            color: "var(--foreground)",
+          }}
+        >
+          The system behind the{" "}
+          <span className="font-serif-italic" style={{ color: "var(--primary)" }}>results.</span>
+        </h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {WHY_ITEMS.map((item, i) => (
+            <ScrollReveal key={item.title} delay={i * 100}>
+              <GlassCard className="h-full transition-all duration-300 hover:-translate-y-[6px]">
+                <div className="flex flex-col gap-3 p-6">
+                  <span className="font-mono" style={{ fontSize: "0.72rem", letterSpacing: "0.14em", color: "var(--primary)" }}>
+                    {item.index}
+                  </span>
+                  <h3 style={{ fontWeight: 500, fontSize: "1.1rem", color: "var(--foreground)" }}>{item.title}</h3>
+                  <p style={{ fontSize: "0.88rem", lineHeight: 1.6, color: "var(--muted-foreground)" }}>{item.desc}</p>
                 </div>
-                <h3 className="text-sm font-bold uppercase tracking-wider">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
+              </GlassCard>
             </ScrollReveal>
           ))}
         </div>
       </Section>
-      <Section
-        label="Services"
-        title="Online Coaching Services"
-        description="Not sure where to start? Pick the one that feels right — we'll handle the rest."
-      >
-        <div className="grid gap-6 sm:grid-cols-3">
-          {SERVICES.map((service) => (
-            <ServiceCard
-              key={service.id}
-              title={service.title}
-              description={service.description}
-              href={service.href}
-            />
+      <Section label="SERVICES">
+        <h2
+          className="mb-10"
+          style={{
+            fontFamily: "var(--font-space-grotesk), sans-serif",
+            fontWeight: 500,
+            fontSize: "clamp(2rem, 3.6vw, 3.1rem)",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.05,
+            color: "var(--foreground)",
+          }}
+        >
+          Online coaching{" "}
+          <span className="font-serif-italic" style={{ color: "var(--primary)" }}>services</span>
+        </h2>
+        <div className="flex flex-col gap-4">
+          {SERVICES.map((service, i) => (
+            <ScrollReveal key={service.id} delay={i * 100}>
+              <ServiceCard
+                title={service.title}
+                description={service.description}
+                href={service.href}
+                index={i}
+              />
+            </ScrollReveal>
           ))}
         </div>
       </Section>

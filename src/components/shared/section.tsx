@@ -18,31 +18,33 @@ export function Section({
   description,
   children,
   className,
-  muted = false,
   headingLevel: Heading = "h2",
 }: SectionProps) {
   return (
     <section
       id={id}
-      className={cn(
-        "py-16 md:py-24",
-        muted && "bg-muted/30",
-        className,
-      )}
+      className={cn("py-20 md:py-28 relative z-10", className)}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {(label || title || description) && (
-          <div className="mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-2xl space-y-4">
-              {label && <p className="section-label">{label}</p>}
-              {title && (
-                <Heading className="text-balance text-3xl font-bold uppercase tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                  {title}
-                </Heading>
-              )}
-            </div>
+          <div className="mb-10 md:mb-14">
+            {label && <p className="section-label mb-4">{label}</p>}
+            {title && (
+              <Heading
+                style={{
+                  fontFamily: "var(--font-space-grotesk), sans-serif",
+                  fontWeight: 500,
+                  fontSize: "clamp(2rem, 3.6vw, 3.1rem)",
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.05,
+                  color: "var(--foreground)",
+                }}
+              >
+                {title}
+              </Heading>
+            )}
             {description && (
-              <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p className="mt-4 max-w-md" style={{ color: "var(--muted-foreground)", fontSize: "1.05rem", lineHeight: 1.7 }}>
                 {description}
               </p>
             )}
