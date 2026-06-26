@@ -15,7 +15,7 @@ export const SERVICES = [
     title: "Online Weight Loss Coaching",
     shortTitle: "Weight Loss",
     description:
-      "Sustainable fat loss through metabolic conditioning, nutrition protocols, and weekly accountability.",
+      "Tried diets that didn't stick? We build a simple, sustainable plan around your actual life — no restriction, no guesswork, just steady progress.",
     href: "/services/online-weight-loss-coaching",
   },
   {
@@ -23,7 +23,7 @@ export const SERVICES = [
     title: "Online Personal Training",
     shortTitle: "Personal Training",
     description:
-      "Personalized lifting programs with direct coach access and video check-ins.",
+      "Never lifted before? No problem. You'll get a program designed for your level, your schedule, and your equipment — with a coach checking in every week.",
     href: "/services/online-personal-training",
   },
   {
@@ -31,7 +31,7 @@ export const SERVICES = [
     title: "Nutrition Coaching",
     shortTitle: "Nutrition",
     description:
-      "Science-backed nutrition protocols tailored to your goals and lifestyle.",
+      "Don't know where to start with food? We'll cut through the noise and give you a clear, flexible eating plan that works around family meals and a busy week.",
     href: "/services/nutrition-coaching",
   },
 ] as const;
@@ -118,14 +118,14 @@ export const TESTIMONIALS = [
     quote:
       "The accountability is the unlock. I finally trust the plan because someone smart is paying attention every week.",
     name: "Priya S.",
-    role: "Product lead",
+    role: "Product lead, mom of one",
     rating: 5,
   },
   {
     quote:
       "Down 22lb, deadlift up 80lb, and zero burnout. The structure and check-ins make it impossible to drift.",
     name: "James R.",
-    role: "Operations VP",
+    role: "Operations VP, dad of three",
     rating: 5,
   },
 ] as const;

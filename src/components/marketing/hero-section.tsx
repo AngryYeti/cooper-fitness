@@ -31,15 +31,16 @@ export function HeroSection() {
           <ScrollReveal className="space-y-8">
             <div className="inline-flex items-center gap-2 rounded-sm border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
               <span className="h-2 w-2 rounded-full bg-primary" aria-hidden />
-              NOW ACCEPTING Q3 CLIENTS — LIMITED SPOTS
+              NOW ACCEPTING NEW CLIENTS — LIMITED SPOTS
             </div>
             <h1 className="text-balance text-5xl font-bold uppercase tracking-tight sm:text-6xl lg:text-7xl">
-              Built for the{" "}
-              <span className="text-primary">Elite Daily.</span>
+              Fit Around{" "}
+              <span className="text-primary">Your Real Life.</span>
             </h1>
             <p className="max-w-lg text-lg leading-relaxed text-muted-foreground">
-              Precision coaching for professionals who demand measurable strength,
-              sustainable energy, and zero guesswork.
+              Programs that fit around school runs, deadlines, and travel — built
+              for busy parents who are ready to start, even if they&apos;ve never
+              stepped foot in a gym.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button size="lg" asChild>

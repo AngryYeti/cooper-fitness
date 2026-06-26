@@ -6,7 +6,7 @@ import { TESTIMONIALS } from "@/lib/constants";
 
 export function ProofSection() {
   return (
-    <Section id="proof" label="03 — PROOF" title="Real people. Compounding results.">
+    <Section id="proof" label="03 — PROOF" title="Parents who started exactly where you are.">
       <div className="grid gap-6 md:grid-cols-3">
         {TESTIMONIALS.map((t, i) => (
           <ScrollReveal key={t.name} delay={i * 100}>

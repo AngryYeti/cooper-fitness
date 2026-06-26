@@ -13,9 +13,9 @@ import { ScrollReveal } from "@/components/effects/scroll-reveal";
 import { ShieldCheck, TrendingUp, Clock, MessageCircle } from "lucide-react";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Cooper Fitness | Premium Online Coaching",
+  title: "Cooper Fitness | Online Coaching for Busy Parents",
   description:
-    "Precision online fitness coaching for high-performing professionals. Personalized strength, nutrition, and accountability.",
+    "Online fitness and weight loss coaching designed for busy parents starting from zero. Simple programs that fit around your real life.",
   path: "",
 });
 
@@ -28,10 +28,10 @@ export default function HomePage() {
       <Section label="WHY COOPER" title="The System Behind the Results.">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: TrendingUp, title: "DATA-DRIVEN", desc: "Every decision backed by metrics, not guesswork. Progressive overload tracked weekly." },
-            { icon: Clock, title: "BUILT FOR BUSY LIVES", desc: "Programs that fit around school runs, deadlines, and travel. No 2-hour workouts." },
-            { icon: MessageCircle, title: "DIRECT COACH ACCESS", desc: "Message your coach anytime. Weekly video check-ins. Real accountability." },
-            { icon: ShieldCheck, title: "SCIENCE-BACKED", desc: "Protocols grounded in exercise science and nutritional biochemistry. No fads." },
+            { icon: TrendingUp, title: "ACTUALLY SIMPLE", desc: "No complicated routines. Clear steps each week so you always know exactly what to do." },
+            { icon: Clock, title: "BUILT FOR BUSY PARENTS", desc: "30-minute workouts that fit around school runs, nap times, and work. No 2-hour sessions." },
+            { icon: MessageCircle, title: "A COACH IN YOUR CORNER", desc: "Message your coach anytime. Weekly video check-ins. Someone who gets it." },
+            { icon: ShieldCheck, title: "BEGINNER-FRIENDLY", desc: "Start with zero experience. Every exercise explained, every question welcome. No judgment." },
           ].map((item) => (
             <ScrollReveal key={item.title}>
               <div className="flex flex-col gap-3 rounded-sm border border-border p-6">
@@ -48,7 +48,7 @@ export default function HomePage() {
       <Section
         label="Services"
         title="Online Coaching Services"
-        description="Choose the coaching track that matches your goals."
+        description="Not sure where to start? Pick the one that feels right — we'll handle the rest."
       >
         <div className="grid gap-6 sm:grid-cols-3">
           {SERVICES.map((service) => (

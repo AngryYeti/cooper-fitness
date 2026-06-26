@@ -16,13 +16,14 @@ export function AboutSection() {
         </ScrollReveal>
         <ScrollReveal delay={150} variant="up" className="space-y-6">
           <p className="text-lg leading-relaxed text-muted-foreground">
-            I&apos;m Evan — father of two, lifelong athlete, and full-time coach. I built Cooper
-            Fitness because the people I respect most don&apos;t have time to chase trends. They
-            need a system that works around school runs, deadlines, and travel.
+            I&apos;m Evan — father of two and full-time coach. I know what it&apos;s like to feel
+            too busy and too out of shape to start. Before I found my own path, I was the parent
+            running on coffee and zero plan. That&apos;s exactly why I built Cooper Fitness.
           </p>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            My approach is calm, data-led, and entirely human. We start where you are, train with
-            intention, and protect your energy for the things that matter outside the gym.
+            My approach is calm, simple, and built for real life. You don&apos;t need experience,
+            a gym membership, or two free hours a day. We start exactly where you are and build
+            from there — so you have more energy for your kids, not less.
           </p>
         </ScrollReveal>
       </div>
