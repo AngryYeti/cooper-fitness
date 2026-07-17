@@ -305,6 +305,72 @@ export const blogPosts: BlogPost[] = [
       <p>Nutrition is simpler than the internet makes it seem. Eat enough protein. Stay in an appropriate calorie range. Prioritize whole foods most of the time. Pick a meal pattern that fits your family's actual life. Everything else — carb timing, meal frequency, exotic supplements — is optimization at the margins, not requirement. Stop chasing the myths, and the fundamentals will finally get the consistency they need to work.</p>
     `,
   },
+  {
+    slug: "how-to-get-back-in-shape-after-having-kids",
+    title: "How to Get Back in Shape After Having Kids",
+    description:
+      "Life after kids changes everything — including your fitness. Here's a realistic, no-fluff plan for getting back in shape after having kids.",
+    date: "2026-07-17",
+    category: "Habits",
+    published: true,
+    content: `
+      <p>Getting back in shape after having kids is one of the most common fitness goals — and one of the hardest to actually start. Your schedule has been completely reorganized. Sleep is different. Your body has changed. And every time you carve out thirty minutes to exercise, something else needs you first. If you've been meaning to "get back on track" for months (or years), this post is for you.</p>
+      <p>The good news: you don't need to reclaim your pre-kid lifestyle to make real progress. You just need a plan that's built for the life you actually have now.</p>
+
+      <h2>Why getting back in shape after kids feels so different</h2>
+      <p>It's not in your head. Fitness genuinely is harder to restart after becoming a parent, for a few real reasons:</p>
+      <ul>
+        <li><strong>Time is fragmented.</strong> Instead of a predictable schedule, you have pockets of unpredictable availability. A 90-minute gym session isn't a realistic unit anymore.</li>
+        <li><strong>Sleep has changed.</strong> Even years after the newborn phase, parents average less sleep than non-parents. Poor sleep raises hunger hormones, lowers willpower, and tanks recovery. This is a real physiological headwind, not an excuse.</li>
+        <li><strong>Mental load is higher.</strong> When you're managing logistics for multiple people, fitness planning takes a back seat. There's genuinely less cognitive bandwidth for it.</li>
+        <li><strong>The stakes feel higher.</strong> After a long break, returning to exercise can feel daunting — like you have to get everything right immediately. That pressure makes starting harder than it needs to be.</li>
+      </ul>
+      <p>Understanding these obstacles matters, because the solution to each one is specific. Generic fitness advice ignores all of them.</p>
+
+      <h2>Step 1: Redefine what a "workout" is</h2>
+      <p>The biggest mistake parents make when trying to get back in shape is waiting for the conditions they had before kids — the hour of free time, the energy, the gym membership. Those conditions may not return for years. Waiting for them means not starting.</p>
+      <p>A 25-minute session you actually do is worth ten times a 60-minute session you plan and skip. That's not settling — it's physics. Three 25-minute strength sessions a week, done consistently for six months, will change your body more than any ambitious plan you abandon in week two.</p>
+      <p>What counts as a workout: anything that gets your heart rate up and challenges your muscles for at least 20 minutes. A circuit in your living room. A walk pushing a stroller that turns into a jog when the kids fall asleep. A dumbbell session while they watch cartoons. The format matters far less than the consistency.</p>
+
+      <h2>Step 2: Pick a time that actually exists in your schedule</h2>
+      <p>Don't plan to "find time." Find a slot that currently exists and protect it. For most parents, this means one of three windows:</p>
+      <ul>
+        <li><strong>Before the house wakes up.</strong> 5:30–6:30 AM is unglamorous, but it's yours. Nothing competes with it.</li>
+        <li><strong>Nap time or school hours.</strong> If you have predictable midday availability, this is prime. Use it before the mental load fills it with other tasks.</li>
+        <li><strong>After bedtime.</strong> 8–9 PM works if your energy holds. Keep sessions short so sleep isn't affected.</li>
+      </ul>
+      <p>One or two consistent slots, locked in, beats five flexible options that never materialize. Treat training appointments like you'd treat a call with your kid's teacher — not optional, not shifted without a good reason.</p>
+
+      <h2>Step 3: Start with strength, not just cardio</h2>
+      <p>When parents picture "getting back in shape," they often picture cardio: running, spinning, aerobics classes. Cardio isn't bad, but if you only have limited time, strength training delivers more per session — especially for parents returning to fitness after a gap.</p>
+      <p>Here's why strength training wins for parents specifically: it builds muscle, and muscle raises your resting metabolic rate. More muscle means your body burns more calories even on the days you're too busy to train. It also makes daily life easier — carrying kids, lifting groceries, not throwing your back out picking something up off the floor.</p>
+      <p>You don't need a gym. A set of adjustable dumbbells and a program that fits in your living room is enough to build real strength. Three full-body sessions per week, focused on the basics — squats, hinges, pushes, pulls — will produce visible results within 4–6 weeks of consistency.</p>
+
+      <h2>Step 4: Fix one nutrition habit, not your entire diet</h2>
+      <p>The temptation after a long fitness break is to overhaul everything at once: start a new diet, meal prep every Sunday, cut out sugar, track every calorie. That works for about ten days, then life happens and the whole structure collapses.</p>
+      <p>Instead, pick one habit and master it before adding anything else. The highest-leverage starting point for most parents: <strong>eat protein at every meal.</strong> A palm-sized portion of chicken, eggs, Greek yogurt, cottage cheese, or fish at breakfast, lunch, and dinner. That's it.</p>
+      <p>Adequate protein does three things simultaneously: it preserves muscle while you're losing fat, it keeps you full longer (reducing mindless snacking), and it supports recovery from training. It doesn't require calorie counting, cooking separate meals, or cutting anything out. It's the one nutrition change that pays off the most, the fastest, for the least disruption to family life.</p>
+
+      <h2>Step 5: Consider getting some support</h2>
+      <p>Parents who try to restart fitness entirely on their own face a very real problem: when life gets busy (which is always), training is the first thing that gets deprioritized, because nobody notices when it stops. There's no external structure holding the habit in place.</p>
+      <p>A coach changes that equation. Weekly check-ins mean someone is actually tracking your consistency. A structured program removes the "what do I do today?" decision. And direct messaging access means you have somewhere to turn when you're tired, discouraged, or about to skip the third session this week.</p>
+      <p>If you're a parent returning to fitness after a gap, <a href="/services/online-personal-training">online personal training</a> is worth a serious look — specifically because it's built around your schedule, not a gym's class timetable. Programs are designed for the time and equipment you actually have, and the accountability keeps you consistent through the weeks when motivation alone wouldn't.</p>
+
+      <h2>What realistic progress looks like</h2>
+      <p>This is worth saying plainly, because the internet sets terrible expectations. Here's an honest timeline for a parent returning to fitness with consistent effort:</p>
+      <ul>
+        <li><strong>Weeks 1–2:</strong> You'll feel better — more energy, better sleep, less tension. The scale probably won't move much yet.</li>
+        <li><strong>Weeks 3–6:</strong> Strength goes up noticeably. Clothes start fitting differently. You may see 2–4 pounds of scale movement.</li>
+        <li><strong>Months 2–4:</strong> Visible body composition change. The habits start to feel automatic rather than forced.</li>
+        <li><strong>Months 4–6+:</strong> Significant, durable progress. This is where you look noticeably different and feel fundamentally better day to day.</li>
+      </ul>
+      <p>These timelines assume consistency, not perfection. A parent who trains three times a week and eats protein at most meals — even through school holidays, sick weeks, and work crunches — will get there. A parent who chases the perfect plan and keeps restarting from zero won't.</p>
+
+      <h2>The bottom line</h2>
+      <p>Getting back in shape after having kids is not about finding the old version of yourself. It's about building a version of fitness that fits the life you actually have — shorter sessions, realistic nutrition, and a consistent schedule rather than a perfect one. Start smaller than feels impressive. Pick a time that genuinely exists in your week. Add protein before you change anything else. And if you've been trying to do it alone for a while, consider that accountability might be the missing ingredient, not willpower.</p>
+      <p>The parents who make it happen aren't the ones with the most time. They're the ones with the most sustainable plan.</p>
+    `,
+  },
 ];
 
 export const publishedPosts = blogPosts.filter((p) => p.published);
