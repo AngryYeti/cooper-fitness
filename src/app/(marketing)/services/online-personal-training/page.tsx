@@ -6,7 +6,7 @@ import { CTASection } from "@/components/marketing/cta-section";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { FAQSection } from "@/components/marketing/faq-section";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SERVICES, FAQ_ITEMS } from "@/lib/constants";
+import { SERVICES, FAQ_ITEMS, SITE_URL } from "@/lib/constants";
 import { Dumbbell, Video, MessageCircle, BarChart3 } from "lucide-react";
 
 export const metadata: Metadata = generatePageMetadata({
@@ -62,7 +62,7 @@ export default function OnlinePersonalTrainingPage() {
       <ServiceSchema
         name="Online Personal Training"
         description="Personalized lifting programs with direct coach access and video check-ins."
-        url="https://cooper.fitness/services/online-personal-training"
+        url={`${SITE_URL}/services/online-personal-training`}
       />
       <BreadcrumbSchema items={breadcrumbs} />
 

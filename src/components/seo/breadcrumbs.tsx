@@ -1,31 +1,18 @@
 import Link from "next/link";
-import { SITE_URL } from "@/lib/constants";
 
 interface BreadcrumbItem {
   name: string;
   href: string;
 }
 
+// Visual breadcrumb nav only. The BreadcrumbList JSON-LD lives in
+// BreadcrumbSchema (components/seo/schema.tsx) — pages render both, and
+// emitting schema here too produced duplicate structured data.
 export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   const allItems = [{ name: "Home", href: "/" }, ...items];
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: allItems.map((item, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: item.name,
-      item: `${SITE_URL}${item.href}`,
-    })),
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <nav aria-label="Breadcrumb" className="mb-6">
         <ol className="flex items-center gap-2 text-sm text-muted-foreground">
           {allItems.map((item, index) => (

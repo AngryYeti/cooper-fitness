@@ -6,7 +6,7 @@ import { CTASection } from "@/components/marketing/cta-section";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { FAQSection } from "@/components/marketing/faq-section";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SERVICES, FAQ_ITEMS } from "@/lib/constants";
+import { SERVICES, FAQ_ITEMS, SITE_URL } from "@/lib/constants";
 import { Apple, Utensils, TrendingUp, FileText } from "lucide-react";
 
 export const metadata: Metadata = generatePageMetadata({
@@ -62,7 +62,7 @@ export default function NutritionCoachingPage() {
       <ServiceSchema
         name="Nutrition Coaching"
         description="Science-backed nutrition protocols tailored to your goals and lifestyle."
-        url="https://cooper.fitness/services/nutrition-coaching"
+        url={`${SITE_URL}/services/nutrition-coaching`}
       />
       <BreadcrumbSchema items={breadcrumbs} />
 

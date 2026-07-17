@@ -19,7 +19,7 @@ export function OrganizationSchema() {
         url: SITE_URL,
         logo: `${SITE_URL}/evanactionweb.png`,
         description:
-          "Precision online fitness coaching for high-performing professionals. Personalized strength, nutrition, and accountability.",
+          "Online fitness and weight loss coaching for busy parents starting from zero. Simple programs, weekly check-ins, and a coach in your corner.",
         email: INQUIRY_EMAIL,
         founder: {
           "@type": "Person",
@@ -49,7 +49,7 @@ export function PersonSchema() {
           name: SITE_NAME,
         },
         description:
-          "Evan Cooper is a premium online fitness coach specializing in strength training, weight loss, and accountability coaching for busy professionals.",
+          "Evan Cooper is an online fitness coach specializing in beginner-friendly strength training, weight loss, and accountability coaching for busy parents.",
         sameAs: [
           "https://instagram.com/_cooperfitness",
           "https://youtube.com/@cooperfitness",

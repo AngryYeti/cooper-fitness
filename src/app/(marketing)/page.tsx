@@ -13,7 +13,7 @@ import { ScrollReveal } from "@/components/effects/scroll-reveal";
 import { GlassCard } from "@/components/effects/glass-sheen";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Cooper Fitness | Online Coaching for Busy Parents",
+  title: "Online Fitness Coaching for Busy Parents",
   description:
     "Online fitness and weight loss coaching designed for busy parents starting from zero. Simple programs that fit around your real life.",
   path: "",

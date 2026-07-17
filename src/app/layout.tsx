@@ -24,15 +24,14 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Precision online fitness coaching for high-performing professionals. Personalized strength, nutrition, and accountability.",
+    "Online fitness and weight loss coaching for busy parents starting from zero. Simple 30-minute programs, weekly check-ins, and a coach in your corner.",
   keywords: [
-    "online fitness coaching",
-    "online personal trainer",
-    "weight loss coaching",
+    "online fitness coaching for busy parents",
+    "beginner online personal trainer",
+    "weight loss coaching for parents",
     "nutrition coaching",
-    "strength training",
+    "online personal training",
     "accountability coaching",
-    "habit coaching",
     "Cooper Fitness",
   ],
   openGraph: {
@@ -53,6 +52,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.svg",
+  },
+  verification: {
+    google: "5Oq9WSk9Auhu7o2ced-gX-wSpCMU248n7Oao5HQasc4",
   },
 };
 
