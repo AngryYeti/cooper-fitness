@@ -22,6 +22,9 @@
 .DS_Store
 *.pem
 
+# Local Graphify maps and extraction cache
+graphify-out/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
