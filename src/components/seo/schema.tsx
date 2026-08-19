@@ -9,7 +9,7 @@ function JsonLd({ data }: { data: Record<string, unknown> }) {
   );
 }
 
-export function OrganizationSchema() {
+export function OrganizationSchema({ campaign = false }: { campaign?: boolean } = {}) {
   return (
     <JsonLd
       data={{
@@ -18,8 +18,9 @@ export function OrganizationSchema() {
         name: SITE_NAME,
         url: SITE_URL,
         logo: `${SITE_URL}/evanactionweb.png`,
-        description:
-          "Online fitness and weight loss coaching for busy parents starting from zero. Simple programs, weekly check-ins, and a coach in your corner.",
+        description: campaign
+          ? "Individualized strength, nutrition, and accountability coaching for busy adults. Join the Cooper Fitness founding cohort for six months of coaching at a one-time USD $299 rate."
+          : "Online fitness and weight loss coaching for busy parents starting from zero. Simple programs, weekly check-ins, and a coach in your corner.",
         email: INQUIRY_EMAIL,
         founder: {
           "@type": "Person",

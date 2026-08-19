@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-export function StickyCTA() {
+export function StickyCTA({ campaign = false }: { campaign?: boolean }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export function StickyCTA() {
       }}
     >
       <Link
-        href="/#pricing"
+        href={campaign ? "/#founding-offer" : "/#pricing"}
         className="flex w-full items-center justify-center font-mono uppercase transition-all"
         style={{
           fontSize: "0.72rem",
@@ -41,7 +41,7 @@ export function StickyCTA() {
           boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
         }}
       >
-        VIEW PRICING
+        {campaign ? "GET STARTED TODAY" : "VIEW PRICING"}
       </Link>
     </div>
   );

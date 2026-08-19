@@ -26,7 +26,13 @@ const MAIN_NAV: NavItem[] = [
   { type: "link", href: "/faq", label: "FAQ" },
 ];
 
-export function MarketingHeader() {
+const FOUNDING_NAV: NavItem[] = [
+  { type: "link", href: "/#mechanism", label: "THE COACHING" },
+  { type: "link", href: "/#coach", label: "ABOUT EVAN" },
+  { type: "link", href: "/#faq", label: "FAQ" },
+];
+
+export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -50,6 +56,9 @@ export function MarketingHeader() {
     closeTimer.current = setTimeout(() => setDropdownOpen(false), 150);
   };
 
+  const nav = campaign ? FOUNDING_NAV : MAIN_NAV;
+  const primaryHref = campaign ? "/#founding-offer" : "/#pricing";
+
   return (
     <header className="fixed top-0 left-0 right-0 z-[60]" style={{
       backdropFilter: "blur(18px) saturate(150%)",
@@ -69,7 +78,7 @@ export function MarketingHeader() {
       <div className="flex items-center justify-between" style={{ padding: "15px clamp(18px, 4vw, 56px)" }}>
         <Logo />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
-          {MAIN_NAV.map((item) =>
+          {nav.map((item) =>
             item.type === "dropdown" ? (
               <div
                 key={item.label}
@@ -124,7 +133,7 @@ export function MarketingHeader() {
         </nav>
         <div className="flex items-center gap-2">
           <Link
-            href="/#pricing"
+            href={primaryHref}
             className="hidden sm:inline-flex items-center font-mono uppercase transition-all hover:-translate-y-[2px]"
             style={{
               fontSize: "0.72rem",
@@ -137,7 +146,7 @@ export function MarketingHeader() {
               boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
             }}
           >
-            START TRAINING
+            {campaign ? "GET STARTED TODAY" : "START TRAINING"}
           </Link>
           <button
             type="button"
@@ -157,7 +166,7 @@ export function MarketingHeader() {
         style={{ background: "rgba(20,18,16,0.90)", backdropFilter: "blur(18px)" }}
       >
         <nav className="flex flex-col gap-1 p-4" aria-label="Mobile">
-          {MAIN_NAV.map((item) =>
+          {nav.map((item) =>
             item.type === "dropdown" ? (
               <div key={item.label} className="space-y-1">
                 <p className="px-4 py-2 font-mono text-xs uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
@@ -188,7 +197,7 @@ export function MarketingHeader() {
             )
           )}
           <Link
-            href="/#pricing"
+            href={primaryHref}
             className="mt-2 block text-center font-mono uppercase rounded-full"
             style={{
               fontSize: "0.72rem",
@@ -200,7 +209,7 @@ export function MarketingHeader() {
             }}
             onClick={() => setMobileOpen(false)}
           >
-            START TRAINING
+            {campaign ? "GET STARTED TODAY" : "START TRAINING"}
           </Link>
         </nav>
       </div>

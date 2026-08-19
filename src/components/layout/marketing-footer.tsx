@@ -14,7 +14,28 @@ const RESOURCE_LINKS = [
   { href: "/blog", label: "BLOG" },
 ];
 
-export function MarketingFooter() {
+export function MarketingFooter({ campaign = false }: { campaign?: boolean }) {
+  if (campaign) {
+    return (
+      <footer className="relative z-10 founding-footer" style={{ borderTop: "1px solid rgba(255,255,255,0.10)" }}>
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-12 sm:px-6 lg:px-8">
+          <Logo />
+          <p>Individualized coaching for adults ready to make a real commitment.</p>
+          <nav aria-label="Founding campaign" className="flex flex-wrap gap-x-6 gap-y-3">
+            <Link href="/#mechanism">THE COACHING</Link>
+            <Link href="/#coach">ABOUT EVAN</Link>
+            <Link href="/#faq">FAQ</Link>
+            <Link href={process.env.NEXT_PUBLIC_FOUNDING_TERMS_URL || "/terms"}>TERMS</Link>
+            <Link href={process.env.NEXT_PUBLIC_FOUNDING_PRIVACY_URL || "/privacy"}>PRIVACY</Link>
+            <Link href={process.env.NEXT_PUBLIC_FOUNDING_REFUND_POLICY_URL || "/refunds"}>REFUND POLICY</Link>
+            <a href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "evan@cooper.fitness"}`}>CONTACT</a>
+          </nav>
+          <p className="font-mono">&copy; {new Date().getFullYear()} COOPER FITNESS. ALL RIGHTS RESERVED.</p>
+        </div>
+      </footer>
+    );
+  }
+
   return (
     <footer className="relative z-10" style={{ borderTop: "1px solid rgba(255,255,255,0.10)" }}>
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">

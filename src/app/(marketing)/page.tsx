@@ -11,13 +11,41 @@ import { Section } from "@/components/shared/section";
 import { SERVICES } from "@/lib/constants";
 import { ScrollReveal } from "@/components/effects/scroll-reveal";
 import { GlassCard } from "@/components/effects/glass-sheen";
+import { FoundingHomepage } from "@/components/founding/founding-homepage";
+import { FoundingConfigError, getFoundingConfig } from "@/lib/founding/config";
+import { fetchFoundingInventory } from "@/lib/founding/client";
+import type { FoundingInventory } from "@/lib/founding/types";
 
-export const metadata: Metadata = generatePageMetadata({
+const ORIGINAL_METADATA = generatePageMetadata({
   title: "Online Fitness Coaching for Busy Parents",
   description:
     "Online fitness and weight loss coaching designed for busy parents starting from zero. Simple programs that fit around your real life.",
   path: "",
 });
+
+const FOUNDING_METADATA = generatePageMetadata({
+  title: "Cooper Fitness | A Stronger Body Can Fit Inside a Busy Week",
+  description: "Individualized strength, nutrition, and accountability coaching for busy adults. Join the Cooper Fitness founding cohort for six months of coaching at a one-time USD $299 rate.",
+  path: "",
+  image: "/evanactionweb.png",
+});
+
+export const metadata: Metadata = process.env.FOUNDING_HOMEPAGE_ENABLED === "true"
+  ? {
+      ...FOUNDING_METADATA,
+      title: { absolute: "Cooper Fitness | A Stronger Body Can Fit Inside a Busy Week" },
+      openGraph: {
+        ...FOUNDING_METADATA.openGraph,
+        title: "Cooper Fitness — Five people. Six months. One plan built around real life.",
+        description: "Five founding positions. Six months of individualized training, sustainable nutrition guidance, and weekly accountability. Get started today.",
+      },
+      twitter: {
+        ...FOUNDING_METADATA.twitter,
+        title: "Cooper Fitness — Five people. Six months. One plan built around real life.",
+        description: "Five founding positions. Six months of individualized training, sustainable nutrition guidance, and weekly accountability. Get started today.",
+      },
+    }
+  : ORIGINAL_METADATA;
 
 const WHY_ITEMS = [
   { index: "01", title: "Actually Simple", desc: "No complicated routines. Clear steps each week so you always know exactly what to do." },
@@ -26,7 +54,7 @@ const WHY_ITEMS = [
   { index: "04", title: "Beginner-Friendly", desc: "Start with zero experience. Every exercise explained, every question welcome. No judgment." },
 ];
 
-export default function HomePage() {
+function OriginalHomePage() {
   return (
     <>
       <HeroSection />
@@ -96,4 +124,36 @@ export default function HomePage() {
       <ContactCtaSection />
     </>
   );
+}
+
+const FULL_INVENTORY: FoundingInventory = {
+  state: "FULL",
+  purchasedCount: 0,
+  pendingCount: 0,
+  capacity: 0,
+};
+
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  if (process.env.FOUNDING_HOMEPAGE_ENABLED !== "true") return <OriginalHomePage />;
+
+  let inventory = FULL_INVENTORY;
+  let supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "evan@cooper.fitness";
+  let termsUrl = process.env.NEXT_PUBLIC_FOUNDING_TERMS_URL || "/terms";
+  let privacyUrl = process.env.NEXT_PUBLIC_FOUNDING_PRIVACY_URL || "/privacy";
+  let refundPolicyUrl = process.env.NEXT_PUBLIC_FOUNDING_REFUND_POLICY_URL || "/refunds";
+
+  try {
+    const config = getFoundingConfig();
+    supportEmail = config.supportEmail;
+    termsUrl = config.termsUrl;
+    privacyUrl = config.privacyUrl;
+    refundPolicyUrl = config.refundPolicyUrl;
+    if (config.checkoutEnabled) inventory = await fetchFoundingInventory(config);
+  } catch (error) {
+    if (!(error instanceof FoundingConfigError)) console.error("[founding-homepage] unavailable");
+  }
+
+  return <FoundingHomepage inventory={inventory} supportEmail={supportEmail} termsUrl={termsUrl} privacyUrl={privacyUrl} refundPolicyUrl={refundPolicyUrl} />;
 }

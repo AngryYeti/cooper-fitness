@@ -58,13 +58,15 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}>
-        <OrganizationSchema />
+        <OrganizationSchema campaign={process.env.FOUNDING_HOMEPAGE_ENABLED === "true"} />
         <WebSiteSchema />
         <Analytics />
         {children}
