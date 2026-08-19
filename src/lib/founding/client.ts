@@ -12,6 +12,10 @@ const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_MAX_ENTRIES = 1024;
 const rateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
+const STATUS_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const STATUS_RATE_LIMIT_MAX = 60;
+const STATUS_RATE_LIMIT_MAX_ENTRIES = 2048;
+const statusRateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
 const FULL_INVENTORY: FoundingInventory = {
   state: "FULL",
   purchasedCount: 0,
@@ -209,6 +213,26 @@ export function consumeCheckoutRateLimit(ip: string, now = Date.now()): { allowe
 
 export function getCheckoutRateLimitSize(): number {
   return rateLimitBuckets.size;
+}
+
+export function consumeSessionStatusRateLimit(ip: string, now = Date.now()): { allowed: boolean; retryAfter: number } {
+  for (const [key, bucket] of statusRateLimitBuckets) {
+    if (bucket.resetAt <= now) statusRateLimitBuckets.delete(key);
+  }
+  const current = statusRateLimitBuckets.get(ip);
+  if (!current || current.resetAt <= now) {
+    if (statusRateLimitBuckets.size >= STATUS_RATE_LIMIT_MAX_ENTRIES) {
+      const oldest = statusRateLimitBuckets.keys().next().value as string | undefined;
+      if (oldest) statusRateLimitBuckets.delete(oldest);
+    }
+    statusRateLimitBuckets.set(ip, { count: 1, resetAt: now + STATUS_RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, retryAfter: Math.ceil(STATUS_RATE_LIMIT_WINDOW_MS / 1000) };
+  }
+  if (current.count >= STATUS_RATE_LIMIT_MAX) {
+    return { allowed: false, retryAfter: Math.max(1, Math.ceil((current.resetAt - now) / 1000)) };
+  }
+  current.count += 1;
+  return { allowed: true, retryAfter: Math.max(1, Math.ceil((current.resetAt - now) / 1000)) };
 }
 
 export function failClosedInventory(status = 503): Response {

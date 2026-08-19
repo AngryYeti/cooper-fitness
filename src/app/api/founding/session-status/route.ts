@@ -1,11 +1,11 @@
 import { verifyFoundingSession } from "@/lib/founding/session-status";
-import { clientIp, consumeCheckoutRateLimit } from "@/lib/founding/client";
+import { clientIp, consumeSessionStatusRateLimit } from "@/lib/founding/client";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
-  const limit = consumeCheckoutRateLimit(clientIp(request));
+  const limit = consumeSessionStatusRateLimit(clientIp(request));
   if (!limit.allowed) {
     return Response.json(
       { status: "not_confirmed" },

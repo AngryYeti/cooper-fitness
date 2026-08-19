@@ -3,6 +3,7 @@ import { before, test } from "node:test";
 import {
   clientIp,
   consumeCheckoutRateLimit,
+  consumeSessionStatusRateLimit,
   createFoundingCheckout,
   fetchFoundingInventory,
   getCheckoutRateLimitSize,
@@ -188,6 +189,15 @@ test("rate limiter exhausts a bucket and evicts expired and excess entries", () 
   }
   assert.ok(getCheckoutRateLimitSize() <= 1_024);
   assert.equal(consumeCheckoutRateLimit("stable", now + 10 * 60 * 1000 + 1).allowed, true);
+});
+
+test("session-status limiter is separate and larger than checkout capacity", () => {
+  const now = 2_000_000;
+  for (let attempt = 0; attempt < 60; attempt += 1) {
+    assert.equal(consumeSessionStatusRateLimit("shared-ip", now).allowed, true);
+  }
+  assert.equal(consumeSessionStatusRateLimit("shared-ip", now).allowed, false);
+  assert.equal(consumeCheckoutRateLimit("shared-ip", now).allowed, true);
 });
 
 test("checkout route filters CRM response to hosted URL and expiry", async () => {
