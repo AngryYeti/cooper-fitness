@@ -238,6 +238,7 @@
 .founding-button { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; padding: 13px 20px; border: 1px solid transparent; border-radius: 999px; font-family: var(--font-jetbrains-mono), monospace; font-size: .68rem; letter-spacing: .14em; text-align: center; text-transform: uppercase; transition: transform .2s ease, background .2s ease, opacity .2s ease; }
 .founding-button:hover:not(:disabled) { transform: translateY(-2px); }
 .founding-button:focus-visible, .founding-faq summary:focus-visible, .founding-footer a:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.marketing-menu-toggle:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; border-radius: 8px; }
 .founding-button-primary { color: var(--primary-foreground); background: var(--primary); box-shadow: 0 10px 28px oklch(0.70 0.14 245 / .3); }
 .founding-button-secondary { color: var(--foreground); background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.2); }
 .founding-button-muted { color: var(--muted-foreground); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.13); cursor: not-allowed; }
@@ -264,5 +265,5 @@
 .founding-status-card p { color: var(--muted-foreground); line-height: 1.7; }
 .founding-status-card .founding-button { margin-top: 18px; }
 @media (max-width: 900px) { .founding-hero, .founding-section-grid, .founding-founder-grid, .founding-offer-section { grid-template-columns: 1fr; } .founding-hero-image { min-height: 46vh; order: 2; } .founding-hero-panel { order: 1; } .founding-founder-image { min-height: 55vh; } }
-@media (max-width: 560px) { .founding-hero { padding-top: 86px; } .founding-hero h1 { font-size: clamp(2.5rem, 13vw, 4.4rem); } .founding-card-grid, .founding-form-fields { grid-template-columns: 1fr; } .founding-hero-panel { padding: 24px 18px; } .founding-hero-image { min-height: 330px; } }
+@media (max-width: 560px) { .founding-hero { padding-top: 78px; } .founding-hero h1 { font-size: clamp(2.5rem, 11vw, 4.4rem); } .founding-hero-copy { margin: 18px 0; font-size: .98rem; line-height: 1.55; } .founding-offer-marker { margin-bottom: 14px; gap: 4px; } .founding-card-grid, .founding-form-fields { grid-template-columns: 1fr; } .founding-hero-panel { padding: 20px 16px; } .founding-hero-image { min-height: 330px; } }
 @media (prefers-reduced-motion: reduce) { .founding-button, .founding-page *, .founding-status-page * { transition: none !important; animation: none !important; } }

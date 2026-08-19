@@ -119,3 +119,33 @@ test("campaign metadata and controls are inclusive and fail closed", () => {
   assert.match(sticky, /return null/);
   assert.match(sticky, /safe-area-inset-bottom/);
 });
+
+test("campaign navigation reads inventory server state and fails closed", () => {
+  const header = read("src/components/layout/marketing-header.tsx");
+  assert.match(header, /api\/founding\/inventory/);
+  assert.match(header, /cache:\s*["']no-store["']/);
+  assert.match(header, /OPEN/);
+  assert.match(header, /HELD/);
+  assert.match(header, /FULL/);
+  assert.match(header, /JOIN THE WAITLIST/);
+  assert.match(header, /#founding-waitlist/);
+  assert.match(header, /setCampaignInventoryState/);
+});
+
+test("founding status pages do not add nested main landmarks", () => {
+  const layout = read("src/app/(marketing)/layout.tsx");
+  const success = read("src/app/(marketing)/founding/success/page.tsx");
+  const cancel = read("src/app/(marketing)/founding/cancel/page.tsx");
+  assert.match(layout, /<main/);
+  assert.doesNotMatch(success, /<main/);
+  assert.doesNotMatch(cancel, /<main/);
+});
+
+test("campaign mobile hero keeps the first CTA within a compact viewport and menu focus is high contrast", () => {
+  const css = read("src/app/globals.css");
+  const header = read("src/components/layout/marketing-header.tsx");
+  assert.match(css, /founding-hero h1[^}]*11vw/s);
+  assert.match(css, /founding-hero-copy[^}]*line-height: 1\.55/s);
+  assert.match(header, /marketing-menu-toggle/);
+  assert.match(css, /marketing-menu-toggle:focus-visible/);
+});

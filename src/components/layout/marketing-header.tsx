@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { cn } from "@/lib/utils";
+import type { FoundingInventoryState } from "@/lib/founding/types";
 
 type NavItem =
   | { type: "link"; href: string; label: string }
@@ -32,10 +33,17 @@ const FOUNDING_NAV: NavItem[] = [
   { type: "link", href: "/#faq", label: "FAQ" },
 ];
 
+export function parseCampaignInventoryState(input: unknown): FoundingInventoryState {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return "FULL";
+  const state = (input as Record<string, unknown>).state;
+  return state === "OPEN" || state === "HELD" || state === "FULL" ? state : "FULL";
+}
+
 export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [campaignInventoryState, setCampaignInventoryState] = useState<FoundingInventoryState>("FULL");
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -47,6 +55,23 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!campaign) return;
+    let active = true;
+    fetch("/api/founding/inventory", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) return "FULL" as FoundingInventoryState;
+        return parseCampaignInventoryState(await response.json());
+      })
+      .catch(() => "FULL" as FoundingInventoryState)
+      .then((state) => {
+        if (active) setCampaignInventoryState(state);
+      });
+    return () => {
+      active = false;
+    };
+  }, [campaign]);
+
   const openDropdown = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setDropdownOpen(true);
@@ -57,7 +82,12 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
   };
 
   const nav = campaign ? FOUNDING_NAV : MAIN_NAV;
-  const primaryHref = campaign ? "/#founding-offer" : "/#pricing";
+  const primaryHref = campaign
+    ? campaignInventoryState === "OPEN" ? "/#founding-offer" : "/#founding-waitlist"
+    : "/#pricing";
+  const primaryLabel = campaign
+    ? campaignInventoryState === "OPEN" ? "GET STARTED TODAY" : "JOIN THE WAITLIST"
+    : "START TRAINING";
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[60]" style={{
@@ -146,11 +176,11 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
               boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
             }}
           >
-            {campaign ? "GET STARTED TODAY" : "START TRAINING"}
+            {primaryLabel}
           </Link>
           <button
             type="button"
-            className="md:hidden p-2 text-foreground"
+            className="marketing-menu-toggle md:hidden p-2 text-foreground"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
@@ -209,7 +239,7 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
             }}
             onClick={() => setMobileOpen(false)}
           >
-            {campaign ? "GET STARTED TODAY" : "START TRAINING"}
+            {primaryLabel}
           </Link>
         </nav>
       </div>

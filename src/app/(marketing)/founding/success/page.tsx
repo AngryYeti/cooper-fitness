@@ -18,7 +18,7 @@ export default async function FoundingSuccessPage({
   const processing = status === "processing";
 
   return (
-    <main className="founding-status-page">
+    <div className="founding-status-page">
       <div className="founding-status-card" role="status" aria-live="polite">
         {confirmed ? <h1>You’re in.</h1> : processing ? <h1>Payment received.</h1> : <h1>We couldn’t verify this checkout yet.</h1>}
         {confirmed ? (
@@ -33,6 +33,6 @@ export default async function FoundingSuccessPage({
         )}
         <Link className="founding-button founding-button-secondary" href="/">RETURN TO COOPER FITNESS</Link>
       </div>
-    </main>
+    </div>
   );
 }

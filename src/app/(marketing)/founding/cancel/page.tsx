@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 
 export default function FoundingCancelPage() {
   return (
-    <main className="founding-status-page">
+    <div className="founding-status-page">
       <div className="founding-status-card">
         <h1>No payment was taken.</h1>
         <p>Your checkout was not completed. The five-position founding offer remains available while spots remain.</p>
         <Link className="founding-button founding-button-primary" href="/#founding-offer">RETURN TO THE OFFER</Link>
       </div>
-    </main>
+    </div>
   );
 }
