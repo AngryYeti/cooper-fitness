@@ -9,7 +9,14 @@ import type {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_MAX_ENTRIES = 1024;
 const rateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
+const FULL_INVENTORY: FoundingInventory = {
+  state: "FULL",
+  purchasedCount: 0,
+  pendingCount: 0,
+  capacity: 0,
+};
 
 export class FoundingProxyError extends Error {
   readonly status: number;
@@ -46,8 +53,37 @@ async function crmRequest(config: FoundingConfig, path: string, init?: RequestIn
   }
 }
 
-function publicNumber(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : 0;
+export function parseFoundingInventory(input: unknown): FoundingInventory {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return { ...FULL_INVENTORY };
+  const value = input as Record<string, unknown>;
+  const state = value.state;
+  const purchasedCount = value.purchased_count;
+  const pendingCount = value.pending_count;
+  const capacity = value.capacity;
+  const validState = state === "OPEN" || state === "HELD" || state === "FULL";
+  const validNumbers = [purchasedCount, pendingCount, capacity].every(
+    (count) => typeof count === "number" && Number.isSafeInteger(count) && count >= 0,
+  );
+  if (!validState || !validNumbers) return { ...FULL_INVENTORY };
+
+  const purchased = purchasedCount as number;
+  const pending = pendingCount as number;
+  const total = purchased + pending;
+  const validCapacity = capacity as number;
+  if (purchased > validCapacity || pending > validCapacity || total > validCapacity) {
+    return { ...FULL_INVENTORY };
+  }
+  const stateConsistent = state === "FULL"
+    || (validCapacity > 0 && purchased < validCapacity && (
+      state === "OPEN" ? pending === 0 : pending > 0
+    ));
+  if (!stateConsistent) return { ...FULL_INVENTORY };
+  return {
+    state,
+    purchasedCount: purchased,
+    pendingCount: pending,
+    capacity: validCapacity,
+  };
 }
 
 export async function fetchFoundingInventory(config: FoundingConfig): Promise<FoundingInventory> {
@@ -60,16 +96,7 @@ export async function fetchFoundingInventory(config: FoundingConfig): Promise<Fo
   } catch {
     throw new FoundingProxyError("Founding inventory unavailable");
   }
-  const value = body && typeof body === "object" ? body as Record<string, unknown> : {};
-  const state = value.state === "OPEN" || value.state === "HELD" || value.state === "FULL"
-    ? value.state
-    : "FULL";
-  return {
-    state,
-    purchasedCount: publicNumber(value.purchased_count),
-    pendingCount: publicNumber(value.pending_count),
-    capacity: publicNumber(value.capacity),
-  };
+  return parseFoundingInventory(body);
 }
 
 export function parseFoundingPurchaser(input: unknown): FoundingPurchaser {
@@ -145,8 +172,11 @@ export function isSameOrigin(request: Request, configuredOrigin: string): boolea
 }
 
 export function clientIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwarded || request.headers.get("x-real-ip")?.trim() || "unknown";
+  if (request.headers.get("x-vercel-id")?.trim()) {
+    const forwarded = request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
+    return forwarded || "vercel-unknown";
+  }
+  return "untrusted-request";
 }
 
 export function consumeCheckoutRateLimit(ip: string, now = Date.now()): { allowed: boolean; retryAfter: number } {
@@ -155,6 +185,10 @@ export function consumeCheckoutRateLimit(ip: string, now = Date.now()): { allowe
   }
   const current = rateLimitBuckets.get(ip);
   if (!current || current.resetAt <= now) {
+    if (rateLimitBuckets.size >= RATE_LIMIT_MAX_ENTRIES) {
+      const oldest = rateLimitBuckets.keys().next().value as string | undefined;
+      if (oldest) rateLimitBuckets.delete(oldest);
+    }
     rateLimitBuckets.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
     return { allowed: true, retryAfter: Math.ceil(RATE_LIMIT_WINDOW_MS / 1000) };
   }
@@ -165,9 +199,13 @@ export function consumeCheckoutRateLimit(ip: string, now = Date.now()): { allowe
   return { allowed: true, retryAfter: Math.max(1, Math.ceil((current.resetAt - now) / 1000)) };
 }
 
+export function getCheckoutRateLimitSize(): number {
+  return rateLimitBuckets.size;
+}
+
 export function failClosedInventory(status = 503): Response {
   return Response.json(
-    { state: "FULL", purchasedCount: 0, pendingCount: 0, capacity: 0 },
+    FULL_INVENTORY,
     { status, headers: { "Cache-Control": "no-store" } },
   );
 }
