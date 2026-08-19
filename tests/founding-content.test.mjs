@@ -104,6 +104,8 @@ test("session status is server-only and never trusts the browser session", () =>
   assert.match(verifier, /Cooper Fitness Founding Fathers — Six-Month Coaching/);
   assert.match(verifier, /getStripe/);
   assert.match(verifier, /not_confirmed|processing/);
+  assert.match(verifier, /FULFILLED/);
+  assert.match(verifier, /session-status/);
   assert.doesNotMatch(route, /fulfill|crm|metadata.*session_id/i);
 });
 

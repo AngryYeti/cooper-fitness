@@ -1,5 +1,6 @@
 import "server-only";
 import { getStripe } from "@/lib/stripe";
+import { getFoundingConfig } from "./config";
 import { FOUNDING_STRIPE_PRICE_ID, FOUNDING_STRIPE_PRODUCT_ID } from "./types";
 
 export const FOUNDING_PRODUCT_NAME = "Cooper Fitness Founding Fathers — Six-Month Coaching";
@@ -8,6 +9,9 @@ export const FOUNDING_OFFER = "six-month-coaching";
 export const FOUNDING_COHORT = "founding";
 export const FOUNDING_AMOUNT = 29900;
 export const FOUNDING_CURRENCY = "usd";
+
+export type FoundingFulfillmentState = "FULFILLED" | "PROCESSING" | "NOT_FOUND";
+export type FoundingSessionVerification = "confirmed" | "processing" | "not_confirmed";
 
 export type FoundingSessionLike = {
   status?: string | null;
@@ -57,7 +61,7 @@ export function isConfirmedFoundingSession(
   const metadata = session.metadata;
   const product = price?.product;
 
-  return session.line_items?.has_more !== true
+  return session.line_items?.has_more === false
     && session.line_items?.data?.length === 1
     && session.status === "complete"
     && session.mode === "payment"
@@ -74,19 +78,65 @@ export function isConfirmedFoundingSession(
     && (typeof product !== "object" || product === null || product.name === FOUNDING_PRODUCT_NAME);
 }
 
-export async function verifyFoundingSession(sessionId: string): Promise<"confirmed" | "processing" | "not_confirmed"> {
+export function parseFoundingFulfillmentStatus(input: unknown): FoundingFulfillmentState | null {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return null;
+  const value = input as Record<string, unknown>;
+  if (Object.keys(value).length !== 1 || !Object.hasOwn(value, "state")) return null;
+  return value.state === "FULFILLED" || value.state === "PROCESSING" || value.state === "NOT_FOUND"
+    ? value.state
+    : null;
+}
+
+export async function fetchFoundingFulfillmentStatus(sessionId: string): Promise<FoundingFulfillmentState | null> {
+  try {
+    const config = getFoundingConfig();
+    const response = await fetch(`${config.crmOrigin}/api/founding/session-status?session_id=${encodeURIComponent(sessionId)}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${config.internalApiSecret}`,
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok) return null;
+    return parseFoundingFulfillmentStatus(await response.json());
+  } catch {
+    return null;
+  }
+}
+
+export async function verifyFoundingSessionWithDependencies(
+  sessionId: string,
+  retrieveStripeSession: (sessionId: string) => Promise<FoundingSessionLike>,
+  retrieveFulfillmentStatus: (sessionId: string) => Promise<FoundingFulfillmentState | null>,
+): Promise<FoundingSessionVerification> {
   const expectedPriceId = configuredId("FOUNDING_STRIPE_PRICE_ID");
   const expectedProductId = configuredId("FOUNDING_STRIPE_PRODUCT_ID");
   if (expectedPriceId !== FOUNDING_STRIPE_PRICE_ID || expectedProductId !== FOUNDING_STRIPE_PRODUCT_ID || !/^cs_[A-Za-z0-9_]+$/.test(sessionId)) return "not_confirmed";
 
+  let session: FoundingSessionLike;
   try {
-    const session = await getStripe().checkout.sessions.retrieve(sessionId, {
-      expand: ["line_items.data.price.product"],
-    });
-    return isConfirmedFoundingSession(session as FoundingSessionLike, expectedPriceId, expectedProductId)
-      ? "confirmed"
-      : "not_confirmed";
+    session = await retrieveStripeSession(sessionId);
   } catch {
     return "not_confirmed";
   }
+
+  if (!isConfirmedFoundingSession(session, expectedPriceId, expectedProductId)) return "not_confirmed";
+
+  try {
+    return await retrieveFulfillmentStatus(sessionId) === "FULFILLED" ? "confirmed" : "processing";
+  } catch {
+    return "processing";
+  }
+}
+
+export async function verifyFoundingSession(sessionId: string): Promise<FoundingSessionVerification> {
+  return verifyFoundingSessionWithDependencies(
+    sessionId,
+    async (id) => getStripe().checkout.sessions.retrieve(id, {
+      expand: ["line_items.data.price.product"],
+    }) as Promise<FoundingSessionLike>,
+    fetchFoundingFulfillmentStatus,
+  );
 }
