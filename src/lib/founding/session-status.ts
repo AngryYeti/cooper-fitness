@@ -1,5 +1,6 @@
 import "server-only";
 import { getStripe } from "@/lib/stripe";
+import { FOUNDING_STRIPE_PRICE_ID, FOUNDING_STRIPE_PRODUCT_ID } from "./types";
 
 export const FOUNDING_PRODUCT_NAME = "Cooper Fitness Founding Fathers — Six-Month Coaching";
 export const FOUNDING_CAMPAIGN = "founding-fathers-2026";
@@ -15,6 +16,7 @@ export type FoundingSessionLike = {
   payment_intent?: string | { id?: string | null } | null;
   metadata?: Record<string, string | undefined> | null;
   line_items?: {
+    has_more?: boolean;
     data?: Array<{
       quantity?: number | null;
       amount_total?: number | null;
@@ -49,12 +51,15 @@ export function isConfirmedFoundingSession(
   expectedPriceId: string,
   expectedProductId: string,
 ): boolean {
+  if (expectedPriceId !== FOUNDING_STRIPE_PRICE_ID || expectedProductId !== FOUNDING_STRIPE_PRODUCT_ID) return false;
   const item = session.line_items?.data?.[0];
   const price = item?.price;
   const metadata = session.metadata;
   const product = price?.product;
 
-  return session.status === "complete"
+  return session.line_items?.has_more !== true
+    && session.line_items?.data?.length === 1
+    && session.status === "complete"
     && session.mode === "payment"
     && session.payment_status === "paid"
     && Boolean(paymentIntentId(session.payment_intent))
@@ -72,7 +77,7 @@ export function isConfirmedFoundingSession(
 export async function verifyFoundingSession(sessionId: string): Promise<"confirmed" | "processing" | "not_confirmed"> {
   const expectedPriceId = configuredId("FOUNDING_STRIPE_PRICE_ID");
   const expectedProductId = configuredId("FOUNDING_STRIPE_PRODUCT_ID");
-  if (!expectedPriceId || !expectedProductId || !/^cs_[A-Za-z0-9_]+$/.test(sessionId)) return "not_confirmed";
+  if (expectedPriceId !== FOUNDING_STRIPE_PRICE_ID || expectedProductId !== FOUNDING_STRIPE_PRODUCT_ID || !/^cs_[A-Za-z0-9_]+$/.test(sessionId)) return "not_confirmed";
 
   try {
     const session = await getStripe().checkout.sessions.retrieve(sessionId, {
@@ -82,6 +87,6 @@ export async function verifyFoundingSession(sessionId: string): Promise<"confirm
       ? "confirmed"
       : "not_confirmed";
   } catch {
-    return "processing";
+    return "not_confirmed";
   }
 }

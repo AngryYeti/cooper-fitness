@@ -15,6 +15,8 @@ export function StickyCTA({ campaign = false }: { campaign?: boolean }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (campaign) return null;
+
   return (
     <div
       className={`fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300 ${
@@ -25,6 +27,7 @@ export function StickyCTA({ campaign = false }: { campaign?: boolean }) {
         background: "rgba(20,18,16,0.90)",
         backdropFilter: "blur(18px)",
         WebkitBackdropFilter: "blur(18px)",
+        paddingBottom: "calc(1rem + env(safe-area-inset-bottom))",
       }}
     >
       <Link

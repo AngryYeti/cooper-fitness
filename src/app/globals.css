@@ -163,6 +163,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .scroll-reveal {
     opacity: 1;
     transform: none;
@@ -264,4 +265,4 @@
 .founding-status-card .founding-button { margin-top: 18px; }
 @media (max-width: 900px) { .founding-hero, .founding-section-grid, .founding-founder-grid, .founding-offer-section { grid-template-columns: 1fr; } .founding-hero-image { min-height: 46vh; order: 2; } .founding-hero-panel { order: 1; } .founding-founder-image { min-height: 55vh; } }
 @media (max-width: 560px) { .founding-hero { padding-top: 86px; } .founding-hero h1 { font-size: clamp(2.5rem, 13vw, 4.4rem); } .founding-card-grid, .founding-form-fields { grid-template-columns: 1fr; } .founding-hero-panel { padding: 24px 18px; } .founding-hero-image { min-height: 330px; } }
-@media (prefers-reduced-motion: reduce) { .founding-button { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .founding-button, .founding-page *, .founding-status-page * { transition: none !important; animation: none !important; } }

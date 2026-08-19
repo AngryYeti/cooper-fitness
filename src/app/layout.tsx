@@ -3,6 +3,7 @@ import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@/components/seo/analytics";
 import { OrganizationSchema, WebSiteSchema } from "@/components/seo/schema";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
+import { isFoundingCampaignEnabled } from "@/lib/founding/config";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -25,15 +26,23 @@ export const metadata: Metadata = {
   },
   description:
     "Online fitness and weight loss coaching for busy parents starting from zero. Simple 30-minute programs, weekly check-ins, and a coach in your corner.",
-  keywords: [
-    "online fitness coaching for busy parents",
-    "beginner online personal trainer",
-    "weight loss coaching for parents",
-    "nutrition coaching",
-    "online personal training",
-    "accountability coaching",
-    "Cooper Fitness",
-  ],
+  keywords: isFoundingCampaignEnabled()
+    ? [
+        "online fitness coaching for busy adults",
+        "individualized strength coaching",
+        "sustainable nutrition guidance",
+        "weekly accountability coaching",
+        "Cooper Fitness founding cohort",
+      ]
+    : [
+        "online fitness coaching for busy parents",
+        "beginner online personal trainer",
+        "weight loss coaching for parents",
+        "nutrition coaching",
+        "online personal training",
+        "accountability coaching",
+        "Cooper Fitness",
+      ],
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -66,7 +75,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}>
-        <OrganizationSchema campaign={process.env.FOUNDING_HOMEPAGE_ENABLED === "true"} />
+        <OrganizationSchema campaign={isFoundingCampaignEnabled()} />
         <WebSiteSchema />
         <Analytics />
         {children}

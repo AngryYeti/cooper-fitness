@@ -12,7 +12,7 @@ import { SERVICES } from "@/lib/constants";
 import { ScrollReveal } from "@/components/effects/scroll-reveal";
 import { GlassCard } from "@/components/effects/glass-sheen";
 import { FoundingHomepage } from "@/components/founding/founding-homepage";
-import { FoundingConfigError, getFoundingConfig } from "@/lib/founding/config";
+import { FoundingConfigError, getFoundingConfig, isFoundingCampaignEnabled } from "@/lib/founding/config";
 import { fetchFoundingInventory } from "@/lib/founding/client";
 import type { FoundingInventory } from "@/lib/founding/types";
 
@@ -30,10 +30,19 @@ const FOUNDING_METADATA = generatePageMetadata({
   image: "/evanactionweb.png",
 });
 
-export const metadata: Metadata = process.env.FOUNDING_HOMEPAGE_ENABLED === "true"
+const FOUNDING_KEYWORDS = [
+  "online fitness coaching for busy adults",
+  "individualized strength coaching",
+  "sustainable nutrition guidance",
+  "weekly accountability coaching",
+  "Cooper Fitness founding cohort",
+];
+
+export const metadata: Metadata = isFoundingCampaignEnabled()
   ? {
       ...FOUNDING_METADATA,
       title: { absolute: "Cooper Fitness | A Stronger Body Can Fit Inside a Busy Week" },
+      keywords: FOUNDING_KEYWORDS,
       openGraph: {
         ...FOUNDING_METADATA.openGraph,
         title: "Cooper Fitness — Five people. Six months. One plan built around real life.",
@@ -136,7 +145,7 @@ const FULL_INVENTORY: FoundingInventory = {
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  if (process.env.FOUNDING_HOMEPAGE_ENABLED !== "true") return <OriginalHomePage />;
+  if (!isFoundingCampaignEnabled()) return <OriginalHomePage />;
 
   let inventory = FULL_INVENTORY;
   let supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "evan@cooper.fitness";
@@ -153,6 +162,7 @@ export default async function HomePage() {
     if (config.checkoutEnabled) inventory = await fetchFoundingInventory(config);
   } catch (error) {
     if (!(error instanceof FoundingConfigError)) console.error("[founding-homepage] unavailable");
+    return <OriginalHomePage />;
   }
 
   return <FoundingHomepage inventory={inventory} supportEmail={supportEmail} termsUrl={termsUrl} privacyUrl={privacyUrl} refundPolicyUrl={refundPolicyUrl} />;

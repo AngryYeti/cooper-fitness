@@ -20,10 +20,11 @@ test("founding campaign files exist and the homepage is reversible", () => {
   }
 
   const homepage = read("src/app/(marketing)/page.tsx");
-  assert.match(homepage, /FOUNDING_HOMEPAGE_ENABLED/);
+  assert.match(homepage, /isFoundingCampaignEnabled/);
   assert.match(homepage, /HeroSection/);
   assert.match(homepage, /FoundingHomepage/);
   assert.match(homepage, /force-dynamic/);
+  assert.match(read("src/components/founding/founding-checkout-form.tsx"), /useId/);
 });
 
 test("campaign source contains the approved homepage copy and current photography", () => {
@@ -84,6 +85,8 @@ test("success and cancel pages use safe payment copy and no fulfillment", () => 
   const cancel = read("src/app/(marketing)/founding/cancel/page.tsx");
   assert.match(success, /You’re in\./);
   assert.match(success, /Payment received\. We’re preparing your onboarding details now\./);
+  assert.match(success, /We couldn’t verify this checkout yet\./);
+  assert.match(success, /status === "processing"/);
   assert.doesNotMatch(success, /fulfill|crm|createProfile|sendEmail/i);
   assert.match(cancel, /No payment was taken\./);
   assert.match(cancel, /RETURN TO THE OFFER/);
@@ -102,4 +105,15 @@ test("session status is server-only and never trusts the browser session", () =>
   assert.match(verifier, /getStripe/);
   assert.match(verifier, /not_confirmed|processing/);
   assert.doesNotMatch(route, /fulfill|crm|metadata.*session_id/i);
+});
+
+test("campaign metadata and controls are inclusive and fail closed", () => {
+  const rootLayout = read("src/app/layout.tsx");
+  const homepage = read("src/app/(marketing)/page.tsx");
+  const sticky = read("src/components/marketing/sticky-cta.tsx");
+  assert.match(rootLayout, /busy adults/);
+  assert.match(homepage, /busy adults/);
+  assert.match(homepage, /OriginalHomePage/);
+  assert.match(sticky, /return null/);
+  assert.match(sticky, /safe-area-inset-bottom/);
 });

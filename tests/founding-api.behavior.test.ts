@@ -42,18 +42,20 @@ before(() => {
   process.env.NEXT_PUBLIC_FOUNDING_TERMS_URL = config.termsUrl;
   process.env.NEXT_PUBLIC_FOUNDING_PRIVACY_URL = config.privacyUrl;
   process.env.NEXT_PUBLIC_FOUNDING_REFUND_POLICY_URL = config.refundPolicyUrl;
+  process.env.FOUNDING_STRIPE_PRICE_ID = "price_1U5WCxK67H8U3fOqXS60McFP";
+  process.env.FOUNDING_STRIPE_PRODUCT_ID = "prod_V5hcsMgIEK4Srk";
 });
 
 test("inventory parser accepts a complete valid projection", () => {
   assert.deepEqual(parseFoundingInventory({
     state: "HELD",
     purchased_count: 2,
-    pending_count: 1,
+    pending_count: 3,
     capacity: 5,
   }), {
     state: "HELD",
     purchasedCount: 2,
-    pendingCount: 1,
+    pendingCount: 3,
     capacity: 5,
   });
 });
@@ -74,6 +76,37 @@ test("partial or inconsistent OPEN inventory fails closed", () => {
       capacity: 0,
     });
   }
+});
+
+test("inventory semantics keep partial capacity OPEN and full pending capacity HELD", () => {
+  assert.deepEqual(parseFoundingInventory({
+    state: "OPEN",
+    purchased_count: 2,
+    pending_count: 1,
+    capacity: 5,
+  }), {
+    state: "OPEN",
+    purchasedCount: 2,
+    pendingCount: 1,
+    capacity: 5,
+  });
+  assert.deepEqual(parseFoundingInventory({
+    state: "HELD",
+    purchased_count: 2,
+    pending_count: 3,
+    capacity: 5,
+  }), {
+    state: "HELD",
+    purchasedCount: 2,
+    pendingCount: 3,
+    capacity: 5,
+  });
+  assert.deepEqual(parseFoundingInventory({
+    state: "HELD",
+    purchased_count: 2,
+    pending_count: 1,
+    capacity: 5,
+  }).state, "FULL");
 });
 
 test("inventory route returns a no-store zero FULL DTO for malformed CRM data", async () => {
@@ -198,6 +231,30 @@ test("checkout rejects non-HTTPS URLs and malformed expiry values", async () => 
       createFoundingCheckout(config, { name: "Jane Doe", email: "jane@example.com" }),
       /unavailable/,
     );
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("checkout rejects arbitrary HTTPS hosts, suffix attacks, credentials, and non-HTTPS URLs", async () => {
+  const originalFetch = globalThis.fetch;
+  const urls = [
+    "https://evil.example/pay",
+    "https://checkout.stripe.com.evil.example/c/pay/cs_test",
+    "https://user:pass@checkout.stripe.com/c/pay/cs_test",
+    "http://checkout.stripe.com/c/pay/cs_test",
+  ];
+  try {
+    for (const checkoutUrl of urls) {
+      globalThis.fetch = async () => new Response(JSON.stringify({
+        checkout_url: checkoutUrl,
+        reservation_expires_at: "2030-01-02T03:04:05.000Z",
+      }), { status: 200 });
+      await assert.rejects(
+        createFoundingCheckout(config, { name: "Jane Doe", email: "jane@example.com" }),
+        /unavailable/,
+      );
+    }
   } finally {
     globalThis.fetch = originalFetch;
   }

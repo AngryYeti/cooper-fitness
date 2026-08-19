@@ -1,4 +1,5 @@
 import "server-only";
+import { FOUNDING_STRIPE_PRICE_ID, FOUNDING_STRIPE_PRODUCT_ID } from "./types";
 import type { FoundingConfig } from "./types";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,6 +40,24 @@ function httpsOrLocalUrl(name: string): string {
   return parsed.origin;
 }
 
+function publicUrl(name: string): string {
+  const value = required(name);
+  let parsed: URL;
+  try {
+    parsed = new URL(value);
+  } catch {
+    throw new FoundingConfigError(`Invalid founding URL: ${name}`);
+  }
+  const local = parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1";
+  if (parsed.protocol !== "https:" && !(local && parsed.protocol === "http:")) {
+    throw new FoundingConfigError(`Founding URL must use HTTPS: ${name}`);
+  }
+  if (parsed.username || parsed.password) {
+    throw new FoundingConfigError(`Founding URL cannot contain credentials: ${name}`);
+  }
+  return parsed.toString();
+}
+
 function siteOrigin(): string {
   const value = required("NEXT_PUBLIC_SITE_URL");
   let parsed: URL;
@@ -54,16 +73,18 @@ function siteOrigin(): string {
   return parsed.origin;
 }
 
-function publicUrl(name: string): string {
-  return httpsOrLocalUrl(name);
-}
-
 export function getFoundingConfig(): FoundingConfig {
   const homepageEnabled = boolean("FOUNDING_HOMEPAGE_ENABLED");
   const checkoutEnabled = boolean("FOUNDING_CHECKOUT_ENABLED");
   const internalApiSecret = required("FOUNDING_INTERNAL_API_SECRET");
   if (internalApiSecret.length < 32) {
     throw new FoundingConfigError("Founding internal API secret is too short");
+  }
+  if (required("FOUNDING_STRIPE_PRICE_ID") !== FOUNDING_STRIPE_PRICE_ID) {
+    throw new FoundingConfigError("Invalid founding Stripe price");
+  }
+  if (required("FOUNDING_STRIPE_PRODUCT_ID") !== FOUNDING_STRIPE_PRODUCT_ID) {
+    throw new FoundingConfigError("Invalid founding Stripe product");
   }
 
   const supportEmail = required("NEXT_PUBLIC_SUPPORT_EMAIL").toLowerCase();
@@ -82,4 +103,13 @@ export function getFoundingConfig(): FoundingConfig {
     privacyUrl: publicUrl("NEXT_PUBLIC_FOUNDING_PRIVACY_URL"),
     refundPolicyUrl: publicUrl("NEXT_PUBLIC_FOUNDING_REFUND_POLICY_URL"),
   };
+}
+
+export function isFoundingCampaignEnabled(): boolean {
+  if (process.env.FOUNDING_HOMEPAGE_ENABLED !== "true") return false;
+  try {
+    return getFoundingConfig().homepageEnabled;
+  } catch {
+    return false;
+  }
 }

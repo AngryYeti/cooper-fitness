@@ -5,6 +5,7 @@ import type {
   FoundingInventory,
   FoundingPurchaser,
 } from "./types";
+import { FOUNDING_CHECKOUT_HOST } from "./types";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
@@ -17,6 +18,7 @@ const FULL_INVENTORY: FoundingInventory = {
   pendingCount: 0,
   capacity: 0,
 };
+
 
 export class FoundingProxyError extends Error {
   readonly status: number;
@@ -73,10 +75,14 @@ export function parseFoundingInventory(input: unknown): FoundingInventory {
   if (purchased > validCapacity || pending > validCapacity || total > validCapacity) {
     return { ...FULL_INVENTORY };
   }
-  const stateConsistent = state === "FULL"
-    || (validCapacity > 0 && purchased < validCapacity && (
-      state === "OPEN" ? pending === 0 : pending > 0
-    ));
+  const expectedState = purchased >= validCapacity
+    ? "FULL"
+    : total < validCapacity
+      ? "OPEN"
+      : pending > 0
+        ? "HELD"
+        : null;
+  const stateConsistent = expectedState !== null && state === expectedState;
   if (!stateConsistent) return { ...FULL_INVENTORY };
   return {
     state,
@@ -144,7 +150,9 @@ export async function createFoundingCheckout(
   if (!checkoutUrl || !expiresAt) throw new FoundingProxyError("Founding checkout unavailable");
   try {
     parsedUrl = new URL(checkoutUrl);
-    if (parsedUrl.protocol !== "https:") throw new Error("non-https checkout URL");
+    if (parsedUrl.protocol !== "https:" || parsedUrl.hostname.toLowerCase() !== FOUNDING_CHECKOUT_HOST || parsedUrl.username || parsedUrl.password || parsedUrl.port) {
+      throw new Error("unapproved checkout URL");
+    }
     if (Number.isNaN(Date.parse(expiresAt))) throw new Error("invalid expiry");
   } catch {
     throw new FoundingProxyError("Founding checkout unavailable");

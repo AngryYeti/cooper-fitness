@@ -3,11 +3,12 @@ import { MarketingHeader } from "@/components/layout/marketing-header";
 import { StickyCTA } from "@/components/marketing/sticky-cta";
 import { GrainOverlay } from "@/components/effects/grain-overlay";
 import { AmbientBackground } from "@/components/effects/ambient-background";
+import { isFoundingCampaignEnabled } from "@/lib/founding/config";
 
 export default function MarketingLayout({
   children,
 }: { children: React.ReactNode }) {
-  const campaignEnabled = process.env.FOUNDING_HOMEPAGE_ENABLED === "true";
+  const campaignEnabled = isFoundingCampaignEnabled();
   return (
     <div className="flex min-h-screen flex-col relative">
       <AmbientBackground />

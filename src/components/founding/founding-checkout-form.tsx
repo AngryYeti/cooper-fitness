@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import type { FoundingInventoryState } from "@/lib/founding/types";
+import { useId, useState } from "react";
+import { FOUNDING_CHECKOUT_HOST, type FoundingInventoryState } from "@/lib/founding/types";
 import { FoundingInventoryCTA } from "./founding-inventory-cta";
 
 type CheckoutFormProps = {
@@ -19,6 +19,10 @@ export function FoundingCheckoutForm({
   privacyUrl,
   refundPolicyUrl,
 }: CheckoutFormProps) {
+  const idPrefix = useId();
+  const nameId = `${idPrefix}-name`;
+  const emailId = `${idPrefix}-email`;
+  const noteId = `${idPrefix}-checkout-note`;
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,10 +44,16 @@ export function FoundingCheckoutForm({
         setError("This spot is temporarily held. Please join the waitlist while we confirm availability.");
         return;
       }
-      if (!response.ok || typeof body?.checkoutUrl !== "string" || !body.checkoutUrl.startsWith("https://")) {
+      let checkoutUrl: URL;
+      try {
+        checkoutUrl = new URL(typeof body?.checkoutUrl === "string" ? body.checkoutUrl : "");
+      } catch {
         throw new Error("checkout unavailable");
       }
-      window.location.assign(body.checkoutUrl);
+      if (!response.ok || checkoutUrl.protocol !== "https:" || checkoutUrl.hostname.toLowerCase() !== FOUNDING_CHECKOUT_HOST || checkoutUrl.username || checkoutUrl.password || checkoutUrl.port) {
+        throw new Error("checkout unavailable");
+      }
+      window.location.assign(checkoutUrl.toString());
     } catch {
       setError("Checkout is temporarily unavailable. Please try again or contact Evan for support.");
     } finally {
@@ -52,15 +62,15 @@ export function FoundingCheckoutForm({
   }
 
   return (
-    <form className="founding-checkout-form" onSubmit={submit} aria-describedby="founding-checkout-note">
+    <form className="founding-checkout-form" onSubmit={submit} aria-describedby={noteId}>
       <div className="founding-form-fields">
-        <label htmlFor="founding-name">NAME</label>
-        <input id="founding-name" name="name" type="text" autoComplete="name" required maxLength={100} />
-        <label htmlFor="founding-email">EMAIL</label>
-        <input id="founding-email" name="email" type="email" autoComplete="email" required maxLength={254} />
+        <label htmlFor={nameId}>NAME</label>
+        <input id={nameId} name="name" type="text" autoComplete="name" required maxLength={100} />
+        <label htmlFor={emailId}>EMAIL</label>
+        <input id={emailId} name="email" type="email" autoComplete="email" required maxLength={254} />
       </div>
       <FoundingInventoryCTA state={state} disabled={submitting} />
-      <p id="founding-checkout-note" className="founding-legal-copy">
+      <p id={noteId} className="founding-legal-copy">
         One-time USD $299 checkout for six months of coaching. Be ready to begin within 14 days. By continuing, you agree to the <a href={termsUrl}>terms</a>, <a href={privacyUrl}>privacy notice</a>, and <a href={refundPolicyUrl}>refund/cancellation policy</a>. Questions? <a href={`mailto:${supportEmail}`}>{supportEmail}</a>.
       </p>
       {error ? <p role="alert" className="founding-form-error">{error}</p> : null}
