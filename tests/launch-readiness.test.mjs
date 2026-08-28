@@ -67,4 +67,5 @@ test("recipe cards use staple-ingredient food visuals", () => {
   assert.match(visuals, /Built around|ingredient/);
   assert.match(visuals, /\/recipes\/berries\.jpg/);
   assert.match(visuals, /\/recipes\/chicken-alt2\.jpg/);
+  assert.equal((visuals.match(/\/recipes\/unique-v2\//g) ?? []).length, 60);
 });

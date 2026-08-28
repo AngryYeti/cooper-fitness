@@ -31,6 +31,69 @@ const VISUALS: Record<string, RecipeVisual> = {
   yogurt: { ingredient: "Greek yogurt", src: "/recipes/yogurt.jpg", alt: "Greek yogurt with fruit" },
 };
 
+const RECIPE_IMAGE_PATHS: Record<string, string> = {
+  "whipped-cottage-cheese-berry-bowl": "/recipes/unique-v2/whipped-cottage-cheese-berry-bowl.jpg",
+  "cottage-cheese-scrambled-eggs": "/recipes/unique-v2/cottage-cheese-scrambled-eggs.jpg",
+  "high-protein-oat-waffles": "/recipes/unique-v2/high-protein-oat-waffles.jpg",
+  "egg-white-turkey-bacon-muffins": "/recipes/unique-v2/egg-white-turkey-bacon-muffins.jpg",
+  "cottage-cheese-chicken-sausage-frittata": "/recipes/unique-v2/cottage-cheese-chicken-sausage-frittata.jpg",
+  "apple-pie-overnight-oats": "/recipes/unique-v2/apple-pie-overnight-oats.jpg",
+  "tropical-yogurt-oat-parfaits": "/recipes/unique-v2/tropical-yogurt-oat-parfaits.jpg",
+  "blueberry-banana-baked-oatmeal": "/recipes/unique-v2/blueberry-banana-baked-oatmeal.jpg",
+  "breakfast-burrito-bowl": "/recipes/unique-v2/breakfast-burrito-bowl.jpg",
+  "peanut-butter-banana-protein-smoothie": "/recipes/unique-v2/peanut-butter-banana-protein-smoothie.jpg",
+  "lemon-berry-yogurt-bowl": "/recipes/unique-v2/lemon-berry-yogurt-bowl.jpg",
+  "banana-nut-protein-oats": "/recipes/unique-v2/banana-nut-protein-oats.jpg",
+  "buffalo-chicken-rice-bowls": "/recipes/unique-v2/buffalo-chicken-rice-bowls.jpg",
+  "chicken-taco-rice-bowls": "/recipes/unique-v2/chicken-taco-rice-bowls.jpg",
+  "ground-turkey-vegetable-stir-fry": "/recipes/unique-v2/ground-turkey-vegetable-stir-fry.jpg",
+  "chicken-shawarma-sheet-pan": "/recipes/unique-v2/chicken-shawarma-sheet-pan.jpg",
+  "shrimp-fajita-bowls": "/recipes/unique-v2/shrimp-fajita-bowls.jpg",
+  "lemon-chili-shrimp-quinoa-bowls": "/recipes/unique-v2/lemon-chili-shrimp-quinoa-bowls.jpg",
+  "greek-chicken-rice-bowls": "/recipes/unique-v2/greek-chicken-rice-bowls.jpg",
+  "marry-me-chicken-meatballs": "/recipes/unique-v2/marry-me-chicken-meatballs.jpg",
+  "chicken-piccata-meatball-orzo": "/recipes/unique-v2/chicken-piccata-meatball-orzo.jpg",
+  "easy-turkey-chili": "/recipes/unique-v2/easy-turkey-chili.jpg",
+  "mediterranean-turkey-bowls": "/recipes/unique-v2/mediterranean-turkey-bowls.jpg",
+  "ground-turkey-zucchini-skillet": "/recipes/unique-v2/ground-turkey-zucchini-skillet.jpg",
+  "vegan-quinoa-edamame-bowl": "/recipes/unique-v2/vegan-quinoa-edamame-bowl.jpg",
+  "honey-sriracha-chicken-broccoli-bowls": "/recipes/unique-v2/honey-sriracha-chicken-broccoli-bowls.jpg",
+  "salmon-vegetable-sheet-pan": "/recipes/unique-v2/salmon-vegetable-sheet-pan.jpg",
+  "turkey-meatball-marinara-bowls": "/recipes/unique-v2/turkey-meatball-marinara-bowls.jpg",
+  "shrimp-cabbage-roll-bowl": "/recipes/unique-v2/shrimp-cabbage-roll-bowl.jpg",
+  "cottage-cheese-sweet-potato-beef-bowl": "/recipes/unique-v2/cottage-cheese-sweet-potato-beef-bowl.jpg",
+  "tuna-white-bean-salad": "/recipes/unique-v2/tuna-white-bean-salad.jpg",
+  "green-goddess-chicken-chickpea-salad": "/recipes/unique-v2/green-goddess-chicken-chickpea-salad.jpg",
+  "asian-chicken-chili-crisp-salad": "/recipes/unique-v2/asian-chicken-chili-crisp-salad.jpg",
+  "five-ingredient-salmon-salad": "/recipes/unique-v2/five-ingredient-salmon-salad.jpg",
+  "classic-greek-yogurt-chicken-salad": "/recipes/unique-v2/classic-greek-yogurt-chicken-salad.jpg",
+  "tuna-egg-salad-crunch-box": "/recipes/unique-v2/tuna-egg-salad-crunch-box.jpg",
+  "lentil-crunch-salad": "/recipes/unique-v2/lentil-crunch-salad.jpg",
+  "mediterranean-bean-salad": "/recipes/unique-v2/mediterranean-bean-salad.jpg",
+  "thai-inspired-chicken-slaw": "/recipes/unique-v2/thai-inspired-chicken-slaw.jpg",
+  "chicken-egg-roll-bowl": "/recipes/unique-v2/chicken-egg-roll-bowl.jpg",
+  "greek-chicken-meal-prep-rice-bowl": "/recipes/unique-v2/greek-chicken-meal-prep-rice-bowl.jpg",
+  "pesto-chicken-vegetable-pasta-salad": "/recipes/unique-v2/pesto-chicken-vegetable-pasta-salad.jpg",
+  "lemon-dijon-yogurt-dressing": "/recipes/unique-v2/lemon-dijon-yogurt-dressing.jpg",
+  "green-goddess-yogurt-sauce": "/recipes/unique-v2/green-goddess-yogurt-sauce.jpg",
+  "freezer-brown-rice-quinoa-blend": "/recipes/unique-v2/freezer-brown-rice-quinoa-blend.jpg",
+  "sheet-pan-roasted-vegetables": "/recipes/unique-v2/sheet-pan-roasted-vegetables.jpg",
+  "freezer-chicken-turkey-meatballs": "/recipes/unique-v2/freezer-chicken-turkey-meatballs.jpg",
+  "black-bean-corn-salsa": "/recipes/unique-v2/black-bean-corn-salsa.jpg",
+  "edamame-hummus-crunch-dip": "/recipes/unique-v2/edamame-hummus-crunch-dip.jpg",
+  "make-ahead-oat-jar-base": "/recipes/unique-v2/make-ahead-oat-jar-base.jpg",
+  "apple-chia-peanut-butter-pudding": "/recipes/unique-v2/apple-chia-peanut-butter-pudding.jpg",
+  "greek-cottage-cheese-snack-bowl": "/recipes/unique-v2/greek-cottage-cheese-snack-bowl.jpg",
+  "edamame-hummus-vegetable-cups": "/recipes/unique-v2/edamame-hummus-vegetable-cups.jpg",
+  "loaded-egg-muffin-snack": "/recipes/unique-v2/loaded-egg-muffin-snack.jpg",
+  "berry-cottage-cheese-breakfast-snack": "/recipes/unique-v2/berry-cottage-cheese-breakfast-snack.jpg",
+  "roasted-chickpea-crunch": "/recipes/unique-v2/roasted-chickpea-crunch.jpg",
+  "greek-yogurt-berry-nut-cup": "/recipes/unique-v2/greek-yogurt-berry-nut-cup.jpg",
+  "tuna-cucumber-boats": "/recipes/unique-v2/tuna-cucumber-boats.jpg",
+  "cottage-cheese-caprese-cups": "/recipes/unique-v2/cottage-cheese-caprese-cups.jpg",
+  "whole-food-trail-mix": "/recipes/unique-v2/whole-food-trail-mix.jpg",
+};
+
 const RULES: Array<{ key: keyof typeof VISUALS; terms: string[] }> = [
   { key: "energyBites", terms: ["energy bite", "trail mix"] },
   { key: "hummus", terms: ["hummus"] },
@@ -61,6 +124,12 @@ const FALLBACK = VISUALS.vegetables;
 export function getRecipeVisual(recipe: Recipe): RecipeVisual {
   const searchable = `${recipe.title} ${recipe.ingredients.join(" ")}`.toLowerCase();
   const match = RULES.find((rule) => rule.terms.some((term) => searchable.includes(term)));
+  const base = match ? VISUALS[match.key] : FALLBACK;
+  const src = RECIPE_IMAGE_PATHS[recipe.slug] ?? base.src;
 
-  return match ? VISUALS[match.key] : FALLBACK;
+  return {
+    ...base,
+    src,
+    alt: `${recipe.title} featuring ${base.ingredient}`,
+  };
 }
