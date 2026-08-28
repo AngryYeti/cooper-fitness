@@ -39,11 +39,11 @@ test("Supabase references are removed from public project configuration", () => 
   assert.doesNotMatch(services, /SUPABASE/i);
 });
 
-test("recipe library is discoverable from navigation and sitemap", () => {
+test("recipe library stays standalone while remaining in the sitemap", () => {
   const sitemap = read("src/app/sitemap.ts");
   const header = read("src/components/layout/marketing-header.tsx");
 
   assert.match(sitemap, /publishedRecipes/);
   assert.match(sitemap, /\/recipes\/\$\{recipe\.slug\}/);
-  assert.match(header, /href: ["']\/recipes["']/);
+  assert.doesNotMatch(header, /href: ["']\/recipes["']/);
 });
