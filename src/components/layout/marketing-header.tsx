@@ -20,6 +20,7 @@ const MAIN_NAV: NavItem[] = [
       { href: "/services/nutrition-coaching", label: "Nutrition" },
     ],
   },
+  { type: "link", href: "/recipes", label: "Recipes" },
   { type: "link", href: "/about", label: "About" },
   { type: "link", href: "/testimonials", label: "Testimonials" },
   { type: "link", href: "/pricing", label: "Pricing" },
