@@ -55,9 +55,35 @@ export function MarketingHeader() {
     <header className="fixed top-0 left-0 right-0 z-[60]" style={{
       backdropFilter: "blur(18px) saturate(150%)",
       WebkitBackdropFilter: "blur(18px) saturate(150%)",
-      background: "linear-gradient(180deg, rgba(20,18,16,0.62), rgba(20,18,16,0.20))",
+      background: "linear-gradient(180deg, rgba(20,18,16,0.72), rgba(20,18,16,0.30))",
       borderBottom: "1px solid rgba(255,255,255,0.12)",
     }}>
+      {/* Founding Offer Top Banner */}
+      <Link
+        href="/founder"
+        className="group relative flex items-center justify-center gap-2.5 px-4 py-2 text-center transition-all hover:bg-white/5 border-b border-white/10"
+        style={{
+          background: "linear-gradient(90deg, rgba(74,111,255,0.14), rgba(255,255,255,0.03), rgba(74,111,255,0.14))",
+        }}
+      >
+        <span
+          className="font-mono text-[0.6rem] tracking-[0.16em] uppercase px-2 py-0.5 rounded-full font-semibold shrink-0"
+          style={{
+            background: "var(--primary)",
+            color: "var(--primary-foreground)",
+          }}
+        >
+          ✦ FOUNDING COHORT
+        </span>
+        <span className="font-mono text-[0.68rem] tracking-[0.08em] text-foreground font-medium truncate sm:overflow-visible">
+          6 Months 1-on-1 Coaching for <strong>$299 USD</strong>{" "}
+          <span className="text-muted-foreground hidden sm:inline">(Regular $1,524 · 5 Spots Only)</span>
+        </span>
+        <span className="font-mono text-[0.68rem] text-primary font-bold group-hover:translate-x-0.5 transition-transform shrink-0">
+          Claim Spot &rarr;
+        </span>
+      </Link>
+
       <div
         className="absolute top-0 left-0 h-[2px] z-[70] origin-left"
         style={{
@@ -67,7 +93,7 @@ export function MarketingHeader() {
           width: "100%",
         }}
       />
-      <div className="flex items-center justify-between" style={{ padding: "15px clamp(18px, 4vw, 56px)" }}>
+      <div className="flex items-center justify-between" style={{ padding: "13px clamp(18px, 4vw, 56px)" }}>
         <Logo />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
           {MAIN_NAV.map((item) =>

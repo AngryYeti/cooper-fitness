@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/programs",
     "/pricing",
+    "/founder",
     "/services/online-weight-loss-coaching",
     "/services/online-personal-training",
     "/services/nutrition-coaching",
