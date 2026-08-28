@@ -47,3 +47,12 @@ test("recipe library stays standalone while remaining in the sitemap", () => {
   assert.match(sitemap, /\/recipes\/\$\{recipe\.slug\}/);
   assert.doesNotMatch(header, /href: ["']\/recipes["']/);
 });
+
+test("recipe subdomain serves the recipe hub at its root", () => {
+  const middleware = read("src/middleware.ts");
+
+  assert.match(middleware, /recipes\.cooper\.fitness/);
+  assert.match(middleware, /NextResponse\.rewrite/);
+  assert.match(middleware, /pathname === ["']\/["']/);
+  assert.match(middleware, /pathname = ["']\/recipes["']/);
+});
