@@ -18,6 +18,7 @@ const VISUALS: Record<string, RecipeVisual> = {
   energyBites: { ingredient: "Energy bites", src: "/recipes/energy-bites.jpg", alt: "Homemade energy bites with nuts" },
   vegetables: { ingredient: "Vegetables", src: "/recipes/vegetables.jpg", alt: "Colourful vegetables in a bowl" },
   hummus: { ingredient: "Hummus", src: "/recipes/hummus.jpg", alt: "Hummus with olive oil and herbs" },
+  edamame: { ingredient: "Edamame", src: "/recipes/beans.jpg", alt: "Shelled edamame beans" },
   lentils: { ingredient: "Lentils", src: "/recipes/lentils.jpg", alt: "Seasoned lentils in a bowl" },
   nuts: { ingredient: "Nuts & seeds", src: "/recipes/nuts.jpg", alt: "Mixed nuts and seeds" },
   oats: { ingredient: "Oats", src: "/recipes/oats.jpg", alt: "Warm oats in a breakfast bowl" },
@@ -119,12 +120,78 @@ const RULES: Array<{ key: keyof typeof VISUALS; terms: string[] }> = [
   { key: "vegetables", terms: ["vegetable", "broccoli", "cabbage", "carrot", "zucchini", "spinach"] },
 ];
 
+// Recipe titles provide a more reliable staple signal than ingredient order,
+// especially for oat, yogurt, berry, and egg breakfasts.
+const STAPLES_BY_SLUG: Record<string, keyof typeof VISUALS> = {
+  "whipped-cottage-cheese-berry-bowl": "cottageCheese",
+  "cottage-cheese-scrambled-eggs": "eggs",
+  "high-protein-oat-waffles": "oats",
+  "egg-white-turkey-bacon-muffins": "eggs",
+  "cottage-cheese-chicken-sausage-frittata": "eggs",
+  "apple-pie-overnight-oats": "oats",
+  "tropical-yogurt-oat-parfaits": "yogurt",
+  "blueberry-banana-baked-oatmeal": "oats",
+  "breakfast-burrito-bowl": "eggs",
+  "peanut-butter-banana-protein-smoothie": "banana",
+  "lemon-berry-yogurt-bowl": "berries",
+  "banana-nut-protein-oats": "oats",
+  "tuna-white-bean-salad": "tuna",
+  "green-goddess-chicken-chickpea-salad": "chicken",
+  "asian-chicken-chili-crisp-salad": "chicken",
+  "five-ingredient-salmon-salad": "salmon",
+  "classic-greek-yogurt-chicken-salad": "chicken",
+  "tuna-egg-salad-crunch-box": "tuna",
+  "lentil-crunch-salad": "lentils",
+  "mediterranean-bean-salad": "beans",
+  "thai-inspired-chicken-slaw": "chicken",
+  "chicken-egg-roll-bowl": "chicken",
+  "greek-chicken-meal-prep-rice-bowl": "chicken",
+  "pesto-chicken-vegetable-pasta-salad": "chicken",
+  "buffalo-chicken-rice-bowls": "chicken",
+  "chicken-taco-rice-bowls": "chicken",
+  "ground-turkey-vegetable-stir-fry": "turkey",
+  "chicken-shawarma-sheet-pan": "chicken",
+  "shrimp-fajita-bowls": "shrimp",
+  "lemon-chili-shrimp-quinoa-bowls": "shrimp",
+  "greek-chicken-rice-bowls": "chicken",
+  "marry-me-chicken-meatballs": "chicken",
+  "chicken-piccata-meatball-orzo": "chicken",
+  "easy-turkey-chili": "turkey",
+  "mediterranean-turkey-bowls": "turkey",
+  "ground-turkey-zucchini-skillet": "turkey",
+  "vegan-quinoa-edamame-bowl": "edamame",
+  "honey-sriracha-chicken-broccoli-bowls": "chicken",
+  "salmon-vegetable-sheet-pan": "salmon",
+  "turkey-meatball-marinara-bowls": "turkey",
+  "shrimp-cabbage-roll-bowl": "shrimp",
+  "cottage-cheese-sweet-potato-beef-bowl": "beef",
+  "lemon-dijon-yogurt-dressing": "yogurt",
+  "green-goddess-yogurt-sauce": "yogurt",
+  "freezer-brown-rice-quinoa-blend": "rice",
+  "sheet-pan-roasted-vegetables": "vegetables",
+  "freezer-chicken-turkey-meatballs": "chicken",
+  "black-bean-corn-salsa": "beans",
+  "edamame-hummus-crunch-dip": "hummus",
+  "make-ahead-oat-jar-base": "oats",
+  "apple-chia-peanut-butter-pudding": "nuts",
+  "greek-cottage-cheese-snack-bowl": "cottageCheese",
+  "edamame-hummus-vegetable-cups": "hummus",
+  "loaded-egg-muffin-snack": "eggs",
+  "berry-cottage-cheese-breakfast-snack": "berries",
+  "roasted-chickpea-crunch": "beans",
+  "greek-yogurt-berry-nut-cup": "yogurt",
+  "tuna-cucumber-boats": "tuna",
+  "cottage-cheese-caprese-cups": "cottageCheese",
+  "whole-food-trail-mix": "nuts",
+};
+
 const FALLBACK = VISUALS.vegetables;
 
 export function getRecipeVisual(recipe: Recipe): RecipeVisual {
   const searchable = `${recipe.title} ${recipe.ingredients.join(" ")}`.toLowerCase();
+  const staple = STAPLES_BY_SLUG[recipe.slug];
   const match = RULES.find((rule) => rule.terms.some((term) => searchable.includes(term)));
-  const base = match ? VISUALS[match.key] : FALLBACK;
+  const base = staple ? VISUALS[staple] : match ? VISUALS[match.key] : FALLBACK;
   const src = RECIPE_IMAGE_PATHS[recipe.slug] ?? base.src;
 
   return {
