@@ -1,8 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Clock3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Recipe } from "@/lib/recipes/types";
+import { getRecipeVisual } from "@/lib/recipes/visuals";
 
 const CATEGORY_LABELS: Record<Recipe["category"], string> = {
   breakfast: "Breakfast",
@@ -23,17 +25,9 @@ const TAG_LABELS: Record<string, string> = {
   "make-ahead": "Make ahead",
 };
 
-const CATEGORY_STYLES: Record<Recipe["category"], string> = {
-  breakfast: "from-amber-200/30 via-orange-100/10 to-transparent",
-  lunch: "from-emerald-200/25 via-teal-100/10 to-transparent",
-  dinner: "from-sky-200/25 via-blue-100/10 to-transparent",
-  snack: "from-rose-200/25 via-pink-100/10 to-transparent",
-  "meal-prep": "from-violet-200/25 via-indigo-100/10 to-transparent",
-  staple: "from-cyan-200/25 via-sky-100/10 to-transparent",
-};
-
 export function RecipeCard({ recipe }: { recipe: Recipe }) {
   const visibleTag = recipe.tags[0];
+  const visual = getRecipeVisual(recipe);
 
   return (
     <Link
@@ -41,11 +35,24 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
       className="group block rounded-[20px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <Card className="h-full overflow-hidden border-white/10 bg-white/[0.035] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-primary/60 group-hover:bg-white/[0.06]">
-        <div className={`relative h-32 overflow-hidden bg-gradient-to-br ${CATEGORY_STYLES[recipe.category]}`}>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.16),transparent_45%)]" />
-          <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between text-[0.65rem] font-mono uppercase tracking-[0.18em] text-foreground/65">
-            <span>{CATEGORY_LABELS[recipe.category]}</span>
-            <span className="flex items-center gap-1.5"><Clock3 className="h-3.5 w-3.5" /> {recipe.activeMinutes} min hands-on</span>
+        <div className="relative h-44 overflow-hidden bg-muted">
+          <Image
+            src={visual.src}
+            alt={visual.alt}
+            fill
+            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/5" />
+          <div className="absolute inset-x-5 top-4 flex items-center justify-between gap-3 text-[0.65rem] font-mono uppercase tracking-[0.16em] text-white/85">
+            <span className="rounded-full border border-white/25 bg-black/35 px-2.5 py-1 backdrop-blur-sm">{CATEGORY_LABELS[recipe.category]}</span>
+            <span className="flex items-center gap-1.5 rounded-full border border-white/20 bg-black/30 px-2.5 py-1 backdrop-blur-sm"><Clock3 className="h-3.5 w-3.5" /> {recipe.activeMinutes} min</span>
+          </div>
+          <div className="absolute bottom-4 left-5">
+            <span className="text-[0.65rem] font-mono uppercase tracking-[0.15em] text-white/75">Built around</span>
+            <p className="mt-1 text-base font-medium text-white">{visual.ingredient}</p>
           </div>
         </div>
         <CardHeader className="gap-3 pb-3">

@@ -56,3 +56,15 @@ test("recipe subdomain serves the recipe hub at its root", () => {
   assert.match(middleware, /pathname === ["']\/["']/);
   assert.match(middleware, /pathname = ["']\/recipes["']/);
 });
+
+test("recipe cards use staple-ingredient food visuals", () => {
+  const card = read("src/components/recipes/recipe-card.tsx");
+  const visuals = read("src/lib/recipes/visuals.ts");
+
+  assert.match(card, /getRecipeVisual/);
+  assert.match(card, /visual\.ingredient/);
+  assert.match(card, /visual\.src/);
+  assert.match(visuals, /Built around|ingredient/);
+  assert.match(visuals, /\/recipes\/berries\.jpg/);
+  assert.match(visuals, /\/recipes\/chicken-alt2\.jpg/);
+});
