@@ -75,5 +75,30 @@ test("recipe cards use staple-ingredient food visuals", () => {
   assert.match(visuals, /ground-turkey-zucchini-skillet[\s\S]*groundTurkey/);
   assert.match(visuals, /match-v3\/breakfast-burrito-bowl\.jpg/);
   assert.match(visuals, /match-v3\/ground-turkey\.jpg/);
-  assert.ok((visuals.match(/\/recipes\/(?:unique-v2|match-v3)\//g) ?? []).length >= 60);
+  const AI_RECIPE_VISUALS = [
+    ["cottage-cheese-chicken-sausage-frittata", "frittata"],
+    ["cottage-cheese-scrambled-eggs", "scrambledEggs"],
+    ["egg-white-turkey-bacon-muffins", "eggMuffin"],
+    ["peanut-butter-banana-protein-smoothie", "smoothie"],
+    ["buffalo-chicken-rice-bowls", "buffaloChickenBowl"],
+    ["chicken-shawarma-sheet-pan", "chickenShawarma"],
+    ["chicken-taco-rice-bowls", "chickenTacoBowl"],
+    ["greek-chicken-rice-bowls", "greekChickenBowl"],
+    ["honey-sriracha-chicken-broccoli-bowls", "honeySrirachaChickenBowl"],
+    ["asian-chicken-chili-crisp-salad", "asianChickenSalad"],
+    ["chicken-egg-roll-bowl", "chickenEggRollBowl"],
+    ["greek-chicken-meal-prep-rice-bowl", "greekChickenMealPrepBowl"],
+    ["classic-greek-yogurt-chicken-salad", "greekYogurtChickenSalad"],
+    ["green-goddess-chicken-chickpea-salad", "greenGoddessChickenChickpeaSalad"],
+    ["pesto-chicken-vegetable-pasta-salad", "pestoChickenPastaSalad"],
+    ["thai-inspired-chicken-slaw", "thaiChickenSlaw"],
+    ["loaded-egg-muffin-snack", "loadedEggMuffin"],
+  ];
+
+  for (const [slug, visualKey] of AI_RECIPE_VISUALS) {
+    assert.match(visuals, new RegExp(`"${slug}"\\s*:\\s*"${visualKey}"`));
+    assert.match(visuals, new RegExp(`${visualKey}: \\{[\\s\\S]*?/recipes/ai-v1/`));
+    assert.match(visuals, new RegExp(`${slug}\\.jpg`));
+  }
+  assert.ok((visuals.match(/\/recipes\/(?:unique-v2|match-v3|ai-v1)\//g) ?? []).length >= 60);
 });
