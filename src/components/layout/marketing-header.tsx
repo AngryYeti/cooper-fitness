@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { cn } from "@/lib/utils";
@@ -27,6 +28,7 @@ const MAIN_NAV: NavItem[] = [
 ];
 
 export function MarketingHeader() {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -49,6 +51,59 @@ export function MarketingHeader() {
   const closeDropdown = () => {
     closeTimer.current = setTimeout(() => setDropdownOpen(false), 150);
   };
+
+  const isRecipeArea = pathname === "/recipes" || pathname.startsWith("/recipes/") ||
+    (typeof window !== "undefined" && window.location.hostname === "recipes.cooper.fitness");
+
+  if (isRecipeArea) {
+    return (
+      <header className="fixed top-0 left-0 right-0 z-[60]" style={{
+        backdropFilter: "blur(18px) saturate(150%)",
+        WebkitBackdropFilter: "blur(18px) saturate(150%)",
+        background: "linear-gradient(180deg, rgba(20,18,16,0.82), rgba(20,18,16,0.42))",
+        borderBottom: "1px solid rgba(255,255,255,0.12)",
+      }}>
+        <div className="flex items-center justify-between gap-3" style={{ padding: "13px clamp(16px, 4vw, 56px)" }}>
+          <Logo href="https://cooper.fitness" />
+          <div className="flex items-center gap-2">
+            <a
+              href="https://cooper.fitness/#contact"
+              className="inline-flex items-center font-mono uppercase transition-all hover:-translate-y-[2px]"
+              style={{
+                fontSize: "0.62rem",
+                letterSpacing: "0.12em",
+                fontWeight: 500,
+                padding: "10px 14px",
+                borderRadius: 999,
+                border: "1px solid rgba(255,255,255,0.22)",
+                color: "var(--foreground)",
+              }}
+            >
+              BOOK CONSULTATION
+            </a>
+            <a
+              href="https://cooper.fitness/#pricing"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center font-mono uppercase transition-all hover:-translate-y-[2px]"
+              style={{
+                fontSize: "0.62rem",
+                letterSpacing: "0.12em",
+                fontWeight: 500,
+                padding: "10px 14px",
+                borderRadius: 999,
+                background: "var(--primary)",
+                color: "var(--primary-foreground)",
+                boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
+              }}
+            >
+              START TRAINING
+            </a>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[60]" style={{

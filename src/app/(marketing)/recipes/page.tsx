@@ -40,6 +40,7 @@ export default function RecipesPage() {
         title="Want the plan around the recipes?"
         description="Get coaching that connects your meals, training, and real schedule into something you can repeat."
         buttonText="Book Free Consultation"
+        buttonHref="https://cooper.fitness/#contact"
       />
     </div>
   );

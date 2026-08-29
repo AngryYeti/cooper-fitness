@@ -169,11 +169,6 @@ export default async function RecipePage({
               {Object.keys(recipe.nutrition).length > 0 && <p className="mt-5 text-xs leading-relaxed text-muted-foreground">Nutrition is a source estimate. Brands, portions, and substitutions change the numbers.</p>}
             </section>
 
-            <section className="rounded-[24px] border border-primary/25 bg-primary/[0.08] p-6">
-              <p className="section-label mb-3">Content angle</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">{recipe.contentAngle}</p>
-            </section>
-
             {recipe.tags.includes("freezer-friendly") && (
               <div className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/[0.035] p-5 text-sm text-muted-foreground">
                 <Snowflake className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Freezer-friendly option included.
@@ -195,6 +190,7 @@ export default async function RecipePage({
         title="Want the plan around the food?"
         description="Coaching connects your meals, training, and real schedule into something you can repeat."
         buttonText="Book Free Consultation"
+        buttonHref="https://cooper.fitness/#contact"
       />
     </div>
   );

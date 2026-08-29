@@ -177,3 +177,21 @@ test("every recipe ingredient includes a usable quantity", () => {
 
   assert.deepEqual(missing, []);
 });
+
+test("recipe pages use client-facing Cooper Fitness navigation", () => {
+  const header = read("src/components/layout/marketing-header.tsx");
+  const detailPage = read("src/app/(marketing)/recipes/[slug]/page.tsx");
+  const libraryPage = read("src/app/(marketing)/recipes/page.tsx");
+  const cta = read("src/components/marketing/cta-section.tsx");
+  const stickyCta = read("src/components/marketing/sticky-cta.tsx");
+
+  assert.match(header, /usePathname/);
+  assert.match(header, /https:\/\/cooper\.fitness/);
+  assert.match(header, /https:\/\/cooper\.fitness\/#pricing/);
+  assert.match(header, /https:\/\/cooper\.fitness\/#contact/);
+  assert.doesNotMatch(detailPage, /Content angle/);
+  assert.match(cta, /buttonHref/);
+  assert.match(libraryPage, /buttonHref=["']https:\/\/cooper\.fitness\/#contact/);
+  assert.match(detailPage, /buttonHref=["']https:\/\/cooper\.fitness\/#contact/);
+  assert.match(stickyCta, /https:\/\/cooper\.fitness\/#contact/);
+});
