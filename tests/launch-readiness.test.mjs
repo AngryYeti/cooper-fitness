@@ -100,5 +100,57 @@ test("recipe cards use staple-ingredient food visuals", () => {
     assert.match(visuals, new RegExp(`${visualKey}: \\{[\\s\\S]*?/recipes/ai-v1/`));
     assert.match(visuals, new RegExp(`${slug}\\.jpg`));
   }
-  assert.ok((visuals.match(/\/recipes\/(?:unique-v2|match-v3|ai-v1)\//g) ?? []).length >= 60);
+  const AI_V2_SLUGS = [
+    "whipped-cottage-cheese-berry-bowl",
+    "high-protein-oat-waffles",
+    "apple-pie-overnight-oats",
+    "tropical-yogurt-oat-parfaits",
+    "blueberry-banana-baked-oatmeal",
+    "breakfast-burrito-bowl",
+    "lemon-berry-yogurt-bowl",
+    "banana-nut-protein-oats",
+    "ground-turkey-vegetable-stir-fry",
+    "shrimp-fajita-bowls",
+    "lemon-chili-shrimp-quinoa-bowls",
+    "marry-me-chicken-meatballs",
+    "chicken-piccata-meatball-orzo",
+    "easy-turkey-chili",
+    "mediterranean-turkey-bowls",
+    "ground-turkey-zucchini-skillet",
+    "vegan-quinoa-edamame-bowl",
+    "salmon-vegetable-sheet-pan",
+    "turkey-meatball-marinara-bowls",
+    "shrimp-cabbage-roll-bowl",
+    "cottage-cheese-sweet-potato-beef-bowl",
+    "tuna-white-bean-salad",
+    "five-ingredient-salmon-salad",
+    "tuna-egg-salad-crunch-box",
+    "lentil-crunch-salad",
+    "mediterranean-bean-salad",
+    "lemon-dijon-yogurt-dressing",
+    "green-goddess-yogurt-sauce",
+    "freezer-brown-rice-quinoa-blend",
+    "sheet-pan-roasted-vegetables",
+    "freezer-chicken-turkey-meatballs",
+    "black-bean-corn-salsa",
+    "edamame-hummus-crunch-dip",
+    "make-ahead-oat-jar-base",
+    "apple-chia-peanut-butter-pudding",
+    "greek-cottage-cheese-snack-bowl",
+    "edamame-hummus-vegetable-cups",
+    "berry-cottage-cheese-breakfast-snack",
+    "roasted-chickpea-crunch",
+    "greek-yogurt-berry-nut-cup",
+    "tuna-cucumber-boats",
+    "cottage-cheese-caprese-cups",
+    "whole-food-trail-mix",
+  ];
+
+  for (const slug of AI_V2_SLUGS) {
+    assert.match(visuals, new RegExp(`"${slug}"\\s*:\\s*\\{[^\\n]*?/recipes/ai-v2/${slug}\\.jpg`));
+    assert.equal(existsSync(new URL(`../public/recipes/ai-v2/${slug}.jpg`, import.meta.url)), true);
+  }
+  assert.ok((visuals.match(/\/recipes\/(?:unique-v2|match-v3|ai-v1|ai-v2)\//g) ?? []).length >= 120);
+  assert.ok((visuals.match(/\/recipes\/ai-v1\//g) ?? []).length >= 34);
+  assert.ok((visuals.match(/\/recipes\/ai-v2\//g) ?? []).length >= 86);
 });

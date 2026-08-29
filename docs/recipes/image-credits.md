@@ -10,3 +10,5 @@ The form-specific recipe card images in `public/recipes/match-v3/` are adapted f
 - `ground-turkey.jpg` — [Ground turkey (4515834437)](https://commons.wikimedia.org/wiki/File:Ground_turkey_(4515834437).jpg), Michael Coté, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
 
 The recipe-specific images in `public/recipes/ai-v1/` were generated for Cooper Fitness with the built-in image-generation workflow. They contain no brand marks, logos, or people and are named for the recipe they represent.
+
+The remaining recipe-specific images in `public/recipes/ai-v2/` were generated for Cooper Fitness with the same built-in image-generation workflow. They contain no brand marks, logos, or people and are named for the recipe they represent.
