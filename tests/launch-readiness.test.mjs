@@ -154,3 +154,26 @@ test("recipe cards use staple-ingredient food visuals", () => {
   assert.ok((visuals.match(/\/recipes\/ai-v1\//g) ?? []).length >= 34);
   assert.ok((visuals.match(/\/recipes\/ai-v2\//g) ?? []).length >= 86);
 });
+
+test("every recipe ingredient includes a usable quantity", () => {
+  const recipeFiles = [
+    "src/lib/recipes/breakfasts.ts",
+    "src/lib/recipes/lunches.ts",
+    "src/lib/recipes/dinners.ts",
+    "src/lib/recipes/meal-prep.ts",
+    "src/lib/recipes/snacks.ts",
+  ];
+  const missing = [];
+  const hasQuantity = /\d|to taste|as needed|for serving|for topping|for garnish/i;
+
+  for (const file of recipeFiles) {
+    const source = read(file);
+    for (const match of source.matchAll(/ingredients:\s*\[([^\]]+)\]/g)) {
+      for (const ingredient of match[1].matchAll(/"([^\"]+)"/g)) {
+        if (!hasQuantity.test(ingredient[1])) missing.push(`${file}: ${ingredient[1]}`);
+      }
+    }
+  }
+
+  assert.deepEqual(missing, []);
+});
