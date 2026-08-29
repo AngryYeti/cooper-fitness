@@ -67,5 +67,13 @@ test("recipe cards use staple-ingredient food visuals", () => {
   assert.match(visuals, /Built around|ingredient/);
   assert.match(visuals, /\/recipes\/berries\.jpg/);
   assert.match(visuals, /\/recipes\/chicken-alt2\.jpg/);
-  assert.ok((visuals.match(/\/recipes\/unique-v2\//g) ?? []).length >= 60);
+  assert.match(visuals, /breakfast-burrito-bowl[\s\S]*burrito/);
+  assert.match(visuals, /marry-me-chicken-meatballs[\s\S]*chickenMeatballs/);
+  assert.match(visuals, /chicken-piccata-meatball-orzo[\s\S]*chickenMeatballs/);
+  assert.match(visuals, /turkey-meatball-marinara-bowls[\s\S]*turkeyMeatballs/);
+  assert.match(visuals, /ground-turkey-vegetable-stir-fry[\s\S]*groundTurkey/);
+  assert.match(visuals, /ground-turkey-zucchini-skillet[\s\S]*groundTurkey/);
+  assert.match(visuals, /match-v3\/breakfast-burrito-bowl\.jpg/);
+  assert.match(visuals, /match-v3\/ground-turkey\.jpg/);
+  assert.ok((visuals.match(/\/recipes\/(?:unique-v2|match-v3)\//g) ?? []).length >= 60);
 });
