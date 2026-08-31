@@ -38,6 +38,8 @@ function nutritionSchema(recipe: Recipe) {
   const nutrition: Record<string, string> = {};
   if (recipe.nutrition.calories !== undefined) nutrition.calories = `${recipe.nutrition.calories} calories`;
   if (recipe.nutrition.protein !== undefined) nutrition.proteinContent = `${recipe.nutrition.protein} g`;
+  if (recipe.nutrition.fat !== undefined) nutrition.fatContent = `${recipe.nutrition.fat} g`;
+  if (recipe.nutrition.carbs !== undefined) nutrition.carbohydrateContent = `${recipe.nutrition.carbs} g`;
   if (recipe.nutrition.fibre !== undefined) nutrition.fiberContent = `${recipe.nutrition.fibre} g`;
   return Object.keys(nutrition).length > 0 ? nutrition : undefined;
 }
@@ -160,13 +162,16 @@ export default async function RecipePage({
           <aside className="space-y-6 lg:sticky lg:top-28">
             <section className="rounded-[24px] border border-white/10 bg-white/[0.035] p-6">
               <p className="section-label mb-4">At a glance</p>
+              <p className="-mt-2 mb-4 text-xs text-muted-foreground">Per serving</p>
               <dl className="space-y-4 text-sm">
                 {recipe.nutrition.calories !== undefined && <div className="flex items-center justify-between gap-4"><dt className="text-muted-foreground">Calories</dt><dd className="font-medium">{recipe.nutrition.calories}</dd></div>}
                 {recipe.nutrition.protein !== undefined && <div className="flex items-center justify-between gap-4"><dt className="text-muted-foreground">Protein</dt><dd className="font-medium">{recipe.nutrition.protein}g</dd></div>}
+                {recipe.nutrition.carbs !== undefined && <div className="flex items-center justify-between gap-4"><dt className="text-muted-foreground">Carbs</dt><dd className="font-medium">{recipe.nutrition.carbs}g</dd></div>}
+                {recipe.nutrition.fat !== undefined && <div className="flex items-center justify-between gap-4"><dt className="text-muted-foreground">Fat</dt><dd className="font-medium">{recipe.nutrition.fat}g</dd></div>}
                 {recipe.nutrition.fibre !== undefined && <div className="flex items-center justify-between gap-4"><dt className="text-muted-foreground">Fibre</dt><dd className="font-medium">{recipe.nutrition.fibre}g</dd></div>}
                 <div className="flex items-center justify-between gap-4"><dt className="text-muted-foreground">Storage</dt><dd className="max-w-[170px] text-right font-medium">{recipe.storage}</dd></div>
               </dl>
-              {Object.keys(recipe.nutrition).length > 0 && <p className="mt-5 text-xs leading-relaxed text-muted-foreground">Nutrition is a source estimate. Brands, portions, and substitutions change the numbers.</p>}
+              {Object.keys(recipe.nutrition).length > 0 && <p className="mt-5 text-xs leading-relaxed text-muted-foreground">Nutrition is an estimate per serving. Brands, portions, and substitutions can change the numbers.</p>}
             </section>
 
             {recipe.tags.includes("freezer-friendly") && (
@@ -191,6 +196,7 @@ export default async function RecipePage({
         description="Coaching connects your meals, training, and real schedule into something you can repeat."
         buttonText="Book Free Consultation"
         buttonHref="https://cooper.fitness/#contact"
+        buttonTarget="_blank"
       />
     </div>
   );

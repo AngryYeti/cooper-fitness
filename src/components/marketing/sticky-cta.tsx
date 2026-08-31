@@ -12,6 +12,7 @@ export function StickyCTA() {
     (typeof window !== "undefined" && window.location.hostname === "recipes.cooper.fitness");
   const href = isRecipeArea ? "https://cooper.fitness/#contact" : "/#pricing";
   const label = isRecipeArea ? "BOOK CONSULTATION" : "VIEW PRICING";
+  const target = isRecipeArea ? "_blank" : undefined;
 
   useEffect(() => {
     function handleScroll() {
@@ -36,6 +37,8 @@ export function StickyCTA() {
     >
       <Link
         href={href}
+        target={target}
+        rel={target === "_blank" ? "noreferrer" : undefined}
         className="flex w-full items-center justify-center font-mono uppercase transition-all"
         style={{
           fontSize: "0.72rem",

@@ -8,11 +8,13 @@ export function CTASection({
   description = "Choose a plan that fits your goals and start your transformation today.",
   buttonText = "VIEW PRICING",
   buttonHref = "/#pricing",
+  buttonTarget,
 }: {
   title?: string;
   description?: string;
   buttonText?: string;
   buttonHref?: string;
+  buttonTarget?: "_blank";
 }) {
   return (
     <section className="bg-primary text-primary-foreground">
@@ -26,7 +28,7 @@ export function CTASection({
           </p>
           <div className="mt-8">
             <Button size="lg" variant="secondary" asChild>
-              <Link href={buttonHref}>
+              <Link href={buttonHref} target={buttonTarget} rel={buttonTarget === "_blank" ? "noreferrer" : undefined}>
                 {buttonText}
                 <ArrowRight className="h-4 w-4" />
               </Link>

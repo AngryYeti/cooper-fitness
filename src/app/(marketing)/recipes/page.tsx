@@ -41,6 +41,7 @@ export default function RecipesPage() {
         description="Get coaching that connects your meals, training, and real schedule into something you can repeat."
         buttonText="Book Free Consultation"
         buttonHref="https://cooper.fitness/#contact"
+        buttonTarget="_blank"
       />
     </div>
   );

@@ -68,6 +68,8 @@ export function MarketingHeader() {
           <div className="flex items-center gap-2">
             <a
               href="https://cooper.fitness/#contact"
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center font-mono uppercase transition-all hover:-translate-y-[2px]"
               style={{
                 fontSize: "0.62rem",

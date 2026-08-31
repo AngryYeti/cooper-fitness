@@ -68,6 +68,12 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
           {recipe.nutrition.protein !== undefined && (
             <Badge variant="outline">{recipe.nutrition.protein}g protein</Badge>
           )}
+          {recipe.nutrition.carbs !== undefined && (
+            <Badge variant="outline">{recipe.nutrition.carbs}g carbs</Badge>
+          )}
+          {recipe.nutrition.fat !== undefined && (
+            <Badge variant="outline">{recipe.nutrition.fat}g fat</Badge>
+          )}
           {recipe.nutrition.fibre !== undefined && (
             <Badge variant="outline">{recipe.nutrition.fibre}g fibre</Badge>
           )}

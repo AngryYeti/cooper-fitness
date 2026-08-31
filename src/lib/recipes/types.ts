@@ -18,6 +18,8 @@ export type RecipeTag =
 export type RecipeNutrition = {
   calories?: number;
   protein?: number;
+  fat?: number;
+  carbs?: number;
   fibre?: number;
 };
 

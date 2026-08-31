@@ -195,3 +195,51 @@ test("recipe pages use client-facing Cooper Fitness navigation", () => {
   assert.match(detailPage, /buttonHref=["']https:\/\/cooper\.fitness\/#contact/);
   assert.match(stickyCta, /https:\/\/cooper\.fitness\/#contact/);
 });
+
+test("every recipe has complete per-serving macro counts", () => {
+  const recipeFiles = [
+    "src/lib/recipes/breakfasts.ts",
+    "src/lib/recipes/lunches.ts",
+    "src/lib/recipes/dinners.ts",
+    "src/lib/recipes/meal-prep.ts",
+    "src/lib/recipes/snacks.ts",
+  ];
+  const missing = [];
+
+  for (const file of recipeFiles) {
+    const source = read(file);
+    for (const block of source.split("defineRecipe({").slice(1)) {
+      const slug = block.match(/slug:\s*"([^"]+)"/)?.[1] ?? "unknown";
+      const nutrition = block.match(/nutrition:\s*\{([^}]*)\}/)?.[1] ?? "";
+
+      for (const field of ["protein", "fat", "carbs"]) {
+        if (!new RegExp(`${field}:\\s*\\d`).test(nutrition)) {
+          missing.push(`${slug}: ${field}`);
+        }
+      }
+    }
+  }
+
+  assert.deepEqual(missing, []);
+
+  const detailPage = read("src/app/(marketing)/recipes/[slug]/page.tsx");
+  assert.match(detailPage, /Carbs/);
+  assert.match(detailPage, /Fat/);
+  assert.match(detailPage, /carbohydrateContent/);
+  assert.match(detailPage, /fatContent/);
+});
+
+test("recipe consultation links open in a new tab", () => {
+  const header = read("src/components/layout/marketing-header.tsx");
+  const cta = read("src/components/marketing/cta-section.tsx");
+  const libraryPage = read("src/app/(marketing)/recipes/page.tsx");
+  const detailPage = read("src/app/(marketing)/recipes/[slug]/page.tsx");
+  const stickyCta = read("src/components/marketing/sticky-cta.tsx");
+
+  assert.match(header, /href="https:\/\/cooper\.fitness\/#contact"[\s\S]*target="_blank"/);
+  assert.match(cta, /buttonTarget/);
+  assert.match(libraryPage, /buttonTarget="_blank"/);
+  assert.match(detailPage, /buttonTarget="_blank"/);
+  assert.match(stickyCta, /target=\{target\}/);
+  assert.match(stickyCta, /target = isRecipeArea \? "_blank"/);
+});
