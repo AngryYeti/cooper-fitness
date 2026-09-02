@@ -36,12 +36,18 @@ test("campaign source contains the approved homepage copy and current photograph
   ].join("\n");
 
   for (const copy of [
-    "FOUNDING FATHERS*",
-    "Five people. Six months. One plan built around real life.",
+    "FOUNDING MEMBERS",
+    "Five people. 12 weeks. One plan built around real life.",
     "Individualized strength training, sustainable nutrition guidance, and weekly accountability for adults ready to make a real commitment.",
-    "$299 USD TOTAL",
+    "$399 USD TOTAL",
     "ONE-TIME FOUNDING RATE · DIRECT CHECKOUT",
-    "*FATHERHOOD NOT REQUIRED. COMMITMENT IS.",
+    "Five founding-member spots. The first cohort helps shape what Cooper Fitness becomes.",
+    "Personalized 1-on-1 training",
+    "Flexible nutrition guidance",
+    "Weekly check-ins and accountability",
+    "Direct coaching access",
+    "Initial onboarding call",
+    "Founding-member feedback and testimonial opportunity, with permission",
     "Focused work. Repeatable structure.",
     "A plan that leaves room for life.",
     "Every week has a next move.",
@@ -52,6 +58,18 @@ test("campaign source contains the approved homepage copy and current photograph
     "JOIN THE WAITLIST",
   ]) {
     assert.ok(source.includes(copy), copy);
+  }
+
+  for (const forbidden of [
+    "FOUNDING FATHERS",
+    "FATHERHOOD",
+    "six months",
+    "six-month",
+    "$299",
+    "29900",
+    "regular price",
+  ]) {
+    assert.equal(source.toLowerCase().includes(forbidden.toLowerCase()), false, forbidden);
   }
 
   assert.match(source, /evanactionweb\.png/);
@@ -74,7 +92,6 @@ test("campaign-rendered source excludes unsupported proof and promises", () => {
     "bloodwork",
     "1,524",
     "30-minute workouts",
-    "testimonial",
   ]) {
     assert.equal(source.toLowerCase().includes(forbidden.toLowerCase()), false, forbidden);
   }
@@ -97,11 +114,11 @@ test("session status is server-only and never trusts the browser session", () =>
   const verifier = read("src/lib/founding/session-status.ts");
   const route = read("src/app/api/founding/session-status/route.ts");
   assert.match(verifier, /server-only/);
-  assert.match(verifier, /29900/);
+  assert.match(verifier, /39900/);
   assert.match(verifier, /usd/i);
   assert.match(verifier, /payment/);
   assert.match(verifier, /founding-fathers-2026/);
-  assert.match(verifier, /Cooper Fitness Founding Fathers — Six-Month Coaching/);
+  assert.match(verifier, /Cooper Fitness Founding Members — 12-Week Coaching/);
   assert.match(verifier, /getStripe/);
   assert.match(verifier, /not_confirmed|processing/);
   assert.match(verifier, /FULFILLED/);

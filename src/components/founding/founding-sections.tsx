@@ -67,10 +67,10 @@ export function FoundingSections() {
           <details><summary>DO I NEED A GYM?</summary><p>No. We can build around a commercial gym, home gym, or a combination.</p></details>
           <details><summary>DO I NEED TRAINING EXPERIENCE?</summary><p>No. Your plan starts from your current level.</p></details>
           <details><summary>HOW MUCH TIME DOES IT TAKE?</summary><p>Most sessions are designed around approximately 45 focused minutes, three or four times per week.</p></details>
-          <details><summary>IS THIS ONLY FOR FATHERS?</summary><p>No. It is open to adults of any gender. The name is a play on words; commitment is the standard.</p></details>
+          <details><summary>WHO IS THIS FOR?</summary><p>Busy adults of any gender who are ready to commit to a clear plan, communicate honestly, and make useful adjustments when life changes.</p></details>
           <details><summary>WHAT DOES THE WEEKLY REVIEW INCLUDE?</summary><p>A structured review of your training, nutrition, schedule, and next adjustment. It is not a promise of unlimited or 24-hour messaging.</p></details>
           <details><summary>WHEN WILL I START?</summary><p>You should be ready to begin within 14 days of purchase. Your onboarding details will be sent after successful payment.</p></details>
-          <details><summary>HOW DO I GET STARTED?</summary><p>Select GET STARTED TODAY, complete the one-time USD $299 checkout, and follow the onboarding instructions on the success page and email.</p></details>
+          <details><summary>HOW DO I GET STARTED?</summary><p>Select GET STARTED TODAY, complete the one-time USD $399 checkout for 12 weeks of coaching, and follow the onboarding instructions on the success page and email.</p></details>
         </div>
       </section>
     </>

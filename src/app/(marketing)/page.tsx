@@ -25,7 +25,7 @@ const ORIGINAL_METADATA = generatePageMetadata({
 
 const FOUNDING_METADATA = generatePageMetadata({
   title: "Cooper Fitness | A Stronger Body Can Fit Inside a Busy Week",
-  description: "Individualized strength, nutrition, and accountability coaching for busy adults. Join the Cooper Fitness founding cohort for six months of coaching at a one-time USD $299 rate.",
+  description: "Individualized strength, nutrition, and accountability coaching for busy adults. Join the Cooper Fitness founding cohort for 12 weeks of coaching at a one-time USD $399 rate.",
   path: "",
   image: "/evanactionweb.png",
 });
@@ -45,13 +45,13 @@ export const metadata: Metadata = isFoundingCampaignEnabled()
       keywords: FOUNDING_KEYWORDS,
       openGraph: {
         ...FOUNDING_METADATA.openGraph,
-        title: "Cooper Fitness — Five people. Six months. One plan built around real life.",
-        description: "Five founding positions. Six months of individualized training, sustainable nutrition guidance, and weekly accountability. Get started today.",
+        title: "Cooper Fitness — Five people. 12 weeks. One plan built around real life.",
+        description: "Five founding member spots. 12 weeks of individualized training, flexible nutrition guidance, and weekly accountability. Get started today.",
       },
       twitter: {
         ...FOUNDING_METADATA.twitter,
-        title: "Cooper Fitness — Five people. Six months. One plan built around real life.",
-        description: "Five founding positions. Six months of individualized training, sustainable nutrition guidance, and weekly accountability. Get started today.",
+        title: "Cooper Fitness — Five people. 12 weeks. One plan built around real life.",
+        description: "Five founding member spots. 12 weeks of individualized training, flexible nutrition guidance, and weekly accountability. Get started today.",
       },
     }
   : ORIGINAL_METADATA;

@@ -71,7 +71,7 @@ export function FoundingCheckoutForm({
       </div>
       <FoundingInventoryCTA state={state} disabled={submitting} />
       <p id={noteId} className="founding-legal-copy">
-        One-time USD $299 checkout for six months of coaching. Be ready to begin within 14 days. By continuing, you agree to the <a href={termsUrl}>terms</a>, <a href={privacyUrl}>privacy notice</a>, and <a href={refundPolicyUrl}>refund/cancellation policy</a>. Questions? <a href={`mailto:${supportEmail}`}>{supportEmail}</a>.
+        One-time USD $399 checkout for 12 weeks of 1-on-1 coaching. Be ready to begin within 14 days. By continuing, you agree to the <a href={termsUrl}>terms</a>, <a href={privacyUrl}>privacy notice</a>, and <a href={refundPolicyUrl}>refund/cancellation policy</a>. Questions? <a href={`mailto:${supportEmail}`}>{supportEmail}</a>.
       </p>
       {error ? <p role="alert" className="founding-form-error">{error}</p> : null}
     </form>

@@ -43,8 +43,8 @@ before(() => {
   process.env.NEXT_PUBLIC_FOUNDING_TERMS_URL = config.termsUrl;
   process.env.NEXT_PUBLIC_FOUNDING_PRIVACY_URL = config.privacyUrl;
   process.env.NEXT_PUBLIC_FOUNDING_REFUND_POLICY_URL = config.refundPolicyUrl;
-  process.env.FOUNDING_STRIPE_PRICE_ID = "price_1U5WCxK67H8U3fOqXS60McFP";
-  process.env.FOUNDING_STRIPE_PRODUCT_ID = "prod_V5hcsMgIEK4Srk";
+  process.env.FOUNDING_STRIPE_PRICE_ID = "price_1UBFsOK67H8U3fOqRw3dEIhw";
+  process.env.FOUNDING_STRIPE_PRODUCT_ID = "prod_VBd8KVVN9wW0cM";
 });
 
 test("inventory parser accepts a complete valid projection", () => {

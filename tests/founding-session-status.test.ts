@@ -15,14 +15,14 @@ const validSession: FoundingSessionLike = {
   payment_intent: "pi_test",
   metadata: {
     campaign: "founding-fathers-2026",
-    offer: "six-month-coaching",
+    offer: "12-week-coaching",
     cohort: "founding",
   },
   line_items: {
     has_more: false,
     data: [{
       quantity: 1,
-      amount_total: 29900,
+      amount_total: 39900,
       currency: "usd",
       price: {
         id: FOUNDING_STRIPE_PRICE_ID,
@@ -56,7 +56,7 @@ test("session verifier rejects untrusted amount, product, metadata, or payment s
     { mode: "subscription" },
     { payment_intent: null },
     { metadata: { ...validSession.metadata, campaign: "other" } },
-    { line_items: { data: [{ ...validSession.line_items!.data![0], amount_total: 29901 }] } },
+    { line_items: { data: [{ ...validSession.line_items!.data![0], amount_total: 39901 }] } },
     { line_items: { data: [{ ...validSession.line_items!.data![0], currency: "cad" }] } },
     { line_items: { data: [{ ...validSession.line_items!.data![0], price: { id: "price_other", product: FOUNDING_STRIPE_PRODUCT_ID } }] } },
   ]) {

@@ -3,11 +3,11 @@ import { getStripe } from "@/lib/stripe";
 import { getFoundingConfig } from "./config";
 import { FOUNDING_STRIPE_PRICE_ID, FOUNDING_STRIPE_PRODUCT_ID } from "./types";
 
-export const FOUNDING_PRODUCT_NAME = "Cooper Fitness Founding Fathers — Six-Month Coaching";
+export const FOUNDING_PRODUCT_NAME = "Cooper Fitness Founding Members — 12-Week Coaching";
 export const FOUNDING_CAMPAIGN = "founding-fathers-2026";
-export const FOUNDING_OFFER = "six-month-coaching";
+export const FOUNDING_OFFER = "12-week-coaching";
 export const FOUNDING_COHORT = "founding";
-export const FOUNDING_AMOUNT = 29900;
+export const FOUNDING_AMOUNT = 39900;
 export const FOUNDING_CURRENCY = "usd";
 
 export type FoundingFulfillmentState = "FULFILLED" | "PROCESSING" | "NOT_FOUND";

@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { FoundingConfigError, getFoundingConfig } from "../src/lib/founding/config";
 
-const exactPrice = "price_1U5WCxK67H8U3fOqXS60McFP";
-const exactProduct = "prod_V5hcsMgIEK4Srk";
+const exactPrice = "price_1UBFsOK67H8U3fOqRw3dEIhw";
+const exactProduct = "prod_VBd8KVVN9wW0cM";
 
 function setValidEnv() {
   process.env.FOUNDING_HOMEPAGE_ENABLED = "true";

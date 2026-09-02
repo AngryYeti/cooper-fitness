@@ -13,7 +13,7 @@ The desktop reference and campaign captures were compared at the same 1264-pixel
 
 - Brand continuity: black canvas, electric-blue accent, condensed labels, white display type, thin borders, and large rounded editorial panels remain aligned with the current site.
 - Photography: only the existing `evanactionweb.png` and `evanselfiegym.jpeg` Cooper Fitness photos are used; no generated photography appears.
-- Hierarchy: the offer, six-month term, one-time USD $299 price, and primary action read clearly before secondary detail.
+- Hierarchy: the offer, 12-week term, one-time USD $399 price, and primary action read clearly before secondary detail.
 - Mobile conversion: the primary `GET STARTED TODAY` action is visible within the first 390 × 844 viewport.
 - Responsive layout: no horizontal overflow was observed at the mobile viewport.
 - Navigation: mobile menu opens and exposes the correct inventory-aware action.

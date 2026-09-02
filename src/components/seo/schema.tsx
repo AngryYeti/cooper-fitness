@@ -19,7 +19,7 @@ export function OrganizationSchema({ campaign = false }: { campaign?: boolean } 
         url: SITE_URL,
         logo: `${SITE_URL}/evanactionweb.png`,
         description: campaign
-          ? "Individualized strength, nutrition, and accountability coaching for busy adults. Join the Cooper Fitness founding cohort for six months of coaching at a one-time USD $299 rate."
+          ? "Individualized strength, nutrition, and accountability coaching for busy adults. Join the Cooper Fitness founding cohort for 12 weeks of coaching at a one-time USD $399 rate."
           : "Online fitness and weight loss coaching for busy parents starting from zero. Simple programs, weekly check-ins, and a coach in your corner.",
         email: INQUIRY_EMAIL,
         founder: {

@@ -1,7 +1,7 @@
 export type FoundingInventoryState = "OPEN" | "HELD" | "FULL";
 
-export const FOUNDING_STRIPE_PRICE_ID = "price_1U5WCxK67H8U3fOqXS60McFP";
-export const FOUNDING_STRIPE_PRODUCT_ID = "prod_V5hcsMgIEK4Srk";
+export const FOUNDING_STRIPE_PRICE_ID = "price_1UBFsOK67H8U3fOqRw3dEIhw";
+export const FOUNDING_STRIPE_PRODUCT_ID = "prod_VBd8KVVN9wW0cM";
 export const FOUNDING_CHECKOUT_HOST = "checkout.stripe.com";
 
 export interface FoundingInventory {
