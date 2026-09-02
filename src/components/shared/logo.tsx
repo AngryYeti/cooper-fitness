@@ -3,12 +3,13 @@ import { cn } from "@/lib/utils";
 
 type LogoProps = {
   className?: string;
+  href?: string;
 };
 
-export function Logo({ className }: LogoProps) {
+export function Logo({ className, href = "/" }: LogoProps) {
   return (
     <Link
-      href="/"
+      href={href}
       className={cn(
         "transition-opacity hover:opacity-80",
         className,

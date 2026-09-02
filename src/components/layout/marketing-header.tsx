@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { cn } from "@/lib/utils";
@@ -40,6 +41,7 @@ export function parseCampaignInventoryState(input: unknown): FoundingInventorySt
 }
 
 export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -81,6 +83,61 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
     closeTimer.current = setTimeout(() => setDropdownOpen(false), 150);
   };
 
+  const isRecipeArea = pathname === "/recipes" || pathname.startsWith("/recipes/") ||
+    (typeof window !== "undefined" && window.location.hostname === "recipes.cooper.fitness");
+
+  if (isRecipeArea) {
+    return (
+      <header className="fixed top-0 left-0 right-0 z-[60]" style={{
+        backdropFilter: "blur(18px) saturate(150%)",
+        WebkitBackdropFilter: "blur(18px) saturate(150%)",
+        background: "linear-gradient(180deg, rgba(20,18,16,0.82), rgba(20,18,16,0.42))",
+        borderBottom: "1px solid rgba(255,255,255,0.12)",
+      }}>
+        <div className="flex items-center justify-between gap-3" style={{ padding: "13px clamp(16px, 4vw, 56px)" }}>
+          <Logo href="https://cooper.fitness" />
+          <div className="flex items-center gap-2">
+            <a
+              href="https://cooper.fitness/#contact"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center font-mono uppercase transition-all hover:-translate-y-[2px]"
+              style={{
+                fontSize: "0.62rem",
+                letterSpacing: "0.12em",
+                fontWeight: 500,
+                padding: "10px 14px",
+                borderRadius: 999,
+                border: "1px solid rgba(255,255,255,0.22)",
+                color: "var(--foreground)",
+              }}
+            >
+              BOOK CONSULTATION
+            </a>
+            <a
+              href="https://cooper.fitness/#pricing"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center font-mono uppercase transition-all hover:-translate-y-[2px]"
+              style={{
+                fontSize: "0.62rem",
+                letterSpacing: "0.12em",
+                fontWeight: 500,
+                padding: "10px 14px",
+                borderRadius: 999,
+                background: "var(--primary)",
+                color: "var(--primary-foreground)",
+                boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
+              }}
+            >
+              START TRAINING
+            </a>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   const nav = campaign ? FOUNDING_NAV : MAIN_NAV;
   const primaryHref = campaign
     ? campaignInventoryState === "OPEN" ? "/#founding-offer" : "/#founding-waitlist"
@@ -93,9 +150,35 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
     <header className="fixed top-0 left-0 right-0 z-[60]" style={{
       backdropFilter: "blur(18px) saturate(150%)",
       WebkitBackdropFilter: "blur(18px) saturate(150%)",
-      background: "linear-gradient(180deg, rgba(20,18,16,0.62), rgba(20,18,16,0.20))",
+      background: "linear-gradient(180deg, rgba(20,18,16,0.72), rgba(20,18,16,0.30))",
       borderBottom: "1px solid rgba(255,255,255,0.12)",
     }}>
+      {/* Founding Offer Top Banner */}
+      <Link
+        href="/#founding-offer"
+        className="group relative flex items-center justify-center gap-2.5 px-4 py-2 text-center transition-all hover:bg-white/5 border-b border-white/10"
+        style={{
+          background: "linear-gradient(90deg, rgba(74,111,255,0.14), rgba(255,255,255,0.03), rgba(74,111,255,0.14))",
+        }}
+      >
+        <span
+          className="font-mono text-[0.6rem] tracking-[0.16em] uppercase px-2 py-0.5 rounded-full font-semibold shrink-0"
+          style={{
+            background: "var(--primary)",
+            color: "var(--primary-foreground)",
+          }}
+        >
+          ✦ FOUNDING COHORT
+        </span>
+        <span className="font-mono text-[0.68rem] tracking-[0.08em] text-foreground font-medium truncate sm:overflow-visible">
+          12 Weeks 1-on-1 Coaching for <strong>$399 USD</strong>{" "}
+          <span className="text-muted-foreground hidden sm:inline">(Founding Members · 5 Spots Only)</span>
+        </span>
+        <span className="font-mono text-[0.68rem] text-primary font-bold group-hover:translate-x-0.5 transition-transform shrink-0">
+          Claim Spot &rarr;
+        </span>
+      </Link>
+
       <div
         className="absolute top-0 left-0 h-[2px] z-[70] origin-left"
         style={{
@@ -105,7 +188,7 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
           width: "100%",
         }}
       />
-      <div className="flex items-center justify-between" style={{ padding: "15px clamp(18px, 4vw, 56px)" }}>
+      <div className="flex items-center justify-between" style={{ padding: "13px clamp(18px, 4vw, 56px)" }}>
         <Logo />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
           {nav.map((item) =>

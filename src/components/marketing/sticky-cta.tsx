@@ -1,10 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export function StickyCTA({ campaign = false }: { campaign?: boolean }) {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
+
+  const isRecipeArea = pathname === "/recipes" || pathname.startsWith("/recipes/") ||
+    (typeof window !== "undefined" && window.location.hostname === "recipes.cooper.fitness");
+  const href = isRecipeArea ? "https://cooper.fitness/#contact" : campaign ? "/#founding-offer" : "/#pricing";
+  const label = isRecipeArea ? "BOOK CONSULTATION" : campaign ? "GET STARTED TODAY" : "VIEW PRICING";
+  const target = isRecipeArea ? "_blank" : undefined;
 
   useEffect(() => {
     function handleScroll() {
@@ -15,7 +23,7 @@ export function StickyCTA({ campaign = false }: { campaign?: boolean }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (campaign) return null;
+  if (campaign && !isRecipeArea) return null;
 
   return (
     <div
@@ -31,7 +39,9 @@ export function StickyCTA({ campaign = false }: { campaign?: boolean }) {
       }}
     >
       <Link
-        href={campaign ? "/#founding-offer" : "/#pricing"}
+        href={href}
+        target={target}
+        rel={target === "_blank" ? "noreferrer" : undefined}
         className="flex w-full items-center justify-center font-mono uppercase transition-all"
         style={{
           fontSize: "0.72rem",
@@ -44,7 +54,7 @@ export function StickyCTA({ campaign = false }: { campaign?: boolean }) {
           boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
         }}
       >
-        {campaign ? "GET STARTED TODAY" : "VIEW PRICING"}
+        {label}
       </Link>
     </div>
   );

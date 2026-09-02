@@ -177,3 +177,24 @@ export const PRICING_TIERS = [
     highlighted: false,
   },
 ] as const;
+
+export const FOUNDING_OFFER = {
+  id: "founding-offer",
+  name: "Founding Member",
+  tagline: "6 Months of 1-on-1 Online Coaching",
+  price: 299,
+  regularPrice: 1524,
+  priceId: "price_1U5WCxK67H8U3fOqXS60McFP",
+  productId: "prod_V5hcsMgIEK4Srk",
+  totalSpots: 5,
+  description:
+    "One-time $299 payment for 6 full months of dedicated coaching. Strictly limited to 5 founding members.",
+  features: [
+    "Full 6 months of 1-on-1 personalized coaching",
+    "20–30 min Zoom onboarding & strategy call",
+    "Custom training plan (3–4 sessions/week, ~45 mins)",
+    "Flexible nutrition protocol tailored to your lifestyle",
+    "Weekly progress reviews & program adjustments",
+    "Direct messaging access to Coach Evan",
+  ],
+} as const;
