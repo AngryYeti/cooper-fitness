@@ -194,6 +194,8 @@ test("recipe pages use client-facing Cooper Fitness navigation", () => {
   assert.match(cta, /buttonHref/);
   assert.match(libraryPage, /https:\/\/cooper\.fitness\/#founding-offer/);
   assert.match(detailPage, /https:\/\/cooper\.fitness\/#founding-offer/);
+  assert.match(libraryPage, /\$399 USD one-time/);
+  assert.match(detailPage, /\$399 USD one-time/);
   assert.match(stickyCta, /https:\/\/cooper\.fitness\/#contact/);
   assert.match(stickyCta, /https:\/\/cooper\.fitness\/#founding-offer/);
 });

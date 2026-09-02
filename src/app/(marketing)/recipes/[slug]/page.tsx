@@ -196,7 +196,7 @@ export default async function RecipePage({
       <CTASection
         title="Want the plan around the food?"
         description={campaignEnabled
-          ? "Join the five-member founding cohort for 12 weeks of personalized training, flexible nutrition, weekly accountability, and direct coaching access."
+          ? "Join the five-member founding cohort for 12 weeks of personalized training, flexible nutrition, weekly accountability, and direct coaching access at $399 USD one-time."
           : "Coaching connects your meals, training, and real schedule into something you can repeat."}
         buttonText={campaignEnabled ? "See Founding Offer" : "Book Free Consultation"}
         buttonHref={campaignEnabled ? "https://cooper.fitness/#founding-offer" : "https://cooper.fitness/#contact"}
