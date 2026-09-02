@@ -24,9 +24,9 @@ async function createFounderSession() {
     billing_address_collection: "auto",
     customer_creation: "always",
     metadata: {
-      product: "Founding Member (6 Months)",
+      product: "Founding Member (12 Weeks)",
       offer: "founding_offer",
-      price: "299",
+      price: "399",
     },
     allow_promotion_codes: true,
   });

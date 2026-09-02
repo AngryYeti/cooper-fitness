@@ -36,7 +36,7 @@ export default function FounderSuccessPage() {
             You&apos;re in. Welcome to the Founding Cohort.
           </h1>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-            Your 6 months of coaching starts now. We have sent your confirmation and next steps to your email.
+            Your 12 weeks of coaching starts now. We have sent your confirmation and next steps to your email.
           </p>
         </div>
 

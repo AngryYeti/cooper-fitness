@@ -69,7 +69,7 @@ export function PricingSection() {
 
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                    6 Months of 1-on-1 Online Coaching
+                    12 Weeks of 1-on-1 Online Coaching
                   </h3>
                   <p className="text-sm text-muted-foreground mt-1 max-w-xl leading-relaxed">
                     Full custom programming, nutrition protocol, weekly video check-ins, and direct message access to Coach Evan.
@@ -106,9 +106,6 @@ export function PricingSection() {
                       USD / One-time
                     </span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    <span className="line-through opacity-70">${FOUNDING_OFFER.regularPrice}</span> · Save 80% today
-                  </p>
                 </div>
 
                 <Link
@@ -125,7 +122,7 @@ export function PricingSection() {
                     boxShadow: "0 8px 25px oklch(0.70 0.14 245 / 0.35)",
                   }}
                 >
-                  CLAIM SPOT — $299
+                  CLAIM SPOT — $399
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>

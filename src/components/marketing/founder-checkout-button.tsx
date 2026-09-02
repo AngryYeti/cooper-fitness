@@ -13,7 +13,7 @@ interface FounderCheckoutButtonProps {
 export function FounderCheckoutButton({
   className,
   size = "lg",
-  text = "CLAIM YOUR FOUNDING SPOT — $299",
+  text = "CLAIM YOUR FOUNDING SPOT — $399",
 }: FounderCheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +73,7 @@ export function FounderCheckoutButton({
       )}
       <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground font-mono">
         <Lock className="h-3.5 w-3.5 text-primary" />
-        <span>Secure 256-bit Stripe Checkout · One-time $299 payment</span>
+        <span>Secure 256-bit Stripe Checkout · One-time $399 USD payment</span>
       </div>
     </div>
   );
