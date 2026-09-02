@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { getRecipe, publishedRecipes } from "@/lib/recipes";
 import type { Recipe } from "@/lib/recipes/types";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { isFoundingCampaignEnabled } from "@/lib/founding/config";
 
 const CATEGORY_LABELS: Record<Recipe["category"], string> = {
   breakfast: "Breakfast",
@@ -74,6 +75,7 @@ export default async function RecipePage({
   const { slug } = await params;
   const recipe = getRecipe(slug);
   if (!recipe) notFound();
+  const campaignEnabled = isFoundingCampaignEnabled();
 
   const breadcrumbs = [
     { name: "Recipes", href: "/recipes" },
@@ -193,9 +195,11 @@ export default async function RecipePage({
 
       <CTASection
         title="Want the plan around the food?"
-        description="Coaching connects your meals, training, and real schedule into something you can repeat."
-        buttonText="Book Free Consultation"
-        buttonHref="https://cooper.fitness/#contact"
+        description={campaignEnabled
+          ? "Join the five-member founding cohort for 12 weeks of personalized training, flexible nutrition, weekly accountability, and direct coaching access."
+          : "Coaching connects your meals, training, and real schedule into something you can repeat."}
+        buttonText={campaignEnabled ? "See Founding Offer" : "Book Free Consultation"}
+        buttonHref={campaignEnabled ? "https://cooper.fitness/#founding-offer" : "https://cooper.fitness/#contact"}
         buttonTarget="_blank"
       />
     </div>

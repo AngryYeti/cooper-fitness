@@ -188,12 +188,14 @@ test("recipe pages use client-facing Cooper Fitness navigation", () => {
   assert.match(header, /usePathname/);
   assert.match(header, /https:\/\/cooper\.fitness/);
   assert.match(header, /https:\/\/cooper\.fitness\/#pricing/);
+  assert.match(header, /https:\/\/cooper\.fitness\/#founding-offer/);
   assert.match(header, /https:\/\/cooper\.fitness\/#contact/);
   assert.doesNotMatch(detailPage, /Content angle/);
   assert.match(cta, /buttonHref/);
-  assert.match(libraryPage, /buttonHref=["']https:\/\/cooper\.fitness\/#contact/);
-  assert.match(detailPage, /buttonHref=["']https:\/\/cooper\.fitness\/#contact/);
+  assert.match(libraryPage, /https:\/\/cooper\.fitness\/#founding-offer/);
+  assert.match(detailPage, /https:\/\/cooper\.fitness\/#founding-offer/);
   assert.match(stickyCta, /https:\/\/cooper\.fitness\/#contact/);
+  assert.match(stickyCta, /https:\/\/cooper\.fitness\/#founding-offer/);
 });
 
 test("every recipe has complete per-serving macro counts", () => {
@@ -229,7 +231,7 @@ test("every recipe has complete per-serving macro counts", () => {
   assert.match(detailPage, /fatContent/);
 });
 
-test("recipe consultation links open in a new tab", () => {
+test("recipe conversion links open in a new tab", () => {
   const header = read("src/components/layout/marketing-header.tsx");
   const cta = read("src/components/marketing/cta-section.tsx");
   const libraryPage = read("src/app/(marketing)/recipes/page.tsx");
@@ -237,9 +239,10 @@ test("recipe consultation links open in a new tab", () => {
   const stickyCta = read("src/components/marketing/sticky-cta.tsx");
 
   assert.match(header, /href="https:\/\/cooper\.fitness\/#contact"[\s\S]*target="_blank"/);
+  assert.match(header, /https:\/\/cooper\.fitness\/#founding-offer/);
   assert.match(cta, /buttonTarget/);
   assert.match(libraryPage, /buttonTarget="_blank"/);
   assert.match(detailPage, /buttonTarget="_blank"/);
   assert.match(stickyCta, /target=\{target\}/);
-  assert.match(stickyCta, /target = isRecipeArea \? "_blank"/);
+  assert.match(stickyCta, /target = campaign \|\| isRecipeArea \? "_blank"/);
 });

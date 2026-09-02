@@ -115,7 +115,7 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
               BOOK CONSULTATION
             </a>
             <a
-              href="https://cooper.fitness/#pricing"
+              href={campaign ? "https://cooper.fitness/#founding-offer" : "https://cooper.fitness/#pricing"}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center font-mono uppercase transition-all hover:-translate-y-[2px]"
@@ -130,7 +130,7 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
                 boxShadow: "0 8px 30px oklch(0.70 0.14 245 / 0.4)",
               }}
             >
-              START TRAINING
+              {campaign ? "GET STARTED TODAY" : "START TRAINING"}
             </a>
           </div>
         </div>

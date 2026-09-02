@@ -10,9 +10,13 @@ export function StickyCTA({ campaign = false }: { campaign?: boolean }) {
 
   const isRecipeArea = pathname === "/recipes" || pathname.startsWith("/recipes/") ||
     (typeof window !== "undefined" && window.location.hostname === "recipes.cooper.fitness");
-  const href = isRecipeArea ? "https://cooper.fitness/#contact" : campaign ? "/#founding-offer" : "/#pricing";
-  const label = isRecipeArea ? "BOOK CONSULTATION" : campaign ? "GET STARTED TODAY" : "VIEW PRICING";
-  const target = isRecipeArea ? "_blank" : undefined;
+  const href = campaign
+    ? "https://cooper.fitness/#founding-offer"
+    : isRecipeArea
+      ? "https://cooper.fitness/#contact"
+      : "/#pricing";
+  const label = campaign ? "GET STARTED TODAY" : isRecipeArea ? "BOOK CONSULTATION" : "VIEW PRICING";
+  const target = campaign || isRecipeArea ? "_blank" : undefined;
 
   useEffect(() => {
     function handleScroll() {

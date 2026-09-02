@@ -5,6 +5,7 @@ import { BreadcrumbSchema } from "@/components/seo/schema";
 import { CTASection } from "@/components/marketing/cta-section";
 import { RecipeLibrary } from "@/components/recipes/recipe-library";
 import { publishedRecipes } from "@/lib/recipes";
+import { isFoundingCampaignEnabled } from "@/lib/founding/config";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Recipes",
@@ -14,6 +15,7 @@ export const metadata: Metadata = generatePageMetadata({
 
 export default function RecipesPage() {
   const breadcrumbs = [{ name: "Recipes", href: "/recipes" }];
+  const campaignEnabled = isFoundingCampaignEnabled();
 
   return (
     <div className="pt-8">
@@ -38,9 +40,11 @@ export default function RecipesPage() {
 
       <CTASection
         title="Want the plan around the recipes?"
-        description="Get coaching that connects your meals, training, and real schedule into something you can repeat."
-        buttonText="Book Free Consultation"
-        buttonHref="https://cooper.fitness/#contact"
+        description={campaignEnabled
+          ? "Join the five-member founding cohort for 12 weeks of personalized training, flexible nutrition, weekly accountability, and direct coaching access."
+          : "Get coaching that connects your meals, training, and real schedule into something you can repeat."}
+        buttonText={campaignEnabled ? "See Founding Offer" : "Book Free Consultation"}
+        buttonHref={campaignEnabled ? "https://cooper.fitness/#founding-offer" : "https://cooper.fitness/#contact"}
         buttonTarget="_blank"
       />
     </div>
