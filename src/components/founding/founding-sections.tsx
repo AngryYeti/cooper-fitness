@@ -51,7 +51,7 @@ export function FoundingSections() {
 
       <section id="coach" className="founding-section founding-founder-grid">
         <div className="founding-founder-image">
-          <Image src="/evanselfiegym.jpeg" alt="Evan Cooper in the gym" fill sizes="(max-width: 768px) 100vw, 42vw" />
+          <Image src="/evan-coach.jpg" alt="Evan Cooper, founder and coach at Cooper Fitness" fill sizes="(max-width: 768px) 100vw, 42vw" />
         </div>
         <div>
           <p className="founding-eyebrow">04 — YOUR COACH</p>
