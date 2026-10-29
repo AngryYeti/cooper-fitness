@@ -7,6 +7,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { cn } from "@/lib/utils";
 import type { FoundingInventoryState } from "@/lib/founding/types";
+import { FOUNDING_ENROLLMENT_CLOSES } from "@/lib/founding/campaign";
 
 type NavItem =
   | { type: "link"; href: string; label: string }
@@ -45,7 +46,9 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [campaignInventoryState, setCampaignInventoryState] = useState<FoundingInventoryState>("FULL");
+  // null = still checking. We never claim spots are OPEN until the server says so,
+  // and any failed check still falls back to FULL (waitlist).
+  const [campaignInventoryState, setCampaignInventoryState] = useState<FoundingInventoryState | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -140,10 +143,12 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
 
   const nav = campaign ? FOUNDING_NAV : MAIN_NAV;
   const primaryHref = campaign
-    ? campaignInventoryState === "OPEN" ? "/#founding-offer" : "/#founding-waitlist"
+    ? campaignInventoryState === null || campaignInventoryState === "OPEN" ? "/#founding-offer" : "/#founding-waitlist"
     : "/#pricing";
   const primaryLabel = campaign
-    ? campaignInventoryState === "OPEN" ? "GET STARTED TODAY" : "JOIN THE WAITLIST"
+    ? campaignInventoryState === null
+      ? "SEE THE OFFER"
+      : campaignInventoryState === "OPEN" ? "GET STARTED TODAY" : "JOIN THE WAITLIST"
     : "START TRAINING";
 
   return (
@@ -172,7 +177,7 @@ export function MarketingHeader({ campaign = false }: { campaign?: boolean }) {
         </span>
         <span className="font-mono text-[0.68rem] tracking-[0.08em] text-foreground font-medium truncate sm:overflow-visible">
           12 Weeks 1-on-1 Coaching for <strong>$399 USD</strong>{" "}
-          <span className="text-muted-foreground hidden sm:inline">(Founding Members · 5 Spots Only)</span>
+          <span className="text-muted-foreground hidden sm:inline">(Founding Members · 5 Spots Only · Closes {FOUNDING_ENROLLMENT_CLOSES})</span>
         </span>
         <span className="font-mono text-[0.68rem] text-primary font-bold group-hover:translate-x-0.5 transition-transform shrink-0">
           Claim Spot &rarr;

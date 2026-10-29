@@ -14,7 +14,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-export function InquiryModal({ children }: { children: React.ReactNode }) {
+export function InquiryModal({
+  children,
+  title = "START YOUR JOURNEY",
+  description = "Fill out the form below and Evan will be in touch within 24 hours.",
+}: {
+  children: React.ReactNode;
+  title?: string;
+  description?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -75,10 +83,8 @@ export function InquiryModal({ children }: { children: React.ReactNode }) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold uppercase">START YOUR JOURNEY</DialogTitle>
-          <DialogDescription>
-            Fill out the form below and Evan will be in touch within 24 hours.
-          </DialogDescription>
+          <DialogTitle className="text-xl font-bold uppercase">{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {submitted ? (
           <div className="py-8 text-center">

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FOUNDING_APPROX_CAD, FOUNDING_COHORT_STARTS, FOUNDING_ENROLLMENT_CLOSES } from "@/lib/founding/campaign";
 
 const mechanismCards = [
   ["TRAINING THAT FITS", "Strength programming built around your experience, equipment, schedule, and recovery."],
@@ -55,7 +56,8 @@ export function FoundingSections() {
         <div>
           <p className="founding-eyebrow">04 — YOUR COACH</p>
           <h2>Coaching built for the week you actually have.</h2>
-          <p>I’m Evan, founder and coach at Cooper Fitness. I built this around a simple belief: your plan should support your life, not compete with it.</p>
+          <p>I’m Evan, founder and coach at Cooper Fitness. At 37, working a full-time job, I finally got my own health under control. I lost the weight over several months without living in the gym or following a plan I couldn’t keep up with.</p>
+          <p>That’s what Cooper Fitness is built on: your plan should support your life, not compete with it.</p>
           <p>We’ll build training around your schedule, your equipment, and your current level. You do not need a perfect week to make progress. You need a clear next step, honest communication, and a plan that can adapt when life changes.</p>
           <p className="founding-signature">— EVAN COOPER / FOUNDER &amp; COACH</p>
         </div>
@@ -70,6 +72,9 @@ export function FoundingSections() {
           <details><summary>WHO IS THIS FOR?</summary><p>Busy adults of any gender who are ready to commit to a clear plan, communicate honestly, and make useful adjustments when life changes.</p></details>
           <details><summary>WHAT DOES THE WEEKLY REVIEW INCLUDE?</summary><p>A structured review of your training, nutrition, schedule, and next adjustment. It is not a promise of unlimited or 24-hour messaging.</p></details>
           <details><summary>WHEN WILL I START?</summary><p>You should be ready to begin within 14 days of purchase. Your onboarding details will be sent after successful payment.</p></details>
+          <details><summary>WHEN DOES ENROLLMENT CLOSE?</summary><p>Founding enrollment closes {FOUNDING_ENROLLMENT_CLOSES}, or sooner if all five spots are filled. The founding cohort starts coaching by {FOUNDING_COHORT_STARTS}.</p></details>
+          <details><summary>IS THE PRICE IN CANADIAN DOLLARS?</summary><p>Checkout is in US dollars. $399 USD is {FOUNDING_APPROX_CAD} at current rates. Your bank or card provider sets the final conversion.</p></details>
+          <details><summary>CAN I TALK TO YOU BEFORE I BUY?</summary><p>Yes. Use the free 15-minute call button near the top of the page and I’ll reach out to set up a time.</p></details>
           <details><summary>HOW DO I GET STARTED?</summary><p>Select GET STARTED TODAY, complete the one-time USD $399 checkout for 12 weeks of coaching, and follow the onboarding instructions on the success page and email.</p></details>
         </div>
       </section>
