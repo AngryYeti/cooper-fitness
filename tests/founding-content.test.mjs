@@ -73,7 +73,7 @@ test("campaign source contains the approved homepage copy and current photograph
   }
 
   assert.match(source, /evanactionweb\.png/);
-  assert.match(source, /evanselfiegym\.jpeg/);
+  assert.match(source, /evan-coach\.jpg/);
 });
 
 test("campaign-rendered source excludes unsupported proof and promises", () => {
