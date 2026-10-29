@@ -1,5 +1,12 @@
 import Image from "next/image";
 import type { FoundingInventory } from "@/lib/founding/types";
+import {
+  FOUNDING_APPROX_CAD,
+  FOUNDING_COHORT_STARTS,
+  FOUNDING_ENROLLMENT_CLOSES,
+  foundingSpotsLeft,
+} from "@/lib/founding/campaign";
+import { InquiryModal } from "@/components/shared/inquiry-modal";
 import { FoundingCheckoutForm } from "./founding-checkout-form";
 import { FoundingSections } from "./founding-sections";
 
@@ -10,6 +17,30 @@ type FoundingHomepageProps = {
   privacyUrl: string;
   refundPolicyUrl: string;
 };
+
+function SpotsLeft({ inventory }: { inventory: FoundingInventory }) {
+  if (inventory.state !== "OPEN" || inventory.capacity < 1) return null;
+  const left = foundingSpotsLeft(inventory.purchasedCount, inventory.pendingCount, inventory.capacity);
+  return (
+    <p className="founding-spots-left">
+      {left} OF {inventory.capacity} SPOTS LEFT · ENROLLMENT CLOSES {FOUNDING_ENROLLMENT_CLOSES.toUpperCase()}
+    </p>
+  );
+}
+
+function FreeCallButton({ inventory }: { inventory: FoundingInventory }) {
+  if (inventory.state !== "OPEN") return null;
+  return (
+    <InquiryModal
+      title="BOOK A FREE 15-MIN CALL"
+      description="Not sure yet? Tell Evan a bit about your week and your goals, and he'll reach out within 24 hours to set up a quick call."
+    >
+      <button type="button" className="founding-button founding-button-secondary founding-call-button">
+        NOT SURE? BOOK A FREE 15-MIN CALL
+      </button>
+    </InquiryModal>
+  );
+}
 
 export function FoundingHomepage({ inventory, supportEmail, termsUrl, privacyUrl, refundPolicyUrl }: FoundingHomepageProps) {
   return (
@@ -25,8 +56,11 @@ export function FoundingHomepage({ inventory, supportEmail, termsUrl, privacyUrl
           <div className="founding-offer-marker">
             <strong>$399 USD TOTAL</strong>
             <span>ONE-TIME FOUNDING RATE · DIRECT CHECKOUT</span>
+            <span className="founding-offer-detail">{FOUNDING_APPROX_CAD.toUpperCase()} · COACHING STARTS BY {FOUNDING_COHORT_STARTS.toUpperCase()}</span>
           </div>
+          <SpotsLeft inventory={inventory} />
           <FoundingCheckoutForm state={inventory.state} supportEmail={supportEmail} termsUrl={termsUrl} privacyUrl={privacyUrl} refundPolicyUrl={refundPolicyUrl} />
+          <FreeCallButton inventory={inventory} />
           <p className="founding-inclusion">Five founding-member spots. The first cohort helps shape what Cooper Fitness becomes.</p>
         </div>
       </section>
@@ -54,17 +88,19 @@ export function FoundingHomepage({ inventory, supportEmail, termsUrl, privacyUrl
         </div>
         <div className="founding-offer-aside">
           <p className="founding-price">$399 USD TOTAL</p>
-          <p>One-time founding rate. Direct checkout required. Be ready to begin within 14 days of purchase.</p>
+          <p>One-time founding rate ({FOUNDING_APPROX_CAD}, approximate. Your bank sets the final conversion). Direct checkout required. Enrollment closes {FOUNDING_ENROLLMENT_CLOSES} and coaching starts by {FOUNDING_COHORT_STARTS}.</p>
           <p>This is not a quick-fix challenge or a generic PDF plan. It is for people ready to follow a focused plan, communicate honestly, and help shape the founding coaching experience. With permission, founding members may also be invited to share a testimonial about the process.</p>
+          <SpotsLeft inventory={inventory} />
           <FoundingCheckoutForm state={inventory.state} supportEmail={supportEmail} termsUrl={termsUrl} privacyUrl={privacyUrl} refundPolicyUrl={refundPolicyUrl} />
+          <FreeCallButton inventory={inventory} />
         </div>
       </section>
 
       <section id="founding-waitlist" className="founding-section founding-closing-cta">
         <p className="founding-eyebrow">COOPER FITNESS FOUNDING COHORT</p>
         <h2>Ready for a plan you can actually repeat?</h2>
-        <p>Start with a focused 12-week structure built around your actual life.</p>
-        <p className="founding-inventory-note">Five founding member spots. $399 USD total. Open to any adult.</p>
+        <p>Start before the holidays instead of waiting for January. A focused 12-week structure built around your actual life, starting by {FOUNDING_COHORT_STARTS}.</p>
+        <p className="founding-inventory-note">Five founding member spots. $399 USD total. Enrollment closes {FOUNDING_ENROLLMENT_CLOSES}. Open to any adult.</p>
         {inventory.state === "OPEN" ? (
           <a className="founding-button founding-button-primary" href="#founding-offer">GET STARTED TODAY</a>
         ) : inventory.state === "HELD" ? (

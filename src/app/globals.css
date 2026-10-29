@@ -244,6 +244,10 @@
 .founding-button-muted { color: var(--muted-foreground); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.13); cursor: not-allowed; }
 .founding-button:disabled { opacity: .72; }
 .founding-cta-stack { display: grid; gap: 10px; }
+.founding-offer-marker .founding-offer-detail { color: var(--muted-foreground); }
+.founding-spots-left { margin: 0 0 14px; color: var(--foreground); font-family: var(--font-jetbrains-mono), monospace; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; }
+.founding-spots-left::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 999px; background: var(--primary); box-shadow: 0 0 10px var(--primary); vertical-align: 1px; }
+.founding-call-button { width: 100%; margin-top: 10px; }
 .founding-legal-copy, .founding-form-error { margin: 0; color: var(--muted-foreground); font-size: .72rem !important; line-height: 1.55 !important; }
 .founding-legal-copy a { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; }
 .founding-form-error { color: #ffb4a8 !important; }
