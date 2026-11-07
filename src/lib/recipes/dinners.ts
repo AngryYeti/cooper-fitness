@@ -2,6 +2,47 @@ import { defineRecipe } from "./utils";
 
 export const dinnerRecipes = [
   defineRecipe({
+    slug: "loaded-cheeseburger-bowls-mushrooms",
+    title: "Loaded Cheeseburger Bowls with Mushrooms",
+    summary: "Everything you love about a cheeseburger, served over crispy potatoes with sautéed mushrooms, cheddar, crunchy pickles, and a lighter Greek-yogurt burger sauce.",
+    category: "dinner",
+    tags: ["high-protein", "make-ahead"],
+    activeMinutes: 20,
+    totalMinutes: 35,
+    servings: 3,
+    nutrition: { calories: 480, protein: 39, carbs: 42, fat: 19 },
+    ingredients: [
+      "450g lean ground beef (recipe estimate uses 130 calories per 100g)",
+      "450g potatoes, diced into small cubes",
+      "150g mushrooms, sliced",
+      "45g cheddar cheese, shredded",
+      "150g lettuce, shredded",
+      "120g dill pickles, chopped, plus 15g finely chopped for the sauce",
+      "60g white onion, diced",
+      "1½ tsp (7.5mL) olive oil",
+      "1½ tsp (7.5mL) Worcestershire sauce (optional)",
+      "¾ tsp paprika and ¾ tsp garlic powder, plus salt and black pepper",
+      "For the sauce: 120g plain 0% Greek yogurt, 30g ketchup, 15g yellow mustard, ¾ tsp garlic powder, and a splash of pickle juice"
+    ],
+    steps: [
+      "Preheat oven to 425°F (220°C). Toss diced potatoes with olive oil, paprika, garlic powder, salt, and pepper. Spread on a tray and roast 25–30 minutes, flipping halfway, until golden.",
+      "In a nonstick skillet over medium-high heat, brown the ground beef with diced onion, Worcestershire sauce, salt, and pepper for about 8–10 minutes, until the beef reaches 160°F (71°C). Drain excess fat if needed.",
+      "Remove beef from the skillet. Add sliced mushrooms and sauté 5–7 minutes until golden, using the same pan without extra oil.",
+      "Mix Greek yogurt, ketchup, mustard, the extra 15g finely chopped pickles, garlic powder, and a splash of pickle juice until creamy.",
+      "Divide beef, roasted potatoes, mushrooms, cheddar, lettuce, and 120g pickles evenly among three bowls. Add cheddar to the hot beef to melt, then top with lettuce, pickles, and one-third of the sauce."
+    ],
+    storage: "Refrigerate promptly for up to 3–4 days. Store lettuce, pickles, and sauce separately; reheat the beef, mushrooms, and potatoes thoroughly before adding cold toppings.",
+    substitutions: [
+      "Swap mushrooms for extra pickles or sautéed onions.",
+      "Use extra-lean ground beef or reduced-fat cheddar to lower calories.",
+      "Replace some potatoes with extra lettuce for a lighter bowl."
+    ],
+    shortcut: "Dice potatoes ahead of time and prep the sauce while they roast. Pack the hot and cold components separately for next-day lunches.",
+    contentAngle: "A golden potato-and-beef bowl finished with melted cheddar and a creamy burger sauce drizzle.",
+    source: { label: "Cooper Fitness original recipe", url: "https://recipes.cooper.fitness/recipes/loaded-cheeseburger-bowls-mushrooms", note: "Developed and kitchen-tested for Cooper Fitness. Nutrition is estimated per serving; brands and portions vary." },
+  }),
+
+  defineRecipe({
     slug: "buffalo-chicken-rice-bowls",
     title: "Buffalo Chicken Rice Bowls",
     summary: "Chicken, brown rice, black beans, cheese, and hot sauce in a high-protein prep bowl.",
